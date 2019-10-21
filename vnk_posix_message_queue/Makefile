@@ -1,0 +1,1 @@
+ gcc -I../../include/ -L ../../lib/ mq_create.c -o ../../bin/mq_create.bin -lrt
