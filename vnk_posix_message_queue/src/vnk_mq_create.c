@@ -16,27 +16,15 @@
 #include <mqueue.h>
 #include <sys/stat.h>
 
-#include "tlpi_hdr.h"
-
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
+#include "vnk_mq_poxis.h"
 
 /* @NOTICE:
  *  Compile with -lrt option
  */
 
-static void usageError(const char *progName)
-{
-    fprintf(stderr, "Usage: %s [-cx] [-m maxmsg] [-s msgsize] mq-name "
-                    "[octal-perms]\n", progName);
-    fprintf(stderr, "       -c create queue (O_CREAT)\n");
-    fprintf(stderr, "       -m maxmsg set maximum # of messages\n");
-    fprintf(stderr, "       -s msgsize set maximum message size\n");
-    fprintf(stderr, "       -x create exclusively (O_EXCL)\n");
-    exit(EXIT_FAILURE);
-}
+int opt_parsing_1(int argc, char *argv[], struct mq_attr *mq_attr_p);
 
-int main(int argc, char *argv[])
+int opt_parsing_1(int argc, char *argv[], struct mq_attr *mq_attr_p)
 {
     int flags, opt;
     mode_t perms;
@@ -72,13 +60,13 @@ int main(int argc, char *argv[])
                 break;
 
             default:
-                usageError(argv[0]);
+                return RETURN_FAILURE;
         }
     }
 
     if(optind >= argc)
     {
-        usageError(argv[0]);
+        return RETURN_FAILURE;
     }
 
     perms = (S_IRUSR | S_IWUSR);
@@ -90,6 +78,8 @@ int main(int argc, char *argv[])
         fprintf(stderr, "ERROR: mq_open()\n");
     }
 
-    exit(EXIT_SUCCESS);
+    mq_attr_p = attrp;
+
+    return RETURN_SUCCESS;
 }
 
