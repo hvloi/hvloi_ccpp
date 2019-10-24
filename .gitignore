@@ -9,3 +9,6 @@ COMMIT.MSG
 
 # No ignore README
 !README
+
+# No ignore build script
+!vnk_mbuild
