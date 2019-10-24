@@ -38,8 +38,15 @@
 #define RETURN_FAILURE 1
 #define RETURN_SUCCESS 0
 
+#define MAX_NAME_SIZE 32
 
-int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p);
+struct vnkmq_config
+{
+    bool isCreate;
+    char q_name[MAX_NAME_SIZE];
+};
+
+int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_config *l_vnkmq_config);
 
 
 /*******************************************************************************
