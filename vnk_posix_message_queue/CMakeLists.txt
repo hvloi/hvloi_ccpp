@@ -18,11 +18,20 @@ cmake_minimum_required(VERSION 3.10.2)
 # Project name
 project(vinaknowledge_ccpp)
 
+#add_custom_target( StartMessage ALL
+#    ${CMAKE_COMMAND} -E cmake_echo_color --cyan "Calling vnkmq Makefile..."
+#    COMMENT "" )
+
 # Includes
 include_directories(include)
 
 # Add sources
 set(SOURCES src/main.c src/vnk_mq_create.c src/vnk_mq_tumlum.c)
+
+#add_custom_target( FinalMessage ALL
+#    ${CMAKE_COMMAND} -E cmake_echo_color --cyan "Compilation is over..."
+#    COMMENT "" )
+#add_dependencies( FinalMessage vnkmq)
 
 # Excutable files
 add_executable(vnkmq ${SOURCES})
