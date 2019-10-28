@@ -38,7 +38,15 @@
 #define RETURN_FAILURE 1
 #define RETURN_SUCCESS 0
 
-#define MAX_NAME_SIZE 32
+#define MAX_NAME_SIZE   32
+#define MAX_ACTION_SIZE 8
+
+#define ACTION_CREATE "create"
+#define ACTION_OPEN   "open"
+
+#define VERSION_MAJOR 1
+#define VERSION_MINOR 0
+#define VERSION_YEAR  "Oct 2019"
 
 struct vnkmq_config
 {
@@ -46,7 +54,20 @@ struct vnkmq_config
     char q_name[MAX_NAME_SIZE];
 };
 
+/*
+ * Some Description....
+ */
 int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_config *l_vnkmq_config);
+
+/*
+ * Some Description....
+ */
+void usageError(const char *progName);
+
+/*
+ * Some description....
+ */
+void showVersion();
 
 
 /*******************************************************************************

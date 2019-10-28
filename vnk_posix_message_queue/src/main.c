@@ -32,14 +32,11 @@
  **********************************PRIVATE**************************************
  ******************************************************************************/
 
-static void usageError(const char *progName)
+
+
+static void bye()
 {
-    fprintf(stderr, "Usage: %s [-cx] [-m maxmsg] [-s msgsize] mq-name "
-                    "[octal-perms]\n", progName);
-    fprintf(stderr, "       -c create queue (O_CREAT)\n");
-    fprintf(stderr, "       -m maxmsg set maximum # of messages\n");
-    fprintf(stderr, "       -s msgsize set maximum message size\n");
-    fprintf(stderr, "       -x create exclusively (O_EXCL)\n");
+    fprintf(stdout, ">> All Done! Bye!\n");
 }
 
 int main(int argc, char *argv[])
@@ -69,7 +66,8 @@ bye_bye:
         exit(EXIT_FAILURE);
     }
 
-    printf(">> Done! Bye!\n\n");
+    // Bye bye if no error, otherwise show error and stop
+    bye();
 
     exit(EXIT_SUCCESS);
 }
