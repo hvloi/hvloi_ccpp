@@ -32,16 +32,19 @@
  **********************************PRIVATE**************************************
  ******************************************************************************/
 
-
+/* @NOTICE:
+ * Compile with -lrt option
+ */
 
 static void bye()
 {
+    // Replace by notify function
     fprintf(stdout, ">> All Done! Bye!\n");
 }
 
 int main(int argc, char *argv[])
 {
-    int err = 0;
+    bool hasErr = NO;
     struct mq_attr l_attr;
     struct vnkmq_config l_config;
 
@@ -49,20 +52,30 @@ int main(int argc, char *argv[])
 
     if(argc <= 1)
     {
-        err = EXIT_FAILURE;
+        usageError(argv[0]);
+        hasErr = YES;
         goto bye_bye;
     }
 
-    err = opt_parsing(argc, argv, &l_attr, &l_config);
-    if(err)
+    // Get options
+    if(opt_parsing(argc, argv, &l_attr, &l_config))
     {
+        hasErr = YES;
         goto bye_bye;
+    }
+
+    // Process option
+    if(l_config.isCreate)
+    {
+        if(vnk_mq_create(&l_config))
+        {
+            hasErr = YES;
+        }
     }
 
 bye_bye:
-    if(err)
+    if(hasErr)
     {
-        usageError(argv[0]);
         exit(EXIT_FAILURE);
     }
 

@@ -23,6 +23,7 @@
 #include <stdbool.h>
 
 #include "vnk_mq_poxis.h"
+#include "vnk_notify.h"
 
 
 /*******************************************************************************
@@ -46,6 +47,8 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
     mqd_t mqd;
     struct mq_attr attr, *attrp;
     struct vnkmq_config config;
+    bool hasErr = NO;
+    bool hasAction = false;
 
     attrp = NULL;
     attr.mq_maxmsg = 50;
@@ -53,7 +56,10 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
     flags = O_RDWR;
     memset(&config, 0, (size_t)sizeof(struct vnkmq_config));
 
-    /* Parse command-line options */
+    /* 
+     * Parse command-line options
+     * Will try with getopt_long()
+     */
     while ((opt = getopt(argc, argv, "cm:s:xn:a:hv")) != -1)
     {
         switch (opt)
@@ -77,12 +83,17 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
                 break;
 
             case 'a':
+                hasAction = true;
                 if (strncmp(optarg, ACTION_CREATE, MAX_ACTION_SIZE) == 0)
                     config.isCreate = true;
                 else if (strncmp(optarg, ACTION_OPEN, MAX_ACTION_SIZE) == 0)
                     config.isCreate = false;
                 else
-                    return RETURN_FAILURE;
+                {
+                    hasErr = YES;
+                    goto out;
+                }
+                break;
 
             case 'n':
                 strncpy(config.q_name, optarg, MAX_NAME_SIZE);
@@ -101,11 +112,34 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
         }
     }
 
+    if(strncmp(config.q_name, "", MAX_NAME_SIZE) == 0)
+    {
+        vnk_error_notify("queue name is required", 0);
+        hasErr = YES;
+        goto out;
+    }
+
+    if(!hasAction)
+    {
+        vnk_error_notify("action is required", 0);
+        hasErr = YES;
+        goto out;
+    }
+
+out:
+    if(hasErr)
+    {
+        return RETURN_FAILURE;
+    }
+
     mq_attr_p = attrp;
 
     // memcpy and "=" operation which is better ?
     // memcpy(l_vnkmq_config, &config, sizeof(config));
-    *l_vnkmq_config = config;
+    // *l_vnkmq_config = config;
+    // Just copy elements
+    strncpy(l_vnkmq_config->q_name, config.q_name, MAX_NAME_SIZE);
+    l_vnkmq_config->isCreate = config.isCreate;
 
     return RETURN_SUCCESS;
 }
@@ -115,7 +149,7 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
  */
 void usageError(const char *progName)
 {
-    fprintf(stderr, "\n\n");
+    fprintf(stderr, "\n");
     fprintf(stderr, "Usage: %s [-cx] [-m maxmsg] [-s msgsize] mq-name "
                     "[octal-perms]\n", progName);
     fprintf(stderr, "       -c create queue (O_CREAT)\n");

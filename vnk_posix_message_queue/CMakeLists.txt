@@ -26,7 +26,8 @@ project(vinaknowledge_ccpp)
 include_directories(include)
 
 # Add sources
-set(SOURCES src/main.c src/vnk_mq_create.c src/vnk_mq_tumlum.c)
+set(SOURCES src/main.c src/vnk_mq_create.c src/vnk_mq_tumlum.c
+            src/vnk_notify.c)
 
 #add_custom_target( FinalMessage ALL
 #    ${CMAKE_COMMAND} -E cmake_echo_color --cyan "Compilation is over..."

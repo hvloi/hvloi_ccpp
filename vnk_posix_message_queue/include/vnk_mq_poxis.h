@@ -48,10 +48,15 @@
 #define VERSION_MINOR 0
 #define VERSION_YEAR  "Oct 2019"
 
+// Define has error
+#define YES true
+#define NO  false
+
 struct vnkmq_config
 {
     bool isCreate;
     char q_name[MAX_NAME_SIZE];
+    mqd_t mq_d;
 };
 
 /*
@@ -68,6 +73,11 @@ void usageError(const char *progName);
  * Some description....
  */
 void showVersion();
+
+/*
+ * Some Description....
+ */
+int vnk_mq_create(struct vnkmq_config *l_vnkmq_config);
 
 
 /*******************************************************************************

@@ -17,68 +17,32 @@
 #include <sys/stat.h>
 
 #include "vnk_mq_poxis.h"
+#include "vnk_notify.h"
 
-/* @NOTICE:
- *  Compile with -lrt option
- */
 
-int opt_parsing_1(int argc, char *argv[], struct mq_attr *mq_attr_p);
-
-int opt_parsing_1(int argc, char *argv[], struct mq_attr *mq_attr_p)
+int vnk_mq_create(struct vnkmq_config *l_vnkmq_config)
 {
-    int flags, opt;
-    mode_t perms;
+    bool hasErr = NO; // init
     mqd_t mqd;
-    struct mq_attr attr, *attrp;
 
-    attrp = NULL;
-    attr.mq_maxmsg = 50;
-    attr.mq_msgsize = 2048;
-    flags = O_RDWR;
-
-    /* Parse command-line options */
-    while ((opt = getopt(argc, argv, "cm:s:x")) != -1)
-    {
-        switch (opt)
-        {
-            case 'c':
-                flags |= O_CREAT;
-                break;
-
-            case 'm':
-                attr.mq_maxmsg = atoi(optarg);
-                attrp = &attr;
-                break;
-
-            case 's':
-                attr.mq_msgsize = atoi(optarg);
-                attrp = &attr;
-                break;
-
-            case 'x':
-                flags |= O_EXCL;
-                break;
-
-            default:
-                return RETURN_FAILURE;
-        }
-    }
-
-    if(optind >= argc)
-    {
-        return RETURN_FAILURE;
-    }
-
-    perms = (S_IRUSR | S_IWUSR);
-
-    mqd = mq_open(argv[optind], O_RDWR | O_CREAT | O_EXCL, S_IRWXU | S_IRWXG, NULL);
+    mqd = mq_open(l_vnkmq_config->q_name, O_RDWR | O_CREAT | O_EXCL, S_IRWXU |
+                    S_IRWXG, NULL);
 
     if(mqd == (mqd_t)-1)
     {
-        fprintf(stderr, "ERROR: mq_open()\n");
+        vnk_error_notify("mq_open()", errno);
+        hasErr = YES;
+        goto byee;
     }
 
-    mq_attr_p = attrp;
+    // Created successfully
+    l_vnkmq_config->mq_d = mqd;
+
+byee:
+    if(hasErr)
+    {
+        return RETURN_FAILURE;
+    }
 
     return RETURN_SUCCESS;
 }
