@@ -24,7 +24,7 @@
  * Output   :
  * NOTE     : xXxXxX
  */
-void vnk_error_notify(const char *message, int errnum);
+int vnk_error_notify(int errnum, const char *message, ...);
 
 /*
  * Function : vnk_info_notify
@@ -32,7 +32,7 @@ void vnk_error_notify(const char *message, int errnum);
  * Output   :
  * NOTE     : xXxXxX
  */
-void vnk_info_notify(const char *message);
+int vnk_info_notify(const char *message, ...);
 
 
 #endif /*VNK_NOTIFY*/

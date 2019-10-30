@@ -34,7 +34,7 @@ int vnk_mq_create(struct vnkmq_config *l_vnkmq_config)
 
     if(mqd == (mqd_t)-1)
     {
-        vnk_error_notify("mq_open()", errno);
+        vnk_error_notify(errno, "mq_open()");
         hasErr = YES;
         goto byee;
     }

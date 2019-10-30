@@ -121,14 +121,14 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
 
     if(strncmp(config.q_name, "", MAX_NAME_SIZE) == 0)
     {
-        vnk_error_notify("queue name is required", 0);
+        vnk_error_notify(0, "queue name is required");
         hasErr = YES;
         goto out;
     }
 
     if(!hasAction)
     {
-        vnk_error_notify("action is required", 0);
+        vnk_error_notify(0, "action is required");
         hasErr = YES;
         goto out;
     }

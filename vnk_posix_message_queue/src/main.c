@@ -20,8 +20,10 @@
 #include <mqueue.h>
 #include <sys/stat.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include "vnk_mq_poxis.h"
+#include "vnk_notify.h"
 
 
 /*******************************************************************************
@@ -45,8 +47,19 @@ static void looploop();
 
 static void bye()
 {
-    // Replace by notify function
-    fprintf(stdout, ">> All Done! Bye!\n");
+    char s_time[64];
+    time_t l_time; // DO NOT use "time" as name of variable, use l_time instead
+    struct tm l_tm;
+    
+    l_time = time(NULL);
+    l_tm = *localtime(&l_time);
+
+    sprintf(s_time, "%d-%d-%d %d:%d:%d", l_tm.tm_year + 1900, l_tm.tm_mon + 1,
+                        l_tm.tm_mday, l_tm.tm_hour, l_tm.tm_min, l_tm.tm_sec);
+
+    vnk_info_notify("all done, end at %s", s_time);
+
+    return;
 }
 
 /*

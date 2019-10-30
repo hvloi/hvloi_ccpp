@@ -17,39 +17,88 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
+#include "vnk_mq_poxis.h"
 #include "vnk_notify.h"
 
 #define ERR stderr
 #define OUT stdout
-#define MAX_NOTIFIY_LEN 128
+#define MAX_NOTIFIY_LEN 2048
 
-void vnk_error_notify(const char *message, int errnum)
+
+/*
+ * Show ERROR
+ */
+int vnk_error_notify(int errnum, const char *message, ...)
 {
+    bool hasErr = NO;
+    char vsbuff[1024];
     char notify_str[MAX_NOTIFIY_LEN];
+    int return_code;
+    va_list args;
+
+    /* Build message */
+    va_start(args, message);
+    return_code = vsprintf(vsbuff, message, args);
+    va_end(args);
+
+    if(return_code < 0)
+    {
+        hasErr = YES;
+        goto quick;
+    }
 
     if(errnum)
     {
-        snprintf(notify_str, MAX_NOTIFIY_LEN, "%s - %s", message,
+        snprintf(notify_str, MAX_NOTIFIY_LEN, "%s - %s", vsbuff,
                     strerror(errnum));
     }
     else
     {
-        strncpy(notify_str, message, MAX_NOTIFIY_LEN);
+        strncpy(notify_str, vsbuff, MAX_NOTIFIY_LEN);
     }
     fprintf(ERR, "\n");
     fprintf(ERR, "[ERROR]: %s\n\n", notify_str);
     fprintf(ERR, "\n\n");
 
-    return;
+quick:
+    if(hasErr)
+    {
+        return RETURN_FAILURE;
+    }
+
+    return RETURN_SUCCESS;
 }
 
 /*
  * Show INFO
  */
-void vnk_info_notify(const char *message)
+int vnk_info_notify(const char *message, ...)
 {
-    fprintf(OUT, "[INFO]: %s\n\n", message);
+    bool hasErr = NO;
+    char vsbuff[1024];
+    int return_code;
+    va_list args;
 
-    return;
+    /* Build message */
+    va_start(args, message);
+    return_code = vsprintf(vsbuff, message, args);
+    va_end(args);
+
+    if(return_code < 0)
+    {
+        hasErr = YES;
+        goto quick;
+    }
+
+    fprintf(OUT, "[INFO]: %s\n\n", vsbuff);
+
+quick:
+    if(hasErr)
+    {
+        return RETURN_FAILURE;
+    }
+
+    return RETURN_SUCCESS;
 }
