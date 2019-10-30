@@ -43,6 +43,8 @@ int vnk_mq_unlink(const char *q_name)
         goto byee;
     }
 
+    vnk_info_notify("unlinked mq");
+
 byee:
     if(hasErr)
     {

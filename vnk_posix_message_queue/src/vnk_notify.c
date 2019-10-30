@@ -38,8 +38,18 @@ void vnk_error_notify(const char *message, int errnum)
         strncpy(notify_str, message, MAX_NOTIFIY_LEN);
     }
     fprintf(ERR, "\n");
-    fprintf(ERR, ">> ERROR: %s\n\n", notify_str);
+    fprintf(ERR, "[ERROR]: %s\n\n", notify_str);
     fprintf(ERR, "\n\n");
+
+    return;
+}
+
+/*
+ * Show INFO
+ */
+void vnk_info_notify(const char *message)
+{
+    fprintf(OUT, "[INFO]: %s\n\n", message);
 
     return;
 }
