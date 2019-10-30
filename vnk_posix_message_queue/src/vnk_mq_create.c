@@ -20,6 +20,10 @@
 #include "vnk_notify.h"
 
 
+/*
+ * Some description...
+ * After create, look at /dev/mqueue/ to find queue
+ */
 int vnk_mq_create(struct vnkmq_config *l_vnkmq_config)
 {
     bool hasErr = NO; // init

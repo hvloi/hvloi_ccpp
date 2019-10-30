@@ -58,7 +58,7 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
 
     /* 
      * Parse command-line options
-     * Will try with getopt_long()
+     * Will try with >>> getopt_long() <<<
      */
     while ((opt = getopt(argc, argv, "cm:s:xn:a:hv")) != -1)
     {
@@ -84,12 +84,19 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
 
             case 'a':
                 hasAction = true;
-                if (strncmp(optarg, ACTION_CREATE, MAX_ACTION_SIZE) == 0)
-                    config.isCreate = true;
-                else if (strncmp(optarg, ACTION_OPEN, MAX_ACTION_SIZE) == 0)
-                    config.isCreate = false;
+
+                if (strncmp(optarg, ACTION_CREATE_STRING, MAX_ACTION_SIZE) == 0)
+                    config.action = ACTION_CREATE;
+
+                else if (strncmp(optarg, ACTION_OPEN_STRING, MAX_ACTION_SIZE) == 0)
+                    config.action = ACTION_OPEN;
+
+                else if (strncmp(optarg, ACTION_UNLINK_STRING, MAX_ACTION_SIZE) == 0)
+                    config.action = ACTION_UNLINK;
+
                 else
                 {
+                    config.action = ACTION_UNDEFINE;
                     hasErr = YES;
                     goto out;
                 }
@@ -139,7 +146,7 @@ out:
     // *l_vnkmq_config = config;
     // Just copy elements
     strncpy(l_vnkmq_config->q_name, config.q_name, MAX_NAME_SIZE);
-    l_vnkmq_config->isCreate = config.isCreate;
+    l_vnkmq_config->action = config.action;
 
     return RETURN_SUCCESS;
 }
@@ -153,6 +160,7 @@ void usageError(const char *progName)
     fprintf(stderr, "Usage: %s [-cx] [-m maxmsg] [-s msgsize] mq-name "
                     "[octal-perms]\n", progName);
     fprintf(stderr, "       -c create queue (O_CREAT)\n");
+    fprintf(stderr, "       -d <queue-name> unlink queue");
     fprintf(stderr, "       -m maxmsg set maximum # of messages\n");
     fprintf(stderr, "       -s msgsize set maximum message size\n");
     fprintf(stderr, "       -x create exclusively (O_EXCL)\n");

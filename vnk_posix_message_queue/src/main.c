@@ -32,14 +32,34 @@
  **********************************PRIVATE**************************************
  ******************************************************************************/
 
-/* @NOTICE:
+/* 
+ * @NOTICE:
  * Compile with -lrt option
  */
+
+/*
+ * Function: 
+ */
+static void bye();
+static void looploop();
 
 static void bye()
 {
     // Replace by notify function
     fprintf(stdout, ">> All Done! Bye!\n");
+}
+
+/*
+ * Under contruction,....
+ */
+static void looploop()
+{
+    while(1)
+    {
+        sleep(10);
+    }
+
+    return;
 }
 
 int main(int argc, char *argv[])
@@ -65,12 +85,30 @@ int main(int argc, char *argv[])
     }
 
     // Process option
-    if(l_config.isCreate)
+    if(l_config.action == ACTION_CREATE)
     {
-        if(vnk_mq_create(&l_config))
+        if(vnk_mq_create(&l_config) == 1) // return = 1 is in error
         {
             hasErr = YES;
+            goto bye_bye;
         }
+    }
+    else if (l_config.action == ACTION_OPEN)
+    {
+        // Something here,...
+    }
+    else if (l_config.action == ACTION_UNLINK)
+    {
+        // Do something,...
+        if(vnk_mq_unlink(l_config.q_name) == 1)
+        {
+            hasErr = YES;
+            goto bye_bye;
+        }
+    }
+    else
+    {
+        hasErr = YES;
     }
 
 bye_bye:
