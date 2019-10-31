@@ -23,6 +23,12 @@
 /*
  * Some description...
  * After create, look at /dev/mqueue/ to find queue
+ * NOTE for mqd_t:
+ * The only stipulation that SUSv3 makes about this data type is that it may not
+ * be an array; that is, it is guaranteed to be a type that can be used in an
+ * assignment statement or passed by value as a function argument.
+ * (On Linux, mqd_t is an int, but, for example, on Solaris it is defined as
+ * void *.)
  */
 int vnk_mq_create(struct vnkmq_config *l_vnkmq_config)
 {
