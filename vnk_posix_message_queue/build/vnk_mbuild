@@ -1,0 +1,48 @@
+################################################################################
+################################################################################
+##
+##      VINA KNOWLEDGE
+##
+##      Site : https://www.vinaknowledge.com
+##      Email: hvloi@vinaknowledge.com
+##
+##      Copyright © 2019 Vina Knowledge
+##
+################################################################################
+
+#!/bin/bash
+
+EXIT_OK=0
+EXIT_KO=1
+
+BUILD_DIR="$(pwd)"
+WORKSPACE="$(dirname "$BUILD_DIR")"
+CMAKE="cmake"
+
+help()
+{
+    echo ""
+    echo "Usage:"
+    echo "  cm: Call cmake to generate Makefile"
+    echo "  mk: Call make"
+    echo "  hp: Show this help"
+    echo ""
+}
+
+c_make()
+{
+    $CMAKE ..
+}
+
+m_make()
+{
+    make
+}
+
+if [ $# -le 0 ] || [ $# -gt 1 ]
+then
+    help
+fi
+
+
+exit $EXIT_OK

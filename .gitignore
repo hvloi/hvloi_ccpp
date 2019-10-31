@@ -1,0 +1,14 @@
+# Ignore binary
+*/bin/*.bin
+
+# Ignore commit message
+COMMIT.MSG
+
+# Ignore build result
+*/build/*
+
+# No ignore README
+!README
+
+# No ignore build script
+!vnk_mbuild

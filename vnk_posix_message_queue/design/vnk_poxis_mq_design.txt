@@ -1,0 +1,16 @@
+/*******************************************************************************
+ *******************************************************************************
+ **
+ **      VINA KNOWLEDGE
+ **
+ **      Site : https://www.vinaknowledge.com
+ **      Email: hvloi@vinaknowledge.com
+ **
+ **      Copyright © 2019 Vina Knowledge
+ **
+ ******************************************************************************/
+
+VNK Poxis Message Queue has two functions:
+
+1. Create a message queue
+2. Retrieve attributes of a message queue
