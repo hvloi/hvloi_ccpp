@@ -119,12 +119,23 @@ int main(int argc, char *argv[])
             goto bye_bye;
         }
     }
-    else
-    {
-        hasErr = YES;
-    }
 
 bye_bye:
+
+    // Clean up before leave
+    if(l_config.mq_d != 0)
+    {
+        if(mq_close(l_config.mq_d) < 0)
+        {
+            vnk_error_notify(errno, "mq_close()");
+            hasErr = YES;
+        }
+        else
+        {
+            vnk_info_notify("closed queue descriptor of %s", l_config.q_name);
+        }
+    }
+
     if(hasErr)
     {
         exit(EXIT_FAILURE);

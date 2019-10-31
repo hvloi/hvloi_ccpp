@@ -98,8 +98,10 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
                 {
                     config.action = ACTION_UNDEFINE;
                     hasErr = YES;
+                    vnk_error_notify(NO_ERRNO, "action \"%s\" is undefined!", optarg);
                     goto out;
                 }
+
                 break;
 
             case 'n':
@@ -121,14 +123,14 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
 
     if(strncmp(config.q_name, "", MAX_NAME_SIZE) == 0)
     {
-        vnk_error_notify(0, "queue name is required");
+        vnk_error_notify(NO_ERRNO, "queue name is required!");
         hasErr = YES;
         goto out;
     }
 
     if(!hasAction)
     {
-        vnk_error_notify(0, "action is required");
+        vnk_error_notify(NO_ERRNO, "action is required!");
         hasErr = YES;
         goto out;
     }
@@ -152,29 +154,35 @@ out:
 }
 
 /*
- * This is option string "cm:s:xn:a:"
+ * This is option string "cm:s:xn:a:hv"
  */
 void usageError(const char *progName)
 {
     fprintf(stderr, "\n");
-    fprintf(stderr, "Usage: %s [-cx] [-m maxmsg] [-s msgsize] mq-name "
-                    "[octal-perms]\n", progName);
-    fprintf(stderr, "       -c create queue (O_CREAT)\n");
-    fprintf(stderr, "       -d <queue-name> unlink queue");
-    fprintf(stderr, "       -m maxmsg set maximum # of messages\n");
-    fprintf(stderr, "       -s msgsize set maximum message size\n");
-    fprintf(stderr, "       -x create exclusively (O_EXCL)\n");
-    fprintf(stderr, "       -n name of queue\n");
-    fprintf(stderr, "       -a action of the call <create|open>\n");
-    fprintf(stderr, "       -h show this help\n");
+    fprintf(stderr, "Usage: %s [-cxvh] [-m <maxmsg>] [-s <msgsize>]\n"
+                    "       [-p <octal-perms>] {-n <queue name>}\n"
+                    "       {-a <action>}\n\n", progName);
+    fprintf(stderr, "       -c  create queue (O_CREAT)\n");
+    fprintf(stderr, "       -d  unlink queue <queue name>\n");
+    fprintf(stderr, "       -m  maxmsg set maximum # of messages\n");
+    fprintf(stderr, "       -s  msgsize set maximum message size\n");
+    fprintf(stderr, "       -x  create exclusively (O_EXCL)\n");
+    fprintf(stderr, "       -n  name of queue\n");
+    fprintf(stderr, "       -a  action of the call <create|open|unlink>\n");
+    fprintf(stderr, "       -v  show version\n");
+    fprintf(stderr, "       -h  show this help\n");
     fprintf(stderr, "\n\n");
 }
 
 void showVersion()
 {
     fprintf(stdout, "\n");
-    fprintf(stdout, "***VINA KNOWLEDGE***\n");
-    fprintf(stdout, "   vnkmq - %s\n", VERSION_YEAR);
-    fprintf(stdout, "   Version: %d.%d\n", VERSION_MAJOR, VERSION_MINOR);
+    fprintf(stdout, "* * * * * * * * * * * * * * * * * * *\n");
+    fprintf(stdout, "* * * V I N A K N O W L E D G E * * *\n");
+    fprintf(stdout, "* * * * * * * * * * * * * * * * * * *\n");
+    fprintf(stdout, "[     vnkmq  -  %s     ]\n", VERSION_YEAR);
+    fprintf(stdout, "[     Version:  %d.%d  ]\n", VERSION_MAJOR, VERSION_MINOR);
+    fprintf(stdout, "* * * * * * * * * * * * * * * * * * *\n");
+    fprintf(stdout, "* * * * * * * * * * * * * * * * * * *\n");
     fprintf(stdout, "\n\n");
 }

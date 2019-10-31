@@ -91,8 +91,9 @@ int vnk_info_notify(const char *message, ...)
         hasErr = YES;
         goto quick;
     }
-
-    fprintf(OUT, "[INFO]: %s\n\n", vsbuff);
+    fprintf(OUT, "\n");
+    fprintf(OUT, "[INFO]: %s", vsbuff);
+    fprintf(OUT, "\n\n");
 
 quick:
     if(hasErr)

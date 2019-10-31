@@ -19,6 +19,12 @@
 #define VNK_NOTIFY
 
 /*
+ * Used for vnk_error_notify() to indecate that
+ * there is no errno
+ */
+#define NO_ERRNO 0
+
+/*
  * Function : vnk_error_notify
  * Input    :
  * Output   :
