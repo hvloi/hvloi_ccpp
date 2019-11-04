@@ -53,6 +53,13 @@
 #define YES true
 #define NO  false
 
+/*
+ * Use of extern:
+ * In real world, multi-file programs, extern declarations are normally
+ * contained in a header file that is simply included with each source code
+ * file. This is both easier and less error prone than manually duplicating
+ * extern declarations in each file.
+ */
 extern bool traceIsEnabled;
 
 typedef enum {
