@@ -60,7 +60,7 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
      * Parse command-line options
      * Will try with >>> getopt_long() <<<
      */
-    while ((opt = getopt(argc, argv, "cm:s:xn:a:hv")) != -1)
+    while ((opt = getopt(argc, argv, "cm:s:xn:a:hvt")) != -1)
     {
         switch (opt)
         {
@@ -106,6 +106,10 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
 
             case 'n':
                 strncpy(config.q_name, optarg, MAX_NAME_SIZE);
+                break;
+
+            case 't':
+                traceIsEnabled = YES;
                 break;
 
             case 'h':
@@ -159,7 +163,7 @@ out:
 void usageError(const char *progName)
 {
     fprintf(stderr, "\n");
-    fprintf(stderr, "Usage: %s [-cxvh] [-m <maxmsg>] [-s <msgsize>]\n"
+    fprintf(stderr, "Usage: %s [-cxvht] [-m <maxmsg>] [-s <msgsize>]\n"
                     "       [-p <octal-perms>] {-n <queue name>}\n"
                     "       {-a <action>}\n\n", progName);
     fprintf(stderr, "       -c  create queue (O_CREAT)\n");
@@ -169,6 +173,7 @@ void usageError(const char *progName)
     fprintf(stderr, "       -x  create exclusively (O_EXCL)\n");
     fprintf(stderr, "       -n  name of queue\n");
     fprintf(stderr, "       -a  action of the call <create|open|unlink>\n");
+    fprintf(stderr, "       -t  trace, show step of code\n");
     fprintf(stderr, "       -v  show version\n");
     fprintf(stderr, "       -h  show this help\n");
     fprintf(stderr, "\n\n");

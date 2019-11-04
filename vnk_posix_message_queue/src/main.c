@@ -30,6 +30,8 @@
  **********************************GLOBAL***************************************
  ******************************************************************************/
 
+bool traceIsEnabled = NO;
+
 /*******************************************************************************
  **********************************PRIVATE**************************************
  ******************************************************************************/
@@ -97,9 +99,18 @@ int main(int argc, char *argv[])
         goto bye_bye;
     }
 
+    // Check if TRACE is enabled
+    if(traceIsEnabled)
+    {
+        vnk_trace_notify("notify TRACE is enabled");
+    }
+
     // Process option
     if(l_config.action == ACTION_CREATE)
     {
+        if(traceIsEnabled)
+            vnk_trace_notify("vnk_mq_create()");
+
         if(vnk_mq_create(&l_config) == 1) // return = 1 is in error
         {
             hasErr = YES;
@@ -108,6 +119,8 @@ int main(int argc, char *argv[])
     }
     else if (l_config.action == ACTION_OPEN)
     {
+        if(traceIsEnabled)
+            vnk_trace_notify("action OPEN");
         // Something here,...
     }
     else if (l_config.action == ACTION_UNLINK)
