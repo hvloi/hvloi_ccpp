@@ -53,6 +53,8 @@
 #define YES true
 #define NO  false
 
+extern bool traceIsEnabled;
+
 typedef enum {
     ACTION_UNDEFINE = 0,
     ACTION_OPEN        ,

@@ -28,7 +28,7 @@
 
 
 /*
- * Show ERROR
+ * Show ERRO
  */
 int vnk_error_notify(int errnum, const char *message, ...)
 {
@@ -59,7 +59,7 @@ int vnk_error_notify(int errnum, const char *message, ...)
         strncpy(notify_str, vsbuff, MAX_NOTIFIY_LEN);
     }
     fprintf(ERR, "\n");
-    fprintf(ERR, "[ERROR]: %s\n\n", notify_str);
+    fprintf(ERR, "[ERRO]: %s\n\n", notify_str);
     fprintf(ERR, "\n\n");
 
 quick:
@@ -93,6 +93,39 @@ int vnk_info_notify(const char *message, ...)
     }
     fprintf(OUT, "\n");
     fprintf(OUT, "[INFO]: %s", vsbuff);
+    fprintf(OUT, "\n\n");
+
+quick:
+    if(hasErr)
+    {
+        return RETURN_FAILURE;
+    }
+
+    return RETURN_SUCCESS;
+}
+
+/*
+ * Show TRAC
+ */
+int vnk_trace_notify(const char *message, ...)
+{
+    bool hasErr = NO;
+    char vsbuff[1024];
+    int return_code;
+    va_list args;
+
+    /* Build message */
+    va_start(args, message);
+    return_code = vsprintf(vsbuff, message, args);
+    va_end(args);
+
+    if(return_code < 0)
+    {
+        hasErr = YES;
+        goto quick;
+    }
+    fprintf(OUT, "\n");
+    fprintf(OUT, "[TRAC]: %s", vsbuff);
     fprintf(OUT, "\n\n");
 
 quick:
