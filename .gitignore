@@ -12,3 +12,8 @@ COMMIT.MSG
 
 # No ignore build script
 !vnk_mbuild
+
+# Ignore jtag files:
+GPATH
+GRTAGS
+GTAGS
