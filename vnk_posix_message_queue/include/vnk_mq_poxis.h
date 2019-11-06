@@ -105,12 +105,20 @@ int vnk_mq_create(struct vnkmq_config *l_vnkmq_config,
             struct mq_attr *l_mq_attr);
 
 /*
- * Function: vnk_mq_create
- * Input : message queue name
- * Output: RETURN_SUCCESS / RETURN_FAILURE
- * NOTE: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ * Function : vnk_mq_create
+ * Input    : message queue name
+ * Output   : RETURN_SUCCESS / RETURN_FAILURE
+ * NOTE     : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  */
 int vnk_mq_unlink(const char *mq_name);
+
+/*
+ * Function : vnk_mq_retrieve
+ * Input    :
+ * Output   :
+ * NOTE     : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ */
+int vnk_mq_retrieve(const char *mq_name);
 
 /*******************************************************************************
  **********************************PRIVATE**************************************

@@ -39,7 +39,7 @@ int vnk_mq_create(struct vnkmq_config *l_vnkmq_config,
      * Need help to show valid values of mq_attr in case of error
      */
 
-    bool hasErr = NO; // init
+    bool hasErr = NO; // init error checker
     mqd_t mqd;
 
     mqd = mq_open(l_vnkmq_config->mq_name, l_vnkmq_config->mq_oflag,

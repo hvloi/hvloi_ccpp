@@ -125,8 +125,15 @@ int main(int argc, char *argv[])
     else if (l_config.action == ACTION_OPEN)
     {
         if(traceIsEnabled)
-            vnk_trace_notify("action OPEN");
+        {
+            vnk_trace_notify("action OPEN...");
+        }
         // Something here,...
+        if(vnk_mq_retrieve(l_config.mq_name) == 1) // return = 1 imply an error
+        {
+            hasErr = YES;
+            goto bye_bye;
+        }
     }
     else if (l_config.action == ACTION_UNLINK)
     {
@@ -145,7 +152,7 @@ int main(int argc, char *argv[])
 bye_bye:
 
     // Clean up before leave
-    if(l_config.mq_d != 0)
+    if(l_config.mq_d > 0)
     {
         if(mq_close(l_config.mq_d) < 0)
         {

@@ -51,8 +51,13 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
     bool hasErr = NO;
     bool hasAction = false;
 
-    attr.mq_maxmsg = 50;
-    attr.mq_msgsize = 2048;
+    /*
+     * NOTE:
+     * mq_maxmsg and mq_msgsize may be different in other devices
+     */
+    attr.mq_maxmsg = 10;
+    attr.mq_msgsize = 1024;
+
     flags = O_RDWR;
 
     /* NEED an attention */
@@ -158,7 +163,8 @@ out:
     }
 
     /* Copy attributes struct */
-    *mq_attr_p = attr;
+    mq_attr_p->mq_maxmsg = attr.mq_maxmsg;
+    mq_attr_p->mq_msgsize = attr.mq_msgsize;
 
     // DBG
     // vnk_debug_notify("in \"%s\" mq_attr_p->mq_msgsize=%d", __FUNCTION__,
@@ -189,7 +195,7 @@ void usageError(const char *progName)
                     "       [-p <octal-perms>] {-n <queue name>}\n"
                     "       {-a <action>}\n\n", progName);
     fprintf(stderr, "       -d  unlink queue <queue name>\n");
-    fprintf(stderr, "       -m  maxmsg set maximum # of messages\n");
+    fprintf(stderr, "       -m  maxmsg set maximum number of messages\n");
     fprintf(stderr, "       -s  msgsize set maximum message size\n");
     fprintf(stderr, "       -x  create exclusively (O_EXCL)\n");
     fprintf(stderr, "       -n  name of queue\n");
