@@ -1,14 +1,15 @@
-/*******************************************************************************
- *******************************************************************************
- **
- **      VINA KNOWLEDGE
- **
- **      Site : https://www.vinaknowledge.com
- **      Email: hvloi@vinaknowledge.com
- **
- **      Copyright © 2019 Vina Knowledge
- **
- ******************************************************************************/
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                          VNK - VINA KNOWLEDGE                              **
+**                                                                            **
+**                   Site : https://www.vinaknowledge.com                     **
+**                   Email: hvloi@vinaknowledge.com                           **
+**                                                                            **
+**                     Copyright © 2019 Vina Knowledge                        **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
 
 /*******************************************************************************
  *********************************INCLUDES**************************************
@@ -157,11 +158,15 @@ out:
     }
 
     /* Copy attributes struct */
-    mq_attr_p = &attr;
+    *mq_attr_p = attr;
+
+    // DBG
+    // vnk_debug_notify("in \"%s\" mq_attr_p->mq_msgsize=%d", __FUNCTION__,
+    //             mq_attr_p->mq_msgsize);
 
     // memcpy and "=" operation which is better ?
     // memcpy(l_vnkmq_config, &config, sizeof(config));
-    // *l_vnkmq_config = config;
+    // *l_vnkmq_config = config; <<-- think good!
     // Just copy elements
     strncpy(l_vnkmq_config->mq_name, config.mq_name, MAX_NAME_SIZE);
     l_vnkmq_config->action = config.action;
