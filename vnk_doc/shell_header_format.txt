@@ -1,11 +1,11 @@
 ################################################################################
-##                                                                            ## 
-##      VNK - VINA KNOWLEDGE                                                  ##
 ##                                                                            ##
-##      Site : https://www.vinaknowledge.com                                  ##
-##      Email: hvloi@vinaknowledge.com                                        ##
+##                          VNK - VINA KNOWLEDGE                              ##
 ##                                                                            ##
-##      Copyright © 2019 Vina Knowledge                                       ##
+##                  Site : https://www.vinaknowledge.com                      ##
+##                  Email: hvloi@vinaknowledge.com                            ##
+##                                                                            ##
+##                     Copyright © 2019 Vina Knowledge                        ##
 ##                                                                            ##
 ################################################################################
 

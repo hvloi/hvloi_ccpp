@@ -1,14 +1,15 @@
-/*******************************************************************************
- *******************************************************************************
- **
- **      VINA KNOWLEDGE
- **
- **      Site : https://www.vinaknowledge.com
- **      Email: hvloi@vinaknowledge.com
- **
- **      Copyright © 2019 Vina Knowledge
- **
- ******************************************************************************/
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                          VNK - VINA KNOWLEDGE                              **
+**                                                                            **
+**                   Site : https://www.vinaknowledge.com                     **
+**                   Email: hvloi@vinaknowledge.com                           **
+**                                                                            **
+**                     Copyright © 2019 Vina Knowledge                        **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
 
 /*******************************************************************************
  *********************************INCLUDES**************************************
@@ -99,6 +100,10 @@ int main(int argc, char *argv[])
         goto bye_bye;
     }
 
+    // DBG
+    // vnk_debug_notify("in \"%s\" l_attr.mq_msgsize=%d", __FUNCTION__,
+    //             l_attr.mq_msgsize);
+
     // Check if TRACE is enabled
     if(traceIsEnabled)
     {
@@ -111,7 +116,7 @@ int main(int argc, char *argv[])
         if(traceIsEnabled)
             vnk_trace_notify("vnk_mq_create()");
 
-        if(vnk_mq_create(&l_config) == 1) // return = 1 is in error
+        if(vnk_mq_create(&l_config, &l_attr) == 1) // return = 1 is in error
         {
             hasErr = YES;
             goto bye_bye;
@@ -126,12 +131,16 @@ int main(int argc, char *argv[])
     else if (l_config.action == ACTION_UNLINK)
     {
         // Do something,...
-        if(vnk_mq_unlink(l_config.q_name) == 1)
+        if(vnk_mq_unlink(l_config.mq_name) == 1)
         {
             hasErr = YES;
             goto bye_bye;
         }
     }
+
+    // Debug
+    // vnk_debug_notify("in \"%s\", l_config.mq_oflag = %d", __FUNCTION__,
+    //             l_config.mq_oflag);
 
 bye_bye:
 
@@ -145,7 +154,10 @@ bye_bye:
         }
         else
         {
-            vnk_info_notify("closed queue descriptor of %s", l_config.q_name);
+            if(traceIsEnabled)
+            {
+                vnk_trace_notify("closed descriptor of %s", l_config.mq_name);
+            }
         }
     }
 

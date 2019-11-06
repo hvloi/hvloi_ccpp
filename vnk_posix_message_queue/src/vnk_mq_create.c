@@ -1,13 +1,15 @@
-/*******************************************************************************
- *
- *      VINA KNOWLEDGE
- *
- *      Site : https://www.vinaknowledge.com
- *      Email: hvloi@vinaknowledge.com
- *
- *      Copyright © 2019 Vina Knowledge
- *
- ******************************************************************************/
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                          VNK - VINA KNOWLEDGE                              **
+**                                                                            **
+**                   Site : https://www.vinaknowledge.com                     **
+**                   Email: hvloi@vinaknowledge.com                           **
+**                                                                            **
+**                     Copyright © 2019 Vina Knowledge                        **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,13 +32,18 @@
  * (On Linux, mqd_t is an int, but, for example, on Solaris it is defined as
  * void *.)
  */
-int vnk_mq_create(struct vnkmq_config *l_vnkmq_config)
+int vnk_mq_create(struct vnkmq_config *l_vnkmq_config,
+            struct mq_attr *l_mq_attr)
 {
+    /*
+     * Need help to show valid values of mq_attr in case of error
+     */
+
     bool hasErr = NO; // init
     mqd_t mqd;
 
-    mqd = mq_open(l_vnkmq_config->q_name, O_RDWR | O_CREAT | O_EXCL, S_IRWXU |
-                    S_IRWXG, NULL);
+    mqd = mq_open(l_vnkmq_config->mq_name, l_vnkmq_config->mq_oflag,
+            l_vnkmq_config->mq_mode, l_mq_attr);
 
     if(mqd == (mqd_t)-1)
     {

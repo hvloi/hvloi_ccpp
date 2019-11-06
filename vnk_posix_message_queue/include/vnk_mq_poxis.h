@@ -1,15 +1,15 @@
-/*******************************************************************************
- *******************************************************************************
- **
- **      VINA KNOWLEDGE
- **
- **      Site : https://www.vinaknowledge.com
- **      Email: hvloi@vinaknowledge.com
- **
- **      Copyright © 2019 Vina Knowledge
- **
- *******************************************************************************
- ******************************************************************************/
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                          VNK - VINA KNOWLEDGE                              **
+**                                                                            **
+**                   Site : https://www.vinaknowledge.com                     **
+**                   Email: hvloi@vinaknowledge.com                           **
+**                                                                            **
+**                     Copyright © 2019 Vina Knowledge                        **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
 
 /*******************************************************************************
  *********************************INCLUDES**************************************
@@ -67,13 +67,20 @@ typedef enum {
     ACTION_OPEN        ,
     ACTION_CREATE      ,
     ACTION_UNLINK
-} q_action;
+} mq_action;
 
 struct vnkmq_config
 {
-    q_action action;
-    char q_name[MAX_NAME_SIZE];
-    mqd_t mq_d;
+    // MQ action
+    mq_action   action;
+    // MQ name
+    char        mq_name[MAX_NAME_SIZE];
+    // MQ oflag
+    int         mq_oflag;
+    // MQ modes
+    int         mq_mode;
+    // MQ descriptor
+    mqd_t       mq_d;
 };
 
 /*
@@ -94,7 +101,8 @@ void showVersion();
 /*
  * Some Description....
  */
-int vnk_mq_create(struct vnkmq_config *l_vnkmq_config);
+int vnk_mq_create(struct vnkmq_config *l_vnkmq_config,
+            struct mq_attr *l_mq_attr);
 
 /*
  * Function: vnk_mq_create
@@ -102,7 +110,7 @@ int vnk_mq_create(struct vnkmq_config *l_vnkmq_config);
  * Output: RETURN_SUCCESS / RETURN_FAILURE
  * NOTE: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  */
-int vnk_mq_unlink(const char *q_name);
+int vnk_mq_unlink(const char *mq_name);
 
 /*******************************************************************************
  **********************************PRIVATE**************************************
