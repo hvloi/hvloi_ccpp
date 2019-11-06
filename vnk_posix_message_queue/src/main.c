@@ -126,12 +126,16 @@ int main(int argc, char *argv[])
     else if (l_config.action == ACTION_UNLINK)
     {
         // Do something,...
-        if(vnk_mq_unlink(l_config.q_name) == 1)
+        if(vnk_mq_unlink(l_config.mq_name) == 1)
         {
             hasErr = YES;
             goto bye_bye;
         }
     }
+
+    // Debug
+    // vnk_debug_notify("in \"%s\", l_config.mq_oflag = %d", __FUNCTION__,
+    //             l_config.mq_oflag);
 
 bye_bye:
 
@@ -145,7 +149,7 @@ bye_bye:
         }
         else
         {
-            vnk_info_notify("closed queue descriptor of %s", l_config.q_name);
+            vnk_info_notify("closed queue descriptor of %s", l_config.mq_name);
         }
     }
 

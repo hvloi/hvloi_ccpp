@@ -32,18 +32,18 @@
 /*
  * Some description,....
  */
-int vnk_mq_unlink(const char *q_name)
+int vnk_mq_unlink(const char *mq_name)
 {
     bool hasErr = false;
 
-    if(mq_unlink(q_name) < 0)
+    if(mq_unlink(mq_name) < 0)
     {
         hasErr = YES;
         vnk_error_notify(errno, "mq_unlink()");
         goto byee;
     }
 
-    vnk_info_notify("unlinked mq named %s", q_name);
+    vnk_info_notify("unlinked mq named %s", mq_name);
 
 byee:
     if(hasErr)

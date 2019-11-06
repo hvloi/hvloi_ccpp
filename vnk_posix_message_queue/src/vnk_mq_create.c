@@ -35,8 +35,8 @@ int vnk_mq_create(struct vnkmq_config *l_vnkmq_config)
     bool hasErr = NO; // init
     mqd_t mqd;
 
-    mqd = mq_open(l_vnkmq_config->q_name, O_RDWR | O_CREAT | O_EXCL, S_IRWXU |
-                    S_IRWXG, NULL);
+    mqd = mq_open(l_vnkmq_config->mq_name, l_vnkmq_config->mq_oflag,
+            l_vnkmq_config->mq_mode, NULL);
 
     if(mqd == (mqd_t)-1)
     {

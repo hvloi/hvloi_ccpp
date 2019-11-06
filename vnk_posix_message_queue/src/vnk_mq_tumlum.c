@@ -42,40 +42,37 @@
  */
 int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_config *l_vnkmq_config)
 {
-    int flags, opt;
+    int flags, opt, modes;
     mode_t perms;
     mqd_t mqd;
-    struct mq_attr attr, *attrp;
+    struct mq_attr attr;
     struct vnkmq_config config;
     bool hasErr = NO;
     bool hasAction = false;
 
-    attrp = NULL;
     attr.mq_maxmsg = 50;
     attr.mq_msgsize = 2048;
     flags = O_RDWR;
+
+    /* NEED an attention */
+    modes = S_IRUSR | S_IWUSR;
+
     memset(&config, 0, (size_t)sizeof(struct vnkmq_config));
 
     /* 
      * Parse command-line options
      * Will try with >>> getopt_long() <<<
      */
-    while ((opt = getopt(argc, argv, "cm:s:xn:a:hvt")) != -1)
+    while ((opt = getopt(argc, argv, "m:s:xn:a:hvt")) != -1)
     {
         switch (opt)
         {
-            case 'c':
-                flags |= O_CREAT;
-                break;
-
             case 'm':
                 attr.mq_maxmsg = atoi(optarg);
-                attrp = &attr;
                 break;
 
             case 's':
                 attr.mq_msgsize = atoi(optarg);
-                attrp = &attr;
                 break;
 
             case 'x':
@@ -86,13 +83,20 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
                 hasAction = true;
 
                 if (strncmp(optarg, ACTION_CREATE_STRING, MAX_ACTION_SIZE) == 0)
+                {
                     config.action = ACTION_CREATE;
+                    flags |= O_CREAT;
+                }
 
                 else if (strncmp(optarg, ACTION_OPEN_STRING, MAX_ACTION_SIZE) == 0)
+                {
                     config.action = ACTION_OPEN;
+                }
 
                 else if (strncmp(optarg, ACTION_UNLINK_STRING, MAX_ACTION_SIZE) == 0)
+                {
                     config.action = ACTION_UNLINK;
+                }
 
                 else
                 {
@@ -105,7 +109,7 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
                 break;
 
             case 'n':
-                strncpy(config.q_name, optarg, MAX_NAME_SIZE);
+                strncpy(config.mq_name, optarg, MAX_NAME_SIZE);
                 break;
 
             case 't':
@@ -125,7 +129,7 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
         }
     }
 
-    if(strncmp(config.q_name, "", MAX_NAME_SIZE) == 0)
+    if(strncmp(config.mq_name, "", MAX_NAME_SIZE) == 0)
     {
         vnk_error_notify(NO_ERRNO, "queue name is required!");
         hasErr = YES;
@@ -139,34 +143,46 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
         goto out;
     }
 
+    if(config.action != ACTION_CREATE && (flags & O_EXCL))
+    {
+        vnk_error_notify(NO_ERRNO, "O_EXCL is only used with action create");
+        hasErr = YES;
+        goto out;
+    }
+
 out:
     if(hasErr)
     {
         return RETURN_FAILURE;
     }
 
-    mq_attr_p = attrp;
+    /* Copy attributes struct */
+    mq_attr_p = &attr;
 
     // memcpy and "=" operation which is better ?
     // memcpy(l_vnkmq_config, &config, sizeof(config));
     // *l_vnkmq_config = config;
     // Just copy elements
-    strncpy(l_vnkmq_config->q_name, config.q_name, MAX_NAME_SIZE);
+    strncpy(l_vnkmq_config->mq_name, config.mq_name, MAX_NAME_SIZE);
     l_vnkmq_config->action = config.action;
+    l_vnkmq_config->mq_oflag = flags;
+    l_vnkmq_config->mq_mode = modes;
+
+    // Debug
+    // vnk_debug_notify("in \"%s\", flags = %d", __FUNCTION__, flags);
 
     return RETURN_SUCCESS;
 }
 
 /*
- * This is option string "cm:s:xn:a:hv"
+ * This is option string "m:s:xn:a:hvt"
  */
 void usageError(const char *progName)
 {
     fprintf(stderr, "\n");
-    fprintf(stderr, "Usage: %s [-cxvht] [-m <maxmsg>] [-s <msgsize>]\n"
+    fprintf(stderr, "Usage: %s [-xvht] [-m <maxmsg>] [-s <msgsize>]\n"
                     "       [-p <octal-perms>] {-n <queue name>}\n"
                     "       {-a <action>}\n\n", progName);
-    fprintf(stderr, "       -c  create queue (O_CREAT)\n");
     fprintf(stderr, "       -d  unlink queue <queue name>\n");
     fprintf(stderr, "       -m  maxmsg set maximum # of messages\n");
     fprintf(stderr, "       -s  msgsize set maximum message size\n");

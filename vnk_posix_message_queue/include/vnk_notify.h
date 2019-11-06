@@ -48,4 +48,12 @@ int vnk_info_notify(const char *message, ...);
  */
 int vnk_trace_notify(const char *message, ...);
 
+/*
+ * Function : vnk_debug_notify
+ * Input    :
+ * Output   :
+ * NOTE     : xXxXxX
+ */
+int vnk_debug_notify(const char *message, ...);
+
 #endif /*VNK_NOTIFY*/
