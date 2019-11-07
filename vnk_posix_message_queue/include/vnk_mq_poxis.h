@@ -44,6 +44,7 @@
 #define ACTION_CREATE_STRING "create"
 #define ACTION_OPEN_STRING   "open"
 #define ACTION_UNLINK_STRING "unlink"
+#define ACTION_EDIT_STRING   "edit"
 
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 0
@@ -66,43 +67,49 @@ typedef enum {
     ACTION_UNDEFINE = 0,
     ACTION_OPEN        ,
     ACTION_CREATE      ,
+    ACTION_EDIT        ,
     ACTION_UNLINK
 } mq_action;
 
 struct vnkmq_config
 {
-    // MQ action
-    mq_action   action;
-    // MQ name
-    char        mq_name[MAX_NAME_SIZE];
-    // MQ oflag
-    int         mq_oflag;
-    // MQ modes
-    int         mq_mode;
-    // MQ descriptor
-    mqd_t       mq_d;
+    mq_action   action;                 // MQ action
+    char        mq_name[MAX_NAME_SIZE]; // MQ name
+    int         mq_oflag;               // MQ oflag
+    int         mq_mode;                // MQ modes
+    mqd_t       mq_d;                   // MQ descriptor
 };
+
+
 
 /*
  * Some Description....
  */
 int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_config *l_vnkmq_config);
 
+
+
 /*
  * Some Description....
  */
 void usageError(const char *progName);
+
+
 
 /*
  * Some description....
  */
 void showVersion();
 
+
+
 /*
  * Some Description....
  */
 int vnk_mq_create(struct vnkmq_config *l_vnkmq_config,
             struct mq_attr *l_mq_attr);
+
+
 
 /*
  * Function : vnk_mq_create
@@ -112,6 +119,8 @@ int vnk_mq_create(struct vnkmq_config *l_vnkmq_config,
  */
 int vnk_mq_unlink(const char *mq_name);
 
+
+
 /*
  * Function : vnk_mq_retrieve
  * Input    :
@@ -119,6 +128,16 @@ int vnk_mq_unlink(const char *mq_name);
  * NOTE     : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  */
 int vnk_mq_retrieve(const char *mq_name);
+
+
+
+/*
+ * Function : vnk_mq_edit
+ * Input    :
+ * Output   :
+ * NOTE     : edit attribute of a POXIS MQ
+ */
+ int vnk_mq_edit(const char *mq_name);
 
 /*******************************************************************************
  **********************************PRIVATE**************************************

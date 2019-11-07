@@ -69,7 +69,7 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
      * Parse command-line options
      * Will try with >>> getopt_long() <<<
      */
-    while ((opt = getopt(argc, argv, "m:s:xn:a:hvt")) != -1)
+    while ((opt = getopt(argc, argv, "m:s:xn:a:hvte")) != -1)
     {
         switch (opt)
         {
@@ -94,21 +94,30 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
                     flags |= O_CREAT;
                 }
 
-                else if (strncmp(optarg, ACTION_OPEN_STRING, MAX_ACTION_SIZE) == 0)
+                else 
+                if (strncmp(optarg, ACTION_OPEN_STRING, MAX_ACTION_SIZE) == 0)
                 {
                     config.action = ACTION_OPEN;
                 }
 
-                else if (strncmp(optarg, ACTION_UNLINK_STRING, MAX_ACTION_SIZE) == 0)
+                else
+                if (strncmp(optarg, ACTION_UNLINK_STRING, MAX_ACTION_SIZE) == 0)
                 {
                     config.action = ACTION_UNLINK;
+                }
+
+                else
+                if (strncmp(optarg, ACTION_EDIT_STRING, MAX_ACTION_SIZE) == 0)
+                {
+                    config.action = ACTION_EDIT;
                 }
 
                 else
                 {
                     config.action = ACTION_UNDEFINE;
                     hasErr = YES;
-                    vnk_error_notify(NO_ERRNO, "action \"%s\" is undefined!", optarg);
+                    vnk_error_notify(NO_ERRNO, "action \"%s\" is undefined!",
+                                optarg);
                     goto out;
                 }
 
@@ -186,7 +195,7 @@ out:
 }
 
 /*
- * This is option string "m:s:xn:a:hvt"
+ * This is option string "m:s:xn:a:hvte"
  */
 void usageError(const char *progName)
 {
@@ -203,6 +212,7 @@ void usageError(const char *progName)
     fprintf(stderr, "       -t  trace, show step of code\n");
     fprintf(stderr, "       -v  show version\n");
     fprintf(stderr, "       -h  show this help\n");
+    fprintf(stderr, "       -e  edit, set/clear O_NONBLOCK attribute of MQ\n");
     fprintf(stderr, "\n\n");
 }
 

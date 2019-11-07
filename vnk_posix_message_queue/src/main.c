@@ -68,15 +68,15 @@ static void bye()
 /*
  * Under contruction,....
  */
-static void looploop()
-{
-    while(1)
-    {
-        sleep(10);
-    }
+// static void looploop()
+// {
+//     while(1)
+//     {
+//         sleep(10);
+//     }
 
-    return;
-}
+//     return;
+// }
 
 int main(int argc, char *argv[])
 {
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
         if(traceIsEnabled)
             vnk_trace_notify("vnk_mq_create()");
 
-        if(vnk_mq_create(&l_config, &l_attr) == 1) // return = 1 is in error
+        if(vnk_mq_create(&l_config, &l_attr) == RETURN_FAILURE)
         {
             hasErr = YES;
             goto bye_bye;
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
             vnk_trace_notify("action OPEN...");
         }
         // Something here,...
-        if(vnk_mq_retrieve(l_config.mq_name) == 1) // return = 1 imply an error
+        if(vnk_mq_retrieve(l_config.mq_name) == RETURN_FAILURE)
         {
             hasErr = YES;
             goto bye_bye;
@@ -138,7 +138,15 @@ int main(int argc, char *argv[])
     else if (l_config.action == ACTION_UNLINK)
     {
         // Do something,...
-        if(vnk_mq_unlink(l_config.mq_name) == 1)
+        if(vnk_mq_unlink(l_config.mq_name) == RETURN_FAILURE)
+        {
+            hasErr = YES;
+            goto bye_bye;
+        }
+    }
+    else if (l_config.action == ACTION_EDIT)
+    {
+        if (vnk_mq_edit(l_config.mq_name) == RETURN_FAILURE)
         {
             hasErr = YES;
             goto bye_bye;
