@@ -41,7 +41,8 @@
  * Function: opt_parsing
  * Author  : Loi Huynh
  */
-int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_config *l_vnkmq_config)
+int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p,
+            struct vnkmq_config *l_vnkmq_config)
 {
     int flags, opt, modes;
     mode_t perms;
@@ -69,7 +70,7 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
      * Parse command-line options
      * Will try with >>> getopt_long() <<<
      */
-    while ((opt = getopt(argc, argv, "m:s:xn:a:hvte")) != -1)
+    while ((opt = getopt(argc, argv, "m:s:n:a:c:hvtex")) != -1)
     {
         switch (opt)
         {
@@ -113,6 +114,19 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
                 }
 
                 else
+                if (strncmp(optarg, ACTION_SEND_STRING, MAX_ACTION_SIZE) == 0)
+                {
+                    config.action = ACTION_SEND;
+                }
+
+                else
+                if (strncmp(optarg, ACTION_RECIEVE_STRING,
+                                                        MAX_ACTION_SIZE) == 0)
+                {
+                    config.action = ACTION_RECIEVE;
+                }
+
+                else
                 {
                     config.action = ACTION_UNDEFINE;
                     hasErr = YES;
@@ -125,6 +139,10 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
 
             case 'n':
                 strncpy(config.mq_name, optarg, MAX_NAME_SIZE);
+                break;
+
+            case 'c':
+                strncpy(config.mq_message, optarg, MAX_MESSAGE_SIZE);
                 break;
 
             case 't':
@@ -184,6 +202,7 @@ out:
     // *l_vnkmq_config = config; <<-- think good!
     // Just copy elements
     strncpy(l_vnkmq_config->mq_name, config.mq_name, MAX_NAME_SIZE);
+    strncpy(l_vnkmq_config->mq_message, config.mq_message, MAX_MESSAGE_SIZE);
     l_vnkmq_config->action = config.action;
     l_vnkmq_config->mq_oflag = flags;
     l_vnkmq_config->mq_mode = modes;
@@ -195,7 +214,7 @@ out:
 }
 
 /*
- * This is option string "m:s:xn:a:hvte"
+ * This is option string "m:s:n:a:hvtecx"
  */
 void usageError(const char *progName)
 {
@@ -210,6 +229,7 @@ void usageError(const char *progName)
     fprintf(stderr, "       -n  name of queue\n");
     fprintf(stderr, "       -a  action of the call <create|open|unlink>\n");
     fprintf(stderr, "       -t  trace, show step of code\n");
+    fprintf(stderr, "       -c  content of message if action is send");
     fprintf(stderr, "       -v  show version\n");
     fprintf(stderr, "       -h  show this help\n");
     fprintf(stderr, "       -e  edit, set/clear O_NONBLOCK attribute of MQ\n");

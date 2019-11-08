@@ -152,6 +152,24 @@ int main(int argc, char *argv[])
             goto bye_bye;
         }
     }
+    else if (l_config.action == ACTION_SEND)
+    {
+        if (vnk_mq_send (l_config.mq_name, l_config.mq_message)
+                                                            == RETURN_FAILURE)
+        {
+            hasErr = YES;
+            goto bye_bye;
+        }
+    }
+
+    else if (l_config.action == ACTION_RECIEVE)
+    {
+        if (vnk_mq_recieve(l_config.mq_name) == RETURN_FAILURE)
+        {
+            hasErr = YES;
+            goto bye_bye;
+        }
+    }
 
     // Debug
     // vnk_debug_notify("in \"%s\", l_config.mq_oflag = %d", __FUNCTION__,
