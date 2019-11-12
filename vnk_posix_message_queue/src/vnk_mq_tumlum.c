@@ -41,7 +41,8 @@
  * Function: opt_parsing
  * Author  : Loi Huynh
  */
-int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_config *l_vnkmq_config)
+int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p,
+            struct vnkmq_config *l_vnkmq_config)
 {
     int flags, opt, modes;
     mode_t perms;
@@ -51,8 +52,13 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
     bool hasErr = NO;
     bool hasAction = false;
 
-    attr.mq_maxmsg = 50;
-    attr.mq_msgsize = 2048;
+    /*
+     * NOTE:
+     * mq_maxmsg and mq_msgsize may be different in other devices
+     */
+    attr.mq_maxmsg = 10;
+    attr.mq_msgsize = 1024;
+
     flags = O_RDWR;
 
     /* NEED an attention */
@@ -64,7 +70,7 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
      * Parse command-line options
      * Will try with >>> getopt_long() <<<
      */
-    while ((opt = getopt(argc, argv, "m:s:xn:a:hvt")) != -1)
+    while ((opt = getopt(argc, argv, "m:s:n:a:c:hvtex")) != -1)
     {
         switch (opt)
         {
@@ -89,21 +95,43 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
                     flags |= O_CREAT;
                 }
 
-                else if (strncmp(optarg, ACTION_OPEN_STRING, MAX_ACTION_SIZE) == 0)
+                else 
+                if (strncmp(optarg, ACTION_OPEN_STRING, MAX_ACTION_SIZE) == 0)
                 {
                     config.action = ACTION_OPEN;
                 }
 
-                else if (strncmp(optarg, ACTION_UNLINK_STRING, MAX_ACTION_SIZE) == 0)
+                else
+                if (strncmp(optarg, ACTION_UNLINK_STRING, MAX_ACTION_SIZE) == 0)
                 {
                     config.action = ACTION_UNLINK;
+                }
+
+                else
+                if (strncmp(optarg, ACTION_EDIT_STRING, MAX_ACTION_SIZE) == 0)
+                {
+                    config.action = ACTION_EDIT;
+                }
+
+                else
+                if (strncmp(optarg, ACTION_SEND_STRING, MAX_ACTION_SIZE) == 0)
+                {
+                    config.action = ACTION_SEND;
+                }
+
+                else
+                if (strncmp(optarg, ACTION_RECIEVE_STRING,
+                                                        MAX_ACTION_SIZE) == 0)
+                {
+                    config.action = ACTION_RECIEVE;
                 }
 
                 else
                 {
                     config.action = ACTION_UNDEFINE;
                     hasErr = YES;
-                    vnk_error_notify(NO_ERRNO, "action \"%s\" is undefined!", optarg);
+                    vnk_error_notify(NO_ERRNO, "action \"%s\" is undefined!",
+                                optarg);
                     goto out;
                 }
 
@@ -111,6 +139,10 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p, struct vnkmq_
 
             case 'n':
                 strncpy(config.mq_name, optarg, MAX_NAME_SIZE);
+                break;
+
+            case 'c':
+                strncpy(config.mq_message, optarg, MAX_MESSAGE_SIZE);
                 break;
 
             case 't':
@@ -158,7 +190,8 @@ out:
     }
 
     /* Copy attributes struct */
-    *mq_attr_p = attr;
+    mq_attr_p->mq_maxmsg = attr.mq_maxmsg;
+    mq_attr_p->mq_msgsize = attr.mq_msgsize;
 
     // DBG
     // vnk_debug_notify("in \"%s\" mq_attr_p->mq_msgsize=%d", __FUNCTION__,
@@ -169,6 +202,7 @@ out:
     // *l_vnkmq_config = config; <<-- think good!
     // Just copy elements
     strncpy(l_vnkmq_config->mq_name, config.mq_name, MAX_NAME_SIZE);
+    strncpy(l_vnkmq_config->mq_message, config.mq_message, MAX_MESSAGE_SIZE);
     l_vnkmq_config->action = config.action;
     l_vnkmq_config->mq_oflag = flags;
     l_vnkmq_config->mq_mode = modes;
@@ -180,7 +214,7 @@ out:
 }
 
 /*
- * This is option string "m:s:xn:a:hvt"
+ * This is option string "m:s:n:a:hvtecx"
  */
 void usageError(const char *progName)
 {
@@ -189,14 +223,16 @@ void usageError(const char *progName)
                     "       [-p <octal-perms>] {-n <queue name>}\n"
                     "       {-a <action>}\n\n", progName);
     fprintf(stderr, "       -d  unlink queue <queue name>\n");
-    fprintf(stderr, "       -m  maxmsg set maximum # of messages\n");
+    fprintf(stderr, "       -m  maxmsg set maximum number of messages\n");
     fprintf(stderr, "       -s  msgsize set maximum message size\n");
     fprintf(stderr, "       -x  create exclusively (O_EXCL)\n");
     fprintf(stderr, "       -n  name of queue\n");
     fprintf(stderr, "       -a  action of the call <create|open|unlink>\n");
     fprintf(stderr, "       -t  trace, show step of code\n");
+    fprintf(stderr, "       -c  content of message if action is send");
     fprintf(stderr, "       -v  show version\n");
     fprintf(stderr, "       -h  show this help\n");
+    fprintf(stderr, "       -e  edit, set/clear O_NONBLOCK attribute of MQ\n");
     fprintf(stderr, "\n\n");
 }
 
