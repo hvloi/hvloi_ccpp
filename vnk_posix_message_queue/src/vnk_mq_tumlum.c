@@ -229,7 +229,7 @@ void usageError(const char *progName)
     fprintf(stderr, "       -n  name of queue\n");
     fprintf(stderr, "       -a  action of the call <create|open|unlink>\n");
     fprintf(stderr, "       -t  trace, show step of code\n");
-    fprintf(stderr, "       -c  content of message if action is send");
+    fprintf(stderr, "       -c  content of message if action is send\n");
     fprintf(stderr, "       -v  show version\n");
     fprintf(stderr, "       -h  show this help\n");
     fprintf(stderr, "       -e  edit, set/clear O_NONBLOCK attribute of MQ\n");
