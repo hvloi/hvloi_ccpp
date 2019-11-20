@@ -21,6 +21,25 @@
 #define NO_ERRNO 0
 
 /*
+ * MACRO  : VNK_TRACE_NOTIFY
+ * Input  : message
+ * Output :
+ * Comment: this macro includes two steps of show strace notify:
+ *          1. Check if tracIsEnabled
+ *          2. If (1) is true, show strace message
+ * N O T E: No space between e.i VNK_TRACE_NOTIFY<nospace>()
+ */
+#define VNK_TRACE_NOTIFY( fmt, args... ) \
+    do \
+    { \
+        if (traceIsEnabled) \
+        { \
+            vnk_trace_notify (fmt , ##args); \
+        } \
+    } \
+    while (0)
+
+/*
  * Function : vnk_error_notify
  * Input    :
  * Output   :
