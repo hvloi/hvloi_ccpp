@@ -1,0 +1,42 @@
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                          VNK - VINA KNOWLEDGE                              **
+**                                                                            **
+**                   Site : https://www.vinaknowledge.com                     **
+**                   Email: hvloi@vinaknowledge.com                           **
+**                                                                            **
+**                     Copyright © 2019 Vina Knowledge                        **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
+
+V N K  L I B  N O T I F I C A T I O N
+
+THIS LIB COMTAINS NOTIFICATION FUNCTION
+
+Description:
+
+- Project name : VNK_LibNotify
+- Version      : 1.0.0
+
+--------------------------------------------------------------------------------
+Main Functions:
+
+- Error Notification
+- Infor Notification
+- Trace Notification
+
+--------------------------------------------------------------------------------
+
+References:
+
+- Make library with cmake:
+https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-
+with-cmake
+
+--------------------------------------------------------------------------------
+
+Best Practice:
+
+- Private header file (.h) should be placed with source files.
