@@ -18,6 +18,8 @@
 # Shell script should be added the extension .bash, to let IDE recognize the
 # format of the file
 
+# V N K - C H E C K  L I B  B U I L D  S C R I P T
+
 EXIT_OK=0
 EXIT_KO=1
 
@@ -31,12 +33,6 @@ CLEARED_FILE="CMakeCache.txt "
 CLEARED_FILE+="CMakeFiles "
 CLEARED_FILE+="cmake_install.cmake "
 CLEARED_FILE+="Makefile "
-CLEARED_FILE+="VNK_LibNotify.pc "
-
-if [ -f install_manifest.txt ]
-then
-    CLEARED_FILE+=install_manifest.txt
-fi
 
 help()
 {
@@ -157,7 +153,7 @@ while getopts "hecgmrw" OPTION; do
             m_clean
             ;;
 
-        w)
+         w)
             w_wipe
             ;;
 

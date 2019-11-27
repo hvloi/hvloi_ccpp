@@ -28,6 +28,10 @@ add_library(VNK_LibNotify SHARED
     src/vnk_lib_notify.c
 )
 
+add_library(VNK_LibNotify_static STATIC
+    src/vnk_lib_notify.c
+)
+
 # Set version property for the lib
 set_target_properties(VNK_LibNotify PROPERTIES VERSION ${PROJECT_VERSION})
 
@@ -40,13 +44,17 @@ set_target_properties(VNK_LibNotify PROPERTIES PUBLIC_HEADER
 target_include_directories(VNK_LibNotify PRIVATE include)
 target_include_directories(VNK_LibNotify PRIVATE src)
 
-# Install rule for lib
+# Install rule for lib:
+# Install library directory: CMAKE_INSTALL_LIBDIR
+# Install include directory: CMAKE_INSTALL_INCLUDEDIR
 install(TARGETS VNK_LibNotify
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 configure_file(VNK_LibNotify.pc.in VNK_LibNotify.pc @ONLY)
 
+# Install package configuration:
 install(FILES ${CMAKE_BINARY_DIR}/VNK_LibNotify.pc
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
 
