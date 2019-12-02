@@ -1,0 +1,37 @@
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                    V N K - V I N A  K N O W L E D G E                      **
+**                                                                            **
+**                   SITE  : https://www.vinaknowledge.com                    **
+**                   EMAIL : hvloi@vinaknowledge.com                          **
+**                                                                            **
+**                       TAN BINH DST, HCMC, VIET NAM                         **
+**                                                                            **
+**                      Copyright © 2019 Vina Knowledge                       **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
+
+V N K - F I L E  P O I N T E R  B L O G
+
+--------------------------------------------------------------------------------
+DESCRIPTION:
+     AUTHOR: Loi Huynh
+
+This is a example code about an notice when using FILE pointer.
+
+--------------------------------------------------------------------------------
+
+Using:
+
+@>: cd VNK_FILE_Pointer/build
+@>: vnk_mbuild.bash -g   # To generate Makefile via CMAKE
+@>: vnk_mbuild.bash -m   # To call "make"
+@>: vnk_mbuild.bash -h   # To show build help
+@>: ./vnkfpx <arguments> # To run built binary
+
+Tips:
+- Call "vnk_mbuild.bash -g -m" to generate Makefile and doing "make" in a time.
+
+--------------------------------------------------------------------------------
