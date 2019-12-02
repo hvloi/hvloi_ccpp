@@ -16,6 +16,7 @@
 # C M A K E  D E F I N I T I O N  F I L E
 # VINA KNOWLEDGE CHECKING LIBRARY
 # Author: Loi Huynh
+#
 
 # Required CMAKE Version
 cmake_minimum_required(VERSION 3.10.2)
@@ -25,6 +26,7 @@ project(VNK_CheckLib VERSION 1.0.0 DESCRIPTION "INA KNOWLEDGE CHECKING LIBRARY")
 
 #-------------------------------------------------------------------------------
 # F U N C T I O N S
+#
 
 # Funtion VNK_NotifyInfo():
 function(VNK_NotifyInfo message)
@@ -33,10 +35,11 @@ endfunction(VNK_NotifyInfo)
 
 #-------------------------------------------------------------------------------
 # M A I N  C O D E
+#
 
 VNK_NotifyInfo("VINA KNOWLEDGE CHECKING LIBRARY")
 
-VNK_NotifyInfo("Generating config . . .")
+VNK_NotifyInfo("Generating config...")
 
 #add_custom_target( StartMessage ALL
 #    ${CMAKE_COMMAND} -E cmake_echo_color --cyan
@@ -60,15 +63,16 @@ add_executable(vnk_checklib ${SOURCES} ${HEADER_FILES})
 # Includes
 # This should be below add_executable()
 target_include_directories(vnk_checklib PRIVATE include)
-target_include_directories(vnk_checklib PRIVATE /home/hvloi/study_space/vinaknowledge_ccpp/vnk_lib/VNK_LibNotify/include)
+target_include_directories(vnk_checklib PRIVATE /path/to/include)
 
 # Link Notify Lib
-target_link_libraries(vnk_checklib /home/hvloi/study_space/vinaknowledge_ccpp/vnk_lib/VNK_LibNotify/build/libVNK_LibNotify_static.a)
+target_link_libraries(vnk_checklib /path/to/lib)
 
 # Link Library To Target
 # Find more at: https://cmake.org/cmake/help/latest/command/
 # target_link_libraries.html#command:target_link_libraries
 # target_link_libraries(vnk_checklib rt)
 
+#
 # E N D
 #-------------------------------------------------------------------------------

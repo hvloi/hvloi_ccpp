@@ -16,6 +16,7 @@
 # C M A K E  D E F I N I T I O N  F I L E
 # VINA KNOWLEDGE CHECKING LIBRARY
 # Author: Loi Huynh
+#
 
 # Required CMAKE Version
 cmake_minimum_required(VERSION 3.10.2)
@@ -25,12 +26,26 @@ project(VNK_CheckLib VERSION 1.0.0 DESCRIPTION "INA KNOWLEDGE CHECKING LIBRARY")
 
 #-------------------------------------------------------------------------------
 # D E F I N E S
+#
 
-set(WORKROOT vinaknowledge_ccpp)
+# ROOTFATHER get from command line arguments
+set(ROOTFATHER ${ROOTFATHER})
 
+set(WORKROOT ${ROOTFATHER}/vinaknowledge_ccpp)
+
+set(VNK_LIB_NOTIFY_DIR ${WORKROOT}/vnk_lib/VNK_LibNotify)
+set(VNK_LIB_NOTIFY_INCLUDE ${VNK_LIB_NOTIFY_DIR}/include)
+set(VNK_LIB_NOTIFY_STATIC libVNK_LibNotify_static.a)
+set(VNK_LIB_NOTIFY_PATH ${VNK_LIB_NOTIFY_DIR}/build/${VNK_LIB_NOTIFY_STATIC})
+
+MESSAGE("-- [DEBG]: VNK_LIB_NOTIFY_INCLUDE= "
+            ${VNK_LIB_NOTIFY_INCLUDE})
+MESSAGE("-- [DEBG]: VNK_LIB_NOTIFY_STATIC_PATH= "
+            ${VNK_LIB_NOTIFY_STATIC_PATH})
 
 #-------------------------------------------------------------------------------
 # F U N C T I O N S
+#
 
 # Funtion VNK_NotifyInfo():
 function(VNK_NotifyInfo message)
@@ -39,18 +54,11 @@ endfunction(VNK_NotifyInfo)
 
 #-------------------------------------------------------------------------------
 # M A I N  C O D E
+#
 
 VNK_NotifyInfo("VINA KNOWLEDGE CHECKING LIBRARY")
 
 VNK_NotifyInfo("Generating config . . .")
-
-set(CMD "bash -c \"pwd | sed -e \"s/\/vinaknowledge_ccpp\/.*$//\"\"")
-
-MESSAGE(-- " COMMANDS: " ${CMD})
-
-execute_process(COMMAND ${CMD} OUTPUT_VARIABLE OUTDIR)
-
-MESSAGE("-- OUTDIR: " ${OUTDIR})
 
 #add_custom_target( StartMessage ALL
 #    ${CMAKE_COMMAND} -E cmake_echo_color --cyan
@@ -74,15 +82,16 @@ add_executable(vnk_checklib ${SOURCES} ${HEADER_FILES})
 # Includes
 # This should be below add_executable()
 target_include_directories(vnk_checklib PRIVATE include)
-target_include_directories(vnk_checklib PRIVATE /home/hvloi/study_space/vinaknowledge_ccpp/vnk_lib/VNK_LibNotify/include)
+target_include_directories(vnk_checklib PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
 
 # Link Notify Lib
-target_link_libraries(vnk_checklib /home/hvloi/study_space/vinaknowledge_ccpp/vnk_lib/VNK_LibNotify/build/libVNK_LibNotify_static.a)
+target_link_libraries(vnk_checklib ${VNK_LIB_NOTIFY_PATH})
 
 # Link Library To Target
 # Find more at: https://cmake.org/cmake/help/latest/command/
 # target_link_libraries.html#command:target_link_libraries
 # target_link_libraries(vnk_checklib rt)
 
+#
 # E N D
 #-------------------------------------------------------------------------------

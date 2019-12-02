@@ -20,6 +20,10 @@
 
 # V N K - C H E C K  L I B  B U I L D  S C R I P T
 
+#-------------------------------------------------------------------------------
+# D E F I N I T I O N S
+#
+
 EXIT_OK=0
 EXIT_KO=1
 
@@ -33,6 +37,65 @@ CLEARED_FILE="CMakeCache.txt "
 CLEARED_FILE+="CMakeFiles "
 CLEARED_FILE+="cmake_install.cmake "
 CLEARED_FILE+="Makefile "
+
+#
+# Check needed tools
+#
+
+# W H I C H
+echo -e "[INFO] checking WHICH...\n"
+WHICH="$(which -h 2> /dev/null)"        # Redirect error to /dev/null
+if [ -z "$WHICH" ]
+then
+    echo "[NOTI] WHICH is not found, exit!"
+    exit $EXIT_KO
+fi
+
+# P W D
+echo -e "[INFO] checking PWD...\n"
+PWD="$(which pwd 2> /dev/null)"         # Redirect error to /dev/null
+echo "[DEBG] PWD=$PWD"
+if [ -z "$PWD" ]
+then
+    echo "[NOTI] PWD is not found, exit!"
+    exit $EXIT_KO
+fi
+
+# S E D
+echo -e "[INFO] checking SED...\n"
+SED="$(which sed 2> /dev/null)"         # Redirect error to /dev/null
+echo "[DEBG] SED=$SED"
+if [ -z "$SED" ]
+then
+    echo "[NOTI] SED is not found, exit!"
+    exit $EXIT_KO
+fi
+
+# D I R N A M E
+echo -e "[INFO] checking DIRNAME...\n"
+DIRNAME="$(which dirname 2> /dev/null)" # Redirect error to /dev/null
+echo "[DEBG] DIRNAME=$DIRNAME"
+if [ -z "$DIRNAME" ]
+then
+    echo "[NOTI] DIRNAME is not found, exit!"
+    exit $EXIT_KO
+fi
+
+#
+# Some more definitions
+#
+
+ROOTSOURCE="vinaknowledge_ccpp"
+ROOTFATHER="$($PWD | $SED -e "s/\/$ROOTSOURCE\/.*$//")"
+echo "[DEBG] ROOTFATHER=$ROOTFATHER..."
+
+l_CurrentDir="$(pwd)"
+MODULEDIR="$(dirname "$l_CurrentDir")"
+echo "[DEBG] MODULEDIR=$MODULEDIR..."
+
+#-------------------------------------------------------------------------------
+# F U N C T I O N S
+#
 
 help()
 {
@@ -54,7 +117,7 @@ c_make()
     echo -e "Calling \"cmake ..\" . . .\n"
 
     # Calling cmake ..
-    $CMAKE .. ##
+    $CMAKE $MODULEDIR -DROOTFATHER="$ROOTFATHER"
 
     echo -e "\n"
     echo -e ">> Done!\n"
@@ -167,5 +230,9 @@ done
 # Turn on back ECHO
 # ECHO="true"
 
-# Exiting.........
+# Exiting...
 exit $EXIT_OK
+
+#
+# E N D
+#-------------------------------------------------------------------------------
