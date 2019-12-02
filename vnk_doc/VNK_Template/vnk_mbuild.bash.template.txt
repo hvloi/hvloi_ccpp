@@ -129,8 +129,8 @@ c_make()
     echo -e "\n"
     echo -e "Calling \"cmake ..\" . . .\n"
 
-    # Calling CMAKE...
-    $CMAKE $MODULEDIR
+    # Calling cmake ..
+    $CMAKE .. ##
 
     echo -e "\n"
     echo -e ">> Done!\n"
