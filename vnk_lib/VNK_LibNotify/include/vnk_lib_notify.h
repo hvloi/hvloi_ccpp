@@ -18,6 +18,7 @@
 \******************************************************************************/
 
 #include <stdbool.h>
+#include <errno.h>
 
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
@@ -47,6 +48,14 @@
  #define NO  false
 
 /*
+ * Name  : VNK_GlobalTraceIsEnabled
+ * Scope : Global
+ * Type  : bool
+ * Using : Enable / Disable VNK Notifying Trace
+ */
+extern bool VNK_GlobalTraceIsEnabled;
+
+/*
  * MACRO  : VNK_TRACE_NOTIFY
  * Input  : message
  * Output :
@@ -58,7 +67,7 @@
 #define VNK_TRACE_NOTIFY( fmt, args... ) \
     do \
     { \
-        if (traceIsEnabled) \
+        if (VNK_GlobalTraceIsEnabled) \
         { \
             vnk_trace_notify (fmt , ##args); \
         } \

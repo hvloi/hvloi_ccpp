@@ -1,0 +1,29 @@
+################################################################################
+################################################################################
+##                                                                            ##
+##                    V N K - V I N A  K N O W L E D G E                      ##
+##                                                                            ##
+##                   SITE  : https://www.vinaknowledge.com                    ##
+##                   EMAIL : hvloi@vinaknowledge.com                          ##
+##                                                                            ##
+##                       TAN BINH DST, HCMC, VIET NAM                         ##
+##                                                                            ##
+##                      Copyright © 2019 Vina Knowledge                       ##
+##                                                                            ##
+################################################################################
+################################################################################
+
+# G I T  I G N O R E  F O R  B U I L D  D I R E C T O R Y
+
+# Ignore all built result
+*
+
+# Do not ignore this .gitignore
+!.gitignore
+
+# Do not ignore vnk_mbuild.bash
+!vnk_mbuild.bash
+
+#
+# E N D
+#-------------------------------------------------------------------------------
