@@ -34,4 +34,9 @@ Using:
 Tips:
 - Call "vnk_mbuild.bash -g -m" to generate Makefile and doing "make" in a time.
 
+Notice:
+- You can need to build libs firstly.
+  Example: to build libVNK_LibNotify_static.a, go to vnk_lib/VNK_LibNotify/build
+  and call "vnk_mbuild.bash -g -m".
+
 --------------------------------------------------------------------------------

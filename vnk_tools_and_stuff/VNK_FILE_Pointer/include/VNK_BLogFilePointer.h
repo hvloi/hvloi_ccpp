@@ -47,6 +47,15 @@
 *******************************M*A*I*N*C*O*D*E**********************************
 \******************************************************************************/
 
+/*
+ * Function: VNK_MiddleFuncGetFP
+ * Input   : FILE descriptor pointer
+ * Output  : Return code RETURN_SUCESS / RETURN_FAILURE
+ * Note    : This is receive file pointer then pass it for a local fucntion
+ *           to open a file
+ */
+int VNK_MiddleFuncGetFP(FILE *File);
+
 #endif  // VNK_BLOGFILEPOINTER_H
 /******************************************************************************\
 ************************************E*N*D***************************************
