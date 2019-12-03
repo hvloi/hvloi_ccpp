@@ -54,7 +54,7 @@
  * Note    : This is receive file pointer then pass it for a local fucntion
  *           to open a file
  */
-int VNK_MiddleFuncGetFP(FILE *File);
+int VNK_MiddleFuncGetFP(FILE *File1, FILE **File2);
 
 #endif  // VNK_BLOGFILEPOINTER_H
 /******************************************************************************\
