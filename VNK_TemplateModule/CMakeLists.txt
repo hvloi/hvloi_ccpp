@@ -77,26 +77,26 @@ set(SOURCES source/VNK_TemplateModule.c)
 ##
 # Add Excutable Target:
 ##
-add_executable(vnktmp ${SOURCES} ${HEADER_FILES})
+add_executable(vnktmpl ${SOURCES} ${HEADER_FILES})
 
 ##
 # Includes
 # This should be below add_executable()
 ##
-target_include_directories(vnktmp PRIVATE include)
-target_include_directories(vnktmp PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
+target_include_directories(vnktmpl PRIVATE include)
+target_include_directories(vnktmpl PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
 
 ##
 # Link Notify Lib:
 ##
-target_link_libraries(vnktmp ${VNK_LIB_NOTIFY_PATH})
+target_link_libraries(vnktmpl ${VNK_LIB_NOTIFY_PATH})
 
 ##
 # Link Library To Target
 # Find more at: https://cmake.org/cmake/help/latest/command/
 # target_link_libraries.html#command:target_link_libraries
 ##
-# target_link_libraries(vnktmp rt)
+# target_link_libraries(vnktmpl rt)
 
 ##
 # E N D

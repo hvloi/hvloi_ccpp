@@ -25,19 +25,23 @@ DESCRIPTION:
 
 This is a template module, all other module will follow format of this template.
 
+BINARY NAME:
+
+[vnktmpl]
+
 --------------------------------------------------------------------------------
 
 USING:
 
 #>:$ cd VNK_TemplateModule/build
-#>:$ vnk_mbuild.bash -g        # To generate Makefile via CMAKE
-#>:$ vnk_mbuild.bash -m        # To call "make"
-#>:$ vnk_mbuild.bash -h        # To show build help
-#>:$ ./vnktemplate <arguments> # To run built binary
+#>:$ VNK_MBuild.bash -g        # To generate Makefile via CMAKE
+#>:$ VNK_MBuild.bash -m        # To call "make"
+#>:$ VNK_MBuild.bash -h        # To show build help
+#>:$ ./vnktmpl <arguments>     # To run built binary
 
 TIPS:
 
-- Call "vnk_mbuild.bash -g -m" to generate Makefile and doing "make" in a time.
+- Call "VNK_MBuild.bash -g -m" to generate Makefile and doing "make" in a time.
 
 NOTICE:
 
