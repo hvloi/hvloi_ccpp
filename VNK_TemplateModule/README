@@ -1,0 +1,55 @@
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                  [ V N K - V I N A  K N O W L E D G E ]                    **
+**                                                                            **
+**                   SITE  : https://www.vinaknowledge.com                    **
+**                   EMAIL : hvloi@vinaknowledge.com                          **
+**                                                                            **
+**                       TAN BINH DST, HCMC, VIET NAM                         **
+**                                                                            **
+**                      Copyright © 2019 Vina Knowledge                       **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
+
+V N K - T E M P L A T E  M O D U L E
+
+--------------------------------------------------------------------------------
+
+A U T H O R:
+
+Loi Huynh
+
+DESCRIPTION:
+
+This is a template module, all other module will follow format of this template.
+
+--------------------------------------------------------------------------------
+
+USING:
+
+#>:$ cd VNK_TemplateModule/build
+#>:$ vnk_mbuild.bash -g        # To generate Makefile via CMAKE
+#>:$ vnk_mbuild.bash -m        # To call "make"
+#>:$ vnk_mbuild.bash -h        # To show build help
+#>:$ ./vnktemplate <arguments> # To run built binary
+
+TIPS:
+
+- Call "vnk_mbuild.bash -g -m" to generate Makefile and doing "make" in a time.
+
+NOTICE:
+
+- You can need to build libs firstly.
+- Example: to build libVNK_LibNotify_static.a, go to vnk_lib/VNK_LibNotify/build
+  and call "VNK_MBuild.bash -g -m".
+
+OTHERS:
+
+- Build script name: VNK_MBuild.bash.
+- This README is also a standard.
+- Using source files of this module as a template or files under
+  VNK_Document/VNK_Template when create new source files.
+
+--------------------------------------------------------------------------------
