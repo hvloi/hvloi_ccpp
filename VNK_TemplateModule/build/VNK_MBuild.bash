@@ -41,65 +41,94 @@ CLEARED_FILE+="CMakeFiles "
 CLEARED_FILE+="cmake_install.cmake "
 CLEARED_FILE+="Makefile "
 
+# Hello World #
+echo ""
+echo -e "[INFO]: $0 starting...\n"
+
 ##
 # Check for needed tools:
 ##
 
 # W H I C H #
-echo -e "[INFO]: checking WHICH...\n"
+echo -e "[INFO]: checking WHICH..."
 WHICH="$(which -h 2> /dev/null)"        # Redirect error to /dev/null
 if [ -z "$WHICH" ]
 then
-    echo "[NOTI]: WHICH is not found, exit!"
+    echo "[ERRO]: WHICH is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
+
+# G R E P #
+echo -e "[INFO]: checking GREP..."
+GREP="$(which grep 2> /dev/null)"       # Redirect error to /dev/null
+echo "[DEBG]: GREP=$GREP"
+if [ -z "$GREP" ]
+then
+    echo "[ERRO]: GREP is not found, exit!"
+    exit $EXIT_KO
+fi
+echo "" # Make a blank line
 
 # P W D #
-echo -e "[INFO]: checking PWD...\n"
-PWD="$(which pwd 2> /dev/null)"         # Redirect error to /dev/null
+##
+# Using built-in pwd of Shell instead of /bin/pwd
+##
+echo -e "[INFO]: checking PWD..."
+PWD="pwd"
+TYPE_CMD="type -a"
+BUILTIN_STR="builtin"
+PWD_BUILTIN="$($TYPE_CMD $PWD | $GREP $BUILTIN_STR)"
 echo "[DEBG]: PWD=$PWD"
-if [ -z "$PWD" ]
+if [ -z "$PWD_BUILTIN" ]
 then
-    echo "[NOTI]: PWD is not found, exit!"
+    echo "[ERRO]: PWD is not found, exit!"
     exit $EXIT_KO
+else
+    echo "[NOTI]: Using built-in PWD of the Shell!"
 fi
+echo "" # Make a blank line
 
 # S E D #
-echo -e "[INFO]: checking SED...\n"
+echo -e "[INFO]: checking SED..."
 SED="$(which sed 2> /dev/null)"         # Redirect error to /dev/null
 echo "[DEBG]: SED=$SED"
 if [ -z "$SED" ]
 then
-    echo "[NOTI]: SED is not found, exit!"
+    echo "[ERRO]: SED is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
 
 # D I R N A M E #
-echo -e "[INFO]: checking DIRNAME...\n"
+echo -e "[INFO]: checking DIRNAME..."
 DIRNAME="$(which dirname 2> /dev/null)" # Redirect error to /dev/null
 echo "[DEBG]: DIRNAME=$DIRNAME"
 if [ -z "$DIRNAME" ]
 then
-    echo "[NOTI]: DIRNAME is not found, exit!"
+    echo "[ERRO]: DIRNAME is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
 
 # C M A K E #
-echo -e "[INFO]: checking CMAKE...\n"
+echo -e "[INFO]: checking CMAKE..."
 CMAKE="$(which cmake 2> /dev/null)"     # Redirect error to /dev/null
 echo "[DEBG]: CMAKE=$CMAKE"
 if [ -z "$CMAKE" ]
 then
-    echo "[NOTI]: CMAKE is not found, exit!"
+    echo "[ERRO]: CMAKE is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
 
 ##
 # Some more definitions
 ##
 
 ROOTSOURCE="vinaknowledge_ccpp"
-ROOTFATHER="$($PWD | $SED -e "s/\/$ROOTSOURCE\/.*$//")"
+PWD_CMD="$PWD -L"
+ROOTFATHER="$($PWD_CMD | $SED -e "s/\/$ROOTSOURCE\/.*$//")"
 echo "[DEBG]: ROOTFATHER=$ROOTFATHER..."
 
 l_CurrentDir="$(pwd)"
