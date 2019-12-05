@@ -36,7 +36,7 @@ Tips:
 
 Notice:
 - You can need to build libs firstly.
-  Example: to build libVNK_LibNotify_static.a, go to vnk_lib/VNK_LibNotify/build
-  and call "vnk_mbuild.bash -g -m".
+  Example: to build libVNK_LibNotify_static.a, navigate to
+  VNK_Library/VNK_LibNotify/build and call "vnk_mbuild.bash -g -m".
 
 --------------------------------------------------------------------------------
