@@ -38,10 +38,8 @@ set(VNK_LIB_NOTIFY_INCLUDE ${VNK_LIB_NOTIFY_DIR}/include)
 set(VNK_LIB_NOTIFY_STATIC libVNK_LibNotify_static.a)
 set(VNK_LIB_NOTIFY_PATH ${VNK_LIB_NOTIFY_DIR}/build/${VNK_LIB_NOTIFY_STATIC})
 
-MESSAGE("-- [DEBG]: VNK_LIB_NOTIFY_INCLUDE= "
-            ${VNK_LIB_NOTIFY_INCLUDE})
-MESSAGE("-- [DEBG]: VNK_LIB_NOTIFY_STATIC_PATH= "
-            ${VNK_LIB_NOTIFY_STATIC_PATH})
+MESSAGE("-- [DEBG]: VNK_LIB_NOTIFY_INCLUDE= " ${VNK_LIB_NOTIFY_INCLUDE})
+MESSAGE("-- [DEBG]: VNK_LIB_NOTIFY_PATH= "    ${VNK_LIB_NOTIFY_PATH})
 
 #-------------------------------------------------------------------------------
 # F U N C T I O N S

@@ -1,7 +1,7 @@
 ################################################################################
 ################################################################################
 ##                                                                            ##
-##                    V N K - V I N A  K N O W L E D G E                      ##
+##                  [ V N K - V I N A  K N O W L E D G E ]                    ##
 ##                                                                            ##
 ##                   SITE  : https://www.vinaknowledge.com                    ##
 ##                   EMAIL : hvloi@vinaknowledge.com                          ##
@@ -15,14 +15,18 @@
 
 #!/bin/bash
 
+##
 # Shell script should be added the extension .bash, to let IDE recognize the
-# format of the file
+# format of the file.
+##
 
-# V N K - F I L E  P O I N T E R  B L O G  E X A M P L E
+##
+# V N K - C H E C K  L I B  B U I L D  S C R I P T
+##
 
-#-------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 # D E F I N I T I O N S
-#
+##
 
 EXIT_OK=0
 EXIT_KO=1
@@ -37,79 +41,109 @@ CLEARED_FILE+="CMakeFiles "
 CLEARED_FILE+="cmake_install.cmake "
 CLEARED_FILE+="Makefile "
 
-#
-# Check needed tools
-#
+# Hello World #
+echo ""
+echo -e "[INFO]: $0 starting...\n"
 
-# W H I C H
-echo -e "[INFO] checking WHICH...\n"
+##
+# Check for needed tools:
+##
+
+# W H I C H #
+echo -e "[INFO]: checking WHICH..."
 WHICH="$(which -h 2> /dev/null)"        # Redirect error to /dev/null
 if [ -z "$WHICH" ]
 then
-    echo "[NOTI] WHICH is not found, exit!"
+    echo "[ERRO]: WHICH is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
 
-# P W D
-echo -e "[INFO] checking PWD...\n"
-PWD="$(which pwd 2> /dev/null)"         # Redirect error to /dev/null
-echo "[DEBG] PWD=$PWD"
-if [ -z "$PWD" ]
+# G R E P #
+echo -e "[INFO]: checking GREP..."
+GREP="$(which grep 2> /dev/null)"       # Redirect error to /dev/null
+echo "[DEBG]: GREP=$GREP"
+if [ -z "$GREP" ]
 then
-    echo "[NOTI] PWD is not found, exit!"
+    echo "[ERRO]: GREP is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
 
-# S E D
-echo -e "[INFO] checking SED...\n"
+# P W D #
+##
+# Using built-in pwd of Shell instead of /bin/pwd
+##
+echo -e "[INFO]: checking PWD..."
+PWD="pwd"
+TYPE_CMD="type -a"
+BUILTIN_STR="builtin"
+PWD_BUILTIN="$($TYPE_CMD $PWD | $GREP $BUILTIN_STR)"
+echo "[DEBG]: PWD=$PWD"
+if [ -z "$PWD_BUILTIN" ]
+then
+    echo "[ERRO]: PWD is not found, exit!"
+    exit $EXIT_KO
+else
+    echo "[NOTI]: Using built-in PWD of the Shell!"
+fi
+echo "" # Make a blank line
+
+# S E D #
+echo -e "[INFO]: checking SED..."
 SED="$(which sed 2> /dev/null)"         # Redirect error to /dev/null
-echo "[DEBG] SED=$SED"
+echo "[DEBG]: SED=$SED"
 if [ -z "$SED" ]
 then
-    echo "[NOTI] SED is not found, exit!"
+    echo "[ERRO]: SED is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
 
-# D I R N A M E
-echo -e "[INFO] checking DIRNAME...\n"
+# D I R N A M E #
+echo -e "[INFO]: checking DIRNAME..."
 DIRNAME="$(which dirname 2> /dev/null)" # Redirect error to /dev/null
-echo "[DEBG] DIRNAME=$DIRNAME"
+echo "[DEBG]: DIRNAME=$DIRNAME"
 if [ -z "$DIRNAME" ]
 then
-    echo "[NOTI] DIRNAME is not found, exit!"
+    echo "[ERRO]: DIRNAME is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
 
-# C M A K E
-echo -e "[INFO] checking CMAKE...\n"
+# C M A K E #
+echo -e "[INFO]: checking CMAKE..."
 CMAKE="$(which cmake 2> /dev/null)"     # Redirect error to /dev/null
-echo "[DEBG] CMAKE=$CMAKE"
+echo "[DEBG]: CMAKE=$CMAKE"
 if [ -z "$CMAKE" ]
 then
-    echo "[NOTI] CMAKE is not found, exit!"
+    echo "[ERRO]: CMAKE is not found, exit!"
     exit $EXIT_KO
 fi
+echo "" # Make a blank line
 
-#
+##
 # Some more definitions
-#
+##
 
 ROOTSOURCE="vinaknowledge_ccpp"
-ROOTFATHER="$($PWD | $SED -e "s/\/$ROOTSOURCE\/.*$//")"
-echo "[DEBG] ROOTFATHER=$ROOTFATHER..."
+PWD_CMD="$PWD -L"
+ROOTFATHER="$($PWD_CMD | $SED -e "s/\/$ROOTSOURCE\/.*$//")"
+echo "[DEBG]: ROOTFATHER=$ROOTFATHER..."
 
 l_CurrentDir="$(pwd)"
 MODULEDIR="$(dirname "$l_CurrentDir")"
-echo "[DEBG] MODULEDIR=$MODULEDIR..."
+echo "[DEBG]: MODULEDIR=$MODULEDIR..."
 
-#-------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 # F U N C T I O N S
-#
+##
 
 help()
 {
     echo -e ""
-    echo -e "[ VNK - VINAKNOWLEDGE MAKE ]"
+    echo -e "[ VNK - VINAKNOWLEDGE BUILD MODULE ]"
+    echo -e "------------------------------------"
     echo -e "  Usage:"
     echo -e "    g: generate Makefile by calling cmake"
     echo -e "    m: make, call make"
@@ -117,6 +151,7 @@ help()
     echo -e "    r: remove, remove built result (after call make)"
     echo -e "    w: wipe, wipe build space"
     echo -e "    h: Show this help"
+    echo -e "------------------------------------"
     echo -e "\n"
 }
 
@@ -125,7 +160,7 @@ c_make()
     echo -e "\n"
     echo -e "Calling \"$CMAKE $MODULEDIR\"\n"
 
-    # Calling CMAKE
+    # Calling CMAKE #
     $CMAKE $MODULEDIR -DROOTFATHER="$ROOTFATHER"
 
     echo -e "\n"
@@ -137,14 +172,14 @@ m_make()
     echo -e "\n"
     echo -e "Calling Makefile . . .\n"
 
-    # Check if Makefile is existed
+    # Check if Makefile is existed #
     if [ ! -f $MAKEFILE ]
         then
         echo -e "Could not find Makefile!"
         echo -e "Make sure \"$0 -g\" was called\n"
     fi
 
-    # Calling make
+    # Calling make #
     make
 
     echo -e "\n"
@@ -157,7 +192,7 @@ c_clean()
     echo -e "Clean up build directory . . .\n"
     echo -e "    Removing: $CLEARED_FILE"
 
-    # rmrmrmrmrmrm
+    # rmrmrmrmrmrm #
     rm -rf $CLEARED_FILE
 
     echo -e "\n"
@@ -169,7 +204,7 @@ m_clean()
     echo -e "\n"
     echo -e "Removing binaries . . ."
 
-    # Call make clean
+    # Call make clean #
     make clean
 
     echo -e "\n"
@@ -180,17 +215,17 @@ w_wipe()
 {
     echo -e "\n"
     echo -e "Wiping build space . . .\n"
-    # Clean build result first
+    # Clean build result first #
     m_clean
-    # Clean cmake result
+    # Clean cmake result #
     c_clean
     echo -e "\n"
     echo -e ">> Done!\n"
 }
 
-#-------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 # M A I N  C O D E
-#
+##
 
 if [ $# -eq 0 ]
 then
@@ -200,7 +235,7 @@ then
     echo -e ""
 fi
 
-# Turn of echo
+# Turn of echo #
 # ECHO="false"
 
 while getopts "hecgmrw" OPTION; do
@@ -240,12 +275,14 @@ while getopts "hecgmrw" OPTION; do
         esac
 done
 
-# Turn on back ECHO
+# Turn on back ECHO #
 # ECHO="true"
 
-# Exiting...
+echo -e "[INFO]: $0 done, exiting...\n"
+
+# Exiting... #
 exit $EXIT_OK
 
-#
+##
 # E N D
-#-------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
