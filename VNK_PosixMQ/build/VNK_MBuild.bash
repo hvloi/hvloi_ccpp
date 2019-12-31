@@ -15,14 +15,16 @@
 
 #!/bin/bash
 
+##
 # Shell script should be added the extension .bash, to let IDE recognize the
 # format of the file
+##
 
-# V N K - P O S I X  M E S S A G E  Q U E U E  E X A M P L E
+# V N K - P O S I X  M E S S A G E  Q U E U E  E X A M P L E #
 
-#-------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 # D E F I N I T I O N S
-#
+##
 
 EXIT_OK=0
 EXIT_KO=1
@@ -38,22 +40,22 @@ CLEARED_FILE+="CMakeFiles "
 CLEARED_FILE+="cmake_install.cmake "
 CLEARED_FILE+="Makefile "
 
-#
+##
 # Check needed tools
-#
+##
 
-# W H I C H
+# W H I C H #
 echo -e "[INFO] checking WHICH...\n"
-WHICH="$(which -h 2> /dev/null)"        # Redirect error to /dev/null
+WHICH="$(which -h 2> /dev/null)"        # Redirect error to /dev/null #
 if [ -z "$WHICH" ]
 then
     echo "[NOTI] WHICH is not found, exit!"
     exit $EXIT_KO
 fi
 
-# P W D
+# P W D #
 echo -e "[INFO] checking PWD...\n"
-PWD="$(which pwd 2> /dev/null)"         # Redirect error to /dev/null
+PWD="$(which pwd 2> /dev/null)"         # Redirect error to /dev/null #
 echo "[DEBG] PWD=$PWD"
 if [ -z "$PWD" ]
 then
@@ -61,9 +63,9 @@ then
     exit $EXIT_KO
 fi
 
-# S E D
+# S E D #
 echo -e "[INFO] checking SED...\n"
-SED="$(which sed 2> /dev/null)"         # Redirect error to /dev/null
+SED="$(which sed 2> /dev/null)"         # Redirect error to /dev/null #
 echo "[DEBG] SED=$SED"
 if [ -z "$SED" ]
 then
@@ -71,9 +73,9 @@ then
     exit $EXIT_KO
 fi
 
-# D I R N A M E
+# D I R N A M E #
 echo -e "[INFO] checking DIRNAME...\n"
-DIRNAME="$(which dirname 2> /dev/null)" # Redirect error to /dev/null
+DIRNAME="$(which dirname 2> /dev/null)" # Redirect error to /dev/null #
 echo "[DEBG] DIRNAME=$DIRNAME"
 if [ -z "$DIRNAME" ]
 then
@@ -81,9 +83,9 @@ then
     exit $EXIT_KO
 fi
 
-#
+##
 # If we do not have argument, exit KOOO
-#
+##
 if [ $# -eq 0 ]
 then
     echo -e "\n"
@@ -94,9 +96,9 @@ then
     exit $EXIT_KO
 fi
 
-#
+##
 # Some more definitions there
-#
+##
 
 ROOTSOURCE="vinaknowledge_ccpp"
 ROOTFATHER="$($PWD | $SED -e "s/\/$ROOTSOURCE\/.*$//")"
@@ -106,14 +108,15 @@ l_CurrentDir="$(pwd)"
 MODULEDIR="$(dirname "$l_CurrentDir")"
 echo "[DEBG] MODULEDIR=$MODULEDIR..."
 
-#-------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 # F U N C T I O N S
-#
+##
 
 help()
 {
     echo -e ""
     echo -e "[ VNK - VINAKNOWLEDGE MAKE ]"
+    echo -e "----------------------------"
     echo -e "  Usage:"
     echo -e "    g: generate Makefile by calling cmake"
     echo -e "    m: make, call make"
@@ -121,6 +124,7 @@ help()
     echo -e "    r: remove, remove built result (after call make)"
     echo -e "    w: wipe, wipe build space"
     echo -e "    h: Show this help"
+    echo -e "----------------------------"
     echo -e "\n"
 }
 
@@ -129,7 +133,7 @@ c_make()
     echo -e "\n"
     echo -e "Calling \"cmake ..\" . . .\n"
 
-    # Calling CMAKE...
+    # Calling CMAKE... #
     $CMAKE $MODULEDIR
 
     echo -e "\n"
@@ -141,14 +145,14 @@ m_make()
     echo -e "\n"
     echo -e "Calling Makefile . . .\n"
 
-    # Check if Makefile is existed
+    # Check if Makefile is existed #
     if [ ! -f $MAKEFILE ]
         then
         echo -e "Could not find Makefile!"
         echo -e "Make sure \"$0 -g\" was called\n"
     fi
 
-    # Calling make
+    # Calling make #
     make
 
     echo -e "\n"
@@ -161,7 +165,7 @@ c_clean()
     echo -e "Clean up build directory . . .\n"
     echo -e "    Removing: $CLEARED_FILE"
 
-    # rmrmrmrmrmrm
+    # rmrmrmrmrmrm #
     rm -rf $CLEARED_FILE
 
     echo -e "\n"
@@ -173,7 +177,7 @@ m_clean()
     echo -e "\n"
     echo -e "Removing binaries . . ."
 
-    # Call make clean
+    # Call make clean #
     make clean
 
     echo -e "\n"
@@ -184,19 +188,19 @@ w_wipe()
 {
     echo -e "\n"
     echo -e "Wiping build space . . .\n"
-    # Clean build result first
+    # Clean build result first #
     m_clean
-    # Clean cmake result
+    # Clean cmake result #
     c_clean
     echo -e "\n"
     echo -e ">> Done!\n"
 }
 
-#-------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 # M A I N  C O D E
-#
+##
 
-# Turn of echo
+# Turn of echo #
 # ECHO="false"
 
 while getopts "hecgmrw" OPTION; do
@@ -236,12 +240,12 @@ while getopts "hecgmrw" OPTION; do
         esac
 done
 
-# Turn on back ECHO
+# Turn on back ECHO #
 # ECHO="true"
 
-# Exiting...
+# Exiting... #
 exit $EXIT_OK
 
-#
+##
 # E N D
-#-------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
