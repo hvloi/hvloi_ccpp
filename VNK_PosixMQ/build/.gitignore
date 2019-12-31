@@ -28,8 +28,6 @@
 !.gitignore
 
 # Do not ignore build script #
-# Old build script vnk_mbuild.bash #
-!vnk_mbuild.bash
 !VNK_MBuild.bash
 
 ##

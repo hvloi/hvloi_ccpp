@@ -1,19 +1,37 @@
-# Ignore binary
-*/bin/*.bin
+################################################################################
+################################################################################
+##                                                                            ##
+##                  [ V N K - V I N A  K N O W L E D G E ]                    ##
+##                                                                            ##
+##                   SITE  : https://www.vinaknowledge.com                    ##
+##                   EMAIL : hvloi@vinaknowledge.com                          ##
+##                                                                            ##
+##                       TAN BINH DST, HCMC, VIET NAM                         ##
+##                                                                            ##
+##                      Copyright © 2019 Vina Knowledge                       ##
+##                                                                            ##
+################################################################################
+################################################################################
 
-# Ignore commit message
+##
+# V N K  -  G I T  I G N O R E  F O R  R E P O S I T O R Y  H O M E  D I R
+##
+
+##------------------------------------------------------------------------------
+# C O N T E N T
+##
+
+# Ignore commit message #
 COMMIT.MSG
 
-# Ignore build result
-*/build/*
-
-# No ignore README
+# No ignore README #
 !README
 
-# No ignore build script
-!vnk_mbuild.bash
-
-# Ignore jtag files:
+# Ignore jtag files #
 GPATH
 GRTAGS
 GTAGS
+
+##
+# E N D
+##------------------------------------------------------------------------------
