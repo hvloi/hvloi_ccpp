@@ -1,19 +1,25 @@
 /******************************************************************************\
 ********************************************************************************
 **                                                                            **
-**                          VNK - VINA KNOWLEDGE                              **
+**                  [ V N K - V I N A  K N O W L E D G E ]                    **
 **                                                                            **
-**                   Site : https://www.vinaknowledge.com                     **
-**                   Email: hvloi@vinaknowledge.com                           **
+**                   SITE  : https://www.vinaknowledge.com                    **
+**                   EMAIL : hvloi@vinaknowledge.com                          **
 **                                                                            **
-**                     Copyright © 2019 Vina Knowledge                        **
+**                       TAN BINH DST, HCMC, VIET NAM                         **
+**                                                                            **
+**                      Copyright © 2019 Vina Knowledge                       **
 **                                                                            **
 ********************************************************************************
 \******************************************************************************/
 
-/*******************************************************************************
- *********************************INCLUDES**************************************
- ******************************************************************************/
+/******************************************************************************\
+*******************************I*N*C*L*U*D*E*S**********************************
+\******************************************************************************/
+
+/**
+ * Global includes
+ **/
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -23,28 +29,39 @@
 #include <stdbool.h>
 #include <time.h>
 
+/**
+ * "local" includes
+ **/
 #include "vnk_mq_poxis.h"
 #include "vnk_notify.h"
+#include "vnk_mq_sigNoti.h"
 
+/******************************************************************************\
+****************************D*E*F*I*N*I*T*I*O*N*S*******************************
+\******************************************************************************/
 
-/*******************************************************************************
- **********************************GLOBAL***************************************
- ******************************************************************************/
+/******************************************************************************\
+********************************G*L*O*B*A*L*S***********************************
+\******************************************************************************/
 
 bool traceIsEnabled = NO;
 
-/*******************************************************************************
- **********************************PRIVATE**************************************
- ******************************************************************************/
+/******************************************************************************\
+********************************P*R*I*V*A*T*E***********************************
+\******************************************************************************/
 
-/* 
- * @NOTICE:
+/**
+ * NOTICE:
  * Compile with -lrt option
- */
+ **/
 
-/*
+/******************************************************************************\
+*******************************M*A*I*N*C*O*D*E**********************************
+\******************************************************************************/
+
+/**
  * Function: 
- */
+ **/
 static void bye();
 static void looploop();
 
@@ -65,19 +82,6 @@ static void bye()
     return;
 }
 
-/*
- * Under contruction,....
- */
-// static void looploop()
-// {
-//     while(1)
-//     {
-//         sleep(10);
-//     }
-
-//     return;
-// }
-
 int main(int argc, char *argv[])
 {
     bool hasErr = NO;
@@ -93,24 +97,24 @@ int main(int argc, char *argv[])
         goto bye_bye;
     }
 
-    // Get options
+    // Get options //
     if(opt_parsing(argc, argv, &l_attr, &l_config))
     {
         hasErr = YES;
         goto bye_bye;
     }
 
-    // DBG
+    // DBG //
     // vnk_debug_notify("in \"%s\" l_attr.mq_msgsize=%d", __FUNCTION__,
     //             l_attr.mq_msgsize);
 
-    // Check if TRACE is enabled
+    // Check if TRACE is enabled //
     if(traceIsEnabled)
     {
         vnk_trace_notify("notify TRACE is enabled");
     }
 
-    // Process option
+    // Process option //
     if(l_config.action == ACTION_CREATE)
     {
         if(traceIsEnabled)
@@ -128,7 +132,7 @@ int main(int argc, char *argv[])
         {
             vnk_trace_notify("action OPEN...");
         }
-        // Something here,...
+        // Something here,... //
         if(vnk_mq_retrieve(l_config.mq_name) == RETURN_FAILURE)
         {
             hasErr = YES;
@@ -137,7 +141,7 @@ int main(int argc, char *argv[])
     }
     else if (l_config.action == ACTION_UNLINK)
     {
-        // Do something,...
+        // Do something,... //
         if(vnk_mq_unlink(l_config.mq_name) == RETURN_FAILURE)
         {
             hasErr = YES;
@@ -171,13 +175,19 @@ int main(int argc, char *argv[])
         }
     }
 
-    // Debug
+    else if (l_config.action == ACTION_SIGNOTI)
+    {
+        vnk_debug_notify("hello, i am there ! ! !");
+        VNK_SignalNotification(l_config);
+    }
+
+    // Debug //
     // vnk_debug_notify("in \"%s\", l_config.mq_oflag = %d", __FUNCTION__,
     //             l_config.mq_oflag);
 
 bye_bye:
 
-    // Clean up before leave
+    // Clean up before leave //
     if(l_config.mq_d > 0)
     {
         if(mq_close(l_config.mq_d) < 0)
@@ -199,8 +209,12 @@ bye_bye:
         exit(EXIT_FAILURE);
     }
 
-    // Bye bye if no error, otherwise show error and stop
+    // Bye bye if no error, otherwise show error and stop //
     bye();
 
     exit(EXIT_SUCCESS);
 }
+
+/******************************************************************************\
+************************************E*N*D***************************************
+\******************************************************************************/
