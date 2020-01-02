@@ -48,6 +48,7 @@
 #define ACTION_EDIT_STRING    "edit"
 #define ACTION_SEND_STRING    "send"
 #define ACTION_RECIEVE_STRING "recieve"
+#define ACTION_SIGNOTI_STRING "signoti"
 
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 0
@@ -57,13 +58,13 @@
 #define YES true
 #define NO  false
 
-/*
+/**
  * Use of extern:
  * In real world, multi-file programs, extern declarations are normally
  * contained in a header file that is simply included with each source code
  * file. This is both easier and less error prone than manually duplicating
  * extern declarations in each file.
- */
+ **/
 extern bool traceIsEnabled;
 
 typedef enum {
@@ -73,7 +74,8 @@ typedef enum {
     ACTION_EDIT        ,
     ACTION_SEND        ,
     ACTION_RECIEVE     ,
-    ACTION_UNLINK
+    ACTION_UNLINK      ,
+    ACTION_SIGNOTI
 } mq_action;
 
 struct vnkmq_config

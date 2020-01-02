@@ -33,7 +33,7 @@ project(VNKMQ VERSION 1.0.0
 # Set SOURCES #
 set(SOURCES src/vnk_mq_main.c src/vnk_mq_create.c src/vnk_mq_tumlum.c
             src/vnk_notify.c src/vnk_mq_unlink.c src/vnk_mq_retrieve.c
-            src/vnk_mq_edit.c src/vnk_mq_communi.c)
+            src/vnk_mq_edit.c src/vnk_mq_communi.c src/vnk_mq_sigNoti.c)
 
 ##
 # Set Headers:

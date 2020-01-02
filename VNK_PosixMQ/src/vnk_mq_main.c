@@ -34,6 +34,7 @@
  **/
 #include "vnk_mq_poxis.h"
 #include "vnk_notify.h"
+#include "vnk_mq_sigNoti.h"
 
 /******************************************************************************\
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
@@ -172,6 +173,12 @@ int main(int argc, char *argv[])
             hasErr = YES;
             goto bye_bye;
         }
+    }
+
+    else if (l_config.action == ACTION_SIGNOTI)
+    {
+        vnk_debug_notify("hello, i am there ! ! !");
+        VNK_SignalNotification(l_config);
     }
 
     // Debug //

@@ -35,6 +35,8 @@
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
 \******************************************************************************/
 
+#define NOTIFY_SIG SIGUSR1
+
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
 \******************************************************************************/
@@ -48,20 +50,23 @@
 \******************************************************************************/
 
 /**
- * FUNCTION   :
+ * FUNCTION    :
  * VNK_SigHandler
  *
- * DESCRIPTION:
+ * SCOPE       :
+ * Local
+ *
+ * DESCRIPTION :
  * Signal Handler
  *
- * INPUT      :
+ * INPUT       :
  *
- * OUTPUT     :
+ * OUTPUT      :
  *
- * NOTE       :
+ * NOTE        :
  *
  **/
-static void VNK_SigHandler()
+static void VNK_SigHandler(int signal)
 {
 
     return;
@@ -70,6 +75,9 @@ static void VNK_SigHandler()
 /**
  * FUNCTION    :
  * VNK_SigReadingMessage
+ *
+ * SCOPE       :
+ * Local
  *
  * DESCRIPTION :
  *
@@ -81,7 +89,8 @@ static void VNK_SigHandler()
  * r_mqd: r means reference
  *
  **/
-static int VNK_SigReadingMessage(sigset_t *r_emptyMask, mqd_t *r_mqd)
+static int VNK_SigReadingMessage(sigset_t *r_emptyMask, mqd_t *r_mqd,
+            struct sigevent *r_sev)
 {
     // Return code //
     int RetCode = 0;
@@ -109,7 +118,7 @@ static int VNK_SigReadingMessage(sigset_t *r_emptyMask, mqd_t *r_mqd)
         // Wait for notification signal //
         sigsuspend(r_emptyMask);
 
-        if (mq_notify(mqd, &sev) == -1)
+        if (mq_notify(*r_mqd, r_sev) == -1)
         {
             vnk_error_notify(NO_ERRNO, "in function %s", __FUNCTION__);
             RetCode = -1;
@@ -138,6 +147,9 @@ vnk_black_hole:
  * FUNCTION    :
  * VNK_SignalNotification
  *
+ * SCOPE       :
+ * Global
+ *
  * DESCRIPTION :
  *
  * INPUT       :
@@ -145,15 +157,24 @@ vnk_black_hole:
  * OUTPUT      :
  *
  * NOTE        :
- * r_mqd: r means reference
+ * c_vnkmq_config: c means copy, passing copy of struct to fucntion.
  *
  **/
-int VNK_SignalNotification(mqd_t *r_mqd)
+int VNK_SignalNotification(struct vnkmq_config c_vnkmq_config)
 {
     int RetCode = 0;
     struct sigevent sev;
     sigset_t blockMask, emptyMask;
     struct sigaction sa;
+    mqd_t mqd;
+
+    mqd = mq_open(c_vnkmq_config.mq_name, O_RDONLY | O_NONBLOCK);
+    if(mqd == (mqd_t)-1)
+    {
+        vnk_error_notify(errno, "inside %s", __FUNCTION__);
+        goto VNK_BlHl;
+
+    }
 
     sigemptyset(&blockMask);
     sigaddset(&blockMask, NOTIFY_SIG);
@@ -165,7 +186,7 @@ int VNK_SignalNotification(mqd_t *r_mqd)
 
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
-    sa.sa_handler = handler;
+    sa.sa_handler = VNK_SigHandler;
     if (sigaction(NOTIFY_SIG, &sa, NULL) == -1)
     {
         vnk_error_notify(NO_ERRNO, "sigaction inside %s", __FUNCTION__);
@@ -174,14 +195,14 @@ int VNK_SignalNotification(mqd_t *r_mqd)
 
     sev.sigev_notify = SIGEV_SIGNAL;
     sev.sigev_signo = NOTIFY_SIG;
-    if (mq_notify(*r_mqd, &sev) == -1)
+    if (mq_notify(mqd, &sev) == -1)
     {
         vnk_error_notify(NO_ERRNO, "mq_notify inside %s", __FUNCTION__);
         goto VNK_BlHl;
     }
 
     // Call function to read message from queue //
-    if ((RetCode = VNK_SigReadingMessage(&emptyMask, r_mqd)) != 0)
+    if ((RetCode = VNK_SigReadingMessage(&emptyMask, &mqd, &sev)) != 0)
     {
         goto VNK_BlHl;
     }
