@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <stdbool.h>
 #include <time.h>
+#include <signal.h>
 
 /**
  * "local" includes
@@ -44,14 +45,22 @@
 ********************************G*L*O*B*A*L*S***********************************
 \******************************************************************************/
 
+/**
+ * Enable / Disable VNK TRACE
+ **/
 bool traceIsEnabled = NO;
+
+/**
+ * To be aware if Ctrl + C is hit
+ **/
+bool ctrlC_IsHit = NO;
 
 /******************************************************************************\
 ********************************P*R*I*V*A*T*E***********************************
 \******************************************************************************/
 
 /**
- * NOTICE:
+ * NOTICE :
  * Compile with -lrt option
  **/
 
@@ -64,6 +73,7 @@ bool traceIsEnabled = NO;
  **/
 static void bye();
 static void looploop();
+static void ctrlC_Handler();
 
 static void bye()
 {
@@ -82,11 +92,20 @@ static void bye()
     return;
 }
 
+static void ctrlC_Handler()
+{
+    ctrlC_IsHit = YES;
+
+    return;
+}
+
 int main(int argc, char *argv[])
 {
     bool hasErr = NO;
     struct mq_attr l_attr;
     struct vnkmq_config l_config;
+
+    signal(SIGINT, ctrlC_Handler);
 
     memset(&l_config, 0, (size_t)sizeof(struct vnkmq_config));
 
