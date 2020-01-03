@@ -51,6 +51,7 @@
 #define ACTION_SEND_STRING    "send"
 #define ACTION_RECIEVE_STRING "recieve"
 #define ACTION_SIGNOTI_STRING "signoti"
+#define ACTION_THRNOTI_STRING "threadnoti"
 
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 0
@@ -79,7 +80,8 @@ typedef enum {
     ACTION_SEND        ,
     ACTION_RECIEVE     ,
     ACTION_UNLINK      ,
-    ACTION_SIGNOTI
+    ACTION_SIGNOTI     ,
+    ACTION_THRNOTI
 } mq_action;
 
 struct vnkmq_config
