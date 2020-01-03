@@ -36,6 +36,7 @@
 #include "vnk_mq_poxis.h"
 #include "vnk_notify.h"
 #include "vnk_mq_sigNoti.h"
+#include "vnk_mq_ThreadNoti.h"
 
 /******************************************************************************\
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
@@ -197,6 +198,11 @@ int main(int argc, char *argv[])
     else if (l_config.action == ACTION_SIGNOTI)
     {
         VNK_SignalNotification(l_config);
+    }
+
+    else if (l_config.action == ACTION_THRNOTI)
+    {
+        VNK_ThreadNotification(l_config);
     }
 
     // Debug //

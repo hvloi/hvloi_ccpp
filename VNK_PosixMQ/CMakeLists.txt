@@ -33,12 +33,13 @@ project(VNKMQ VERSION 1.0.0
 # Set SOURCES #
 set(SOURCES src/vnk_mq_main.c src/vnk_mq_create.c src/vnk_mq_tumlum.c
             src/vnk_notify.c src/vnk_mq_unlink.c src/vnk_mq_retrieve.c
-            src/vnk_mq_edit.c src/vnk_mq_communi.c src/vnk_mq_sigNoti.c)
+            src/vnk_mq_edit.c src/vnk_mq_communi.c src/vnk_mq_sigNoti.c
+            src/vnk_mq_ThreadNoti.c)
 
 ##
 # Set Headers:
 ##
-set(HEADER_FILES src/vnk_mq_sigNoti.h)
+set(HEADER_FILES src/vnk_mq_sigNoti.h src/vnk_mq_ThreadNoti.h)
 
 ##------------------------------------------------------------------------------
 # F U N C T I O N S

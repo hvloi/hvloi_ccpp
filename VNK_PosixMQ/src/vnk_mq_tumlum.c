@@ -139,6 +139,13 @@ int opt_parsing(int argc, char *argv[], struct mq_attr *mq_attr_p,
                 }
 
                 else
+                if (strncmp(optarg, ACTION_THRNOTI_STRING,
+                                                        MAX_ACTION_SIZE) == 0)
+                {
+                    config.action = ACTION_THRNOTI;
+                }
+
+                else
                 {
                     config.action = ACTION_UNDEFINE;
                     hasErr = YES;
