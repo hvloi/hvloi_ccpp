@@ -69,6 +69,8 @@
  **/
 extern bool traceIsEnabled;
 
+extern bool ctrlC_IsHit;
+
 typedef enum {
     ACTION_UNDEFINE = 0,
     ACTION_OPEN        ,

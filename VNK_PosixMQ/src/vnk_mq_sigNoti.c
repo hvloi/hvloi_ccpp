@@ -37,6 +37,8 @@
 
 #define NOTIFY_SIG SIGUSR1
 
+#define SLEEP_BE4_DIE 3
+
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
 \******************************************************************************/
@@ -124,6 +126,14 @@ static int VNK_SigReadingMessage(sigset_t *r_emptyMask, mqd_t *r_mqd,
     {
         // Wait for notification signal //
         sigsuspend(r_emptyMask);
+
+        if(ctrlC_IsHit == YES)
+        {
+            vnk_info_notify("Ctrl + C was hit, exiting,...");
+            RetCode = 0;
+            sleep(SLEEP_BE4_DIE);
+            goto vnk_black_hole;
+        }
 
         if (mq_notify(*r_mqd, r_sev) == -1)
         {
