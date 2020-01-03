@@ -112,6 +112,13 @@ static int VNK_SigReadingMessage(sigset_t *r_emptyMask, mqd_t *r_mqd,
     }
 
     buffer = malloc(attr.mq_msgsize);
+    if(buffer == NULL)
+    {
+        vnk_error_notify(NO_ERRNO, "malloc() in function %s", __FUNCTION__);
+        goto vnk_black_hole;
+    }
+
+    vnk_info_notify("%s is listening for message notification signal...", IAM);
 
     for(;;)
     {
@@ -140,6 +147,12 @@ static int VNK_SigReadingMessage(sigset_t *r_emptyMask, mqd_t *r_mqd,
     }
 
 vnk_black_hole:
+    // Clean up before return //
+    if(buffer != NULL)
+    {
+        free(buffer);
+    }
+
     return RetCode;
 }
 

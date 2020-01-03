@@ -177,7 +177,6 @@ int main(int argc, char *argv[])
 
     else if (l_config.action == ACTION_SIGNOTI)
     {
-        vnk_debug_notify("hello, i am there ! ! !");
         VNK_SignalNotification(l_config);
     }
 
