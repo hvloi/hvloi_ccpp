@@ -36,6 +36,8 @@
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
 \******************************************************************************/
 
+#define SLEEP_BE4_DIE 3
+
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
 \******************************************************************************/
@@ -89,6 +91,14 @@ int VNK_ThreadNotification(struct vnkmq_config c_vnkmq_config)
     NotifySetup(&mqd);
 
     pause();
+
+    if( ctrlC_IsHit == YES )
+    {
+        vnk_info_notify("Ctrl + C was hit, exiting,...");
+        RetCode = 0;
+        sleep(SLEEP_BE4_DIE);
+        goto ExitEntry;
+    }
 
 ExitEntry:
     return RetCode;
