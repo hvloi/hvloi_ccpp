@@ -241,12 +241,29 @@ void usageError(const char *progName)
     fprintf(stderr, "Usage: %s [-xvht] [-m <maxmsg>] [-s <msgsize>]\n"
                     "       [-p <octal-perms>] {-n <queue name>}\n"
                     "       {-a <action>}\n\n", progName);
+    fprintf(stderr, "       -a  action of the call, and...\n");
+    fprintf(stderr, "           <action> is one of following:\n"
+                    "           \"%s\"\n"
+                    "           \"%s\"\n"
+                    "           \"%s\"\n"
+                    "           \"%s\"\n"
+                    "           \"%s\"\n"
+                    "           \"%s\"\n"
+                    "           \"%s\"\n"
+                    "           \"%s\"\n",
+                    ACTION_CREATE_STRING,
+                    ACTION_OPEN_STRING,
+                    ACTION_UNLINK_STRING,
+                    ACTION_EDIT_STRING,
+                    ACTION_SEND_STRING,
+                    ACTION_RECIEVE_STRING,
+                    ACTION_SIGNOTI_STRING,
+                    ACTION_THRNOTI_STRING);
     fprintf(stderr, "       -d  unlink queue <queue name>\n");
     fprintf(stderr, "       -m  maxmsg set maximum number of messages\n");
     fprintf(stderr, "       -s  msgsize set maximum message size\n");
     fprintf(stderr, "       -x  create exclusively (O_EXCL)\n");
     fprintf(stderr, "       -n  name of queue\n");
-    fprintf(stderr, "       -a  action of the call <create|open|unlink>\n");
     fprintf(stderr, "       -t  trace, show step of code\n");
     fprintf(stderr, "       -c  content of message if action is send\n");
     fprintf(stderr, "       -v  show version\n");
@@ -255,15 +272,20 @@ void usageError(const char *progName)
     fprintf(stderr, "\n\n");
 }
 
+/**
+ * Show Version
+ **/
 void showVersion()
 {
-    fprintf(stdout, "\n");
-    fprintf(stdout, "* * * * * * * * * * * * * * * * * * *\n");
-    fprintf(stdout, "* * * V I N A K N O W L E D G E * * *\n");
-    fprintf(stdout, "* * * * * * * * * * * * * * * * * * *\n");
-    fprintf(stdout, "[     vnkmq  -  %s     ]\n", VERSION_YEAR);
-    fprintf(stdout, "[     Version:  %d.%d  ]\n", VERSION_MAJOR, VERSION_MINOR);
-    fprintf(stdout, "* * * * * * * * * * * * * * * * * * *\n");
-    fprintf(stdout, "* * * * * * * * * * * * * * * * * * *\n");
-    fprintf(stdout, "\n\n");
+    fprintf(stdout,                              "\n");
+    fprintf(stdout, "  V I N A K N O W L E D G E  \n");
+    fprintf(stdout,                              "\n");
+    fprintf(stdout, "  Poxis Message Queue Example\n");
+    fprintf(stdout, "  -------------------------- \n");
+    fprintf(stdout, "  VNKMQ   -  %s\n", VERSION_YEAR);
+    fprintf(stdout, "  Author  :  %s\n",    MR_AUTHOR);
+    fprintf(stdout, "  Version :  %d.%d\n",
+                         VERSION_MAJOR, VERSION_MINOR);
+    fprintf(stdout, "  -------------------------- \n");
+    fprintf(stdout,                              "\n");
 }

@@ -53,9 +53,11 @@
 #define ACTION_SIGNOTI_STRING "signoti"
 #define ACTION_THRNOTI_STRING "threadnoti"
 
-#define VERSION_MAJOR 1
+#define VERSION_MAJOR 2
 #define VERSION_MINOR 0
-#define VERSION_YEAR  "Oct 2019"
+#define VERSION_YEAR  "Jan 2020"
+
+#define MR_AUTHOR     "Loi Huynh"
 
 // Define has error
 #define YES true
