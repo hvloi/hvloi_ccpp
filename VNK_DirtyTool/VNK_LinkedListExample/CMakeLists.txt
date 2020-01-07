@@ -76,7 +76,7 @@ set(HEADER_FILES )
 ##
 # Add Sources:
 ##
-set(SOURCES source/VNK_LinkedListExample.c)
+set(SOURCES source/VNK_LinkedListExample.c source/VNK_LinkedListFunctions.c)
 
 ##
 # Add Excutable Target:

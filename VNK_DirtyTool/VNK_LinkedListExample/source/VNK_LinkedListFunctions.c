@@ -40,99 +40,166 @@
 ********************************P*R*I*V*A*T*E***********************************
 \******************************************************************************/
 
-static void VNK_Welcome()
-{
-#define OUT stdout
-
-    fprintf(OUT, "\n"                           );
-    fprintf(OUT, "WELCOME TO %s\n",          Iam);
-    fprintf(OUT, "---------------------------\n");
-    fprintf(OUT, "An example from %s\n", MR_BOSS);
-    fprintf(OUT, "\n"                           );
-    fprintf(OUT, "---------------------------\n");
-
-return;
-}
-
 /******************************************************************************\
 *******************************M*A*I*N*C*O*D*E**********************************
 \******************************************************************************/
 
 /**
+ * WHAT IS A LINKED LIST ???
+ *________________________________________________
+ *
  * |------|------|        |------|------|
  * | DATA | NEXT |------->| DATA | NEXT |--------> XXXX
  * |------|------|        |------|------|
  **/
 
-int main(int argc, char *argv[])
+/**
+ * FUNCTION    :
+ * lili_push
+ *
+ * SCOPE       :
+ * Global
+ *
+ * DESCRIPTION :
+ * Add new item to be first item of list
+ *
+ * INPUT       :
+ *
+ * OUTPUT      :
+ *
+ * NOTE        :
+ * Push operation, add new item to the head:
+ *   1. Create new node and set its val
+ *   2. Link the new item to point its next to current head
+ *   3. Set new item as head
+ **/
+int lili_push(int c_val, lili_node_t **head)
 {
-    int ExitCode;
-    int NodeNum;
-    int index;
-    lili_node_t *head_node;
+    int RetCode;
+    lili_node_t *new_node;
 
-    VNK_Welcome();
-
-    ExitCode = EXIT_SUCCESS;
-    NodeNum = 5; // Temporary, hard code        //
-    index = 0;
-
-    // Init the list with first node as head    //
-    head_node = (lili_node_t*) malloc(sizeof(lili_node_t));
-    if(head_node == NULL)
+    new_node = (lili_node_t*) malloc(sizeof(lili_node_t));
+    if(new_node == NULL)
     {
-        vnk_error_notify(NO_ERRNO, "count not init head node");
-        ExitCode = EXIT_FAILURE;
-        goto EndPoint;
-    }
-    // IMPORTANT:                               //
-    head_node->val  = 0;
-    head_node->next = NULL;
-
-    // Add nodes to list                        //
-    vnk_info_notify("pushing nodes to list:");
-    for(index = 1; index <= NodeNum; index++)
-    {
-        vnk_debug_notify("pushing node number %d", index);
-        if(lili_push(index, &head_node) != RETURN_SUCCESS)
-        {
-            vnk_error_notify(NO_ERRNO, "count not push node");
-            ExitCode = EXIT_FAILURE;
-            goto EndPoint;
-        }
+        vnk_error_notify(NO_ERRNO, "new lili_node_t allocation, inside %s",
+                    __FUNCTION__);
+        RetCode = RETURN_FAILURE;
+        goto ReturnPoint;
     }
 
-    // Show value of list nodes                 //
-    lili_list(head_node);
+    // Set value for new node                   //
+    new_node->next = *head;
+    new_node->val  = c_val;
 
-    // Remove nodes from list                   //
-    vnk_info_notify("poping nodes from list:");
-    for(index = 1; index <= NodeNum; index++)
-    {
-        vnk_debug_notify("poping node number %d", index);
-        if(lili_pop(&head_node) != RETURN_SUCCESS)
-        {
-            vnk_error_notify(NO_ERRNO, "count not pop node");
-            ExitCode = EXIT_FAILURE;
-            goto EndPoint;
-        }
-    }
+    // Change head                              //
+    *head = new_node;
 
-    // Check if the list is empty               //
-    if(head_node != NULL && head_node->next == NULL)
-    {
-        vnk_debug_notify("list has only one node");
-        free(head_node);
-        head_node = NULL;
-        vnk_debug_notify("list is now empty");
-    }
+    RetCode = RETURN_SUCCESS;
+
+ReturnPoint:
+    return RetCode;
+}
 
 /**
- * Question:
- * Is Malloc-ed memory freed automatically after exit process ?
+ * FUNCTION    :
+ * lili_pop
+ *
+ * SCOPE       :
+ * Global
+ *
+ * DESCRIPTION :
+ * Remove first item of the list
+ *
+ * INPUT       :
+ *
+ * OUTPUT      :
+ *
+ * NOTE        :
+ * Pop operation, remove an item from the head:
+ * 1. Take the second item (next of the head)
+ * 2. Free head item
+ * 3. Set the head item that was taken
  **/
-EndPoint:
-    exit(ExitCode);
+int lili_pop(lili_node_t **head)
+{
+    int RetCode;
+    lili_node_t *tmp_node;
+
+    if(*head == NULL)
+    {
+        vnk_error_notify(NO_ERRNO, "list head is NULL kidding me?, inside %s");
+        RetCode = RETURN_FAILURE;
+        goto ReturnPoint;
+    }
+
+    /**
+     * NICE CATCH :
+     * It should be "tmp_node = (*head)->next"
+     * Do not be "tmp_node = *head->next;"
+     **/
+    tmp_node = (*head)->next;
+    if(tmp_node == NULL)
+    {
+        vnk_error_notify(NO_ERRNO, "hmmm, list have only one item , inside %s",
+                    __FUNCTION__);
+        RetCode = RETURN_FAILURE;
+        goto ReturnPoint;
+    }
+
+    // Free current head           //
+    free(*head);
+
+    // Assign head to other item   //
+    *head = tmp_node;
+
+    RetCode = RETURN_SUCCESS;
+
+ReturnPoint:
+    return RetCode;
+}
+
+/**
+ * FUNCTION    :
+ * lili_list
+ *
+ * SCOPE       :
+ * Global
+ *
+ * DESCRIPTION :
+ * List all items of a list
+ *
+ * INPUT       :
+ *
+ * OUTPUT      :
+ *
+ * NOTE        :
+ *
+ **/
+void lili_list(lili_node_t *head)
+{
+    lili_node_t *current = NULL;
+
+    if(head == NULL)
+    {
+        vnk_error_notify(NO_ERRNO, "no no no, head is null, inside %s",
+                    __FUNCTION__);
+        goto ReturnPoint;
+    }
+
+    current = head;
+
+    vnk_info_notify("list items are: ");
+
+    while(current != NULL)
+    {
+        printf(" %d,", current->val);
+        current = current->next;
+    }
+    // Make a space line                        //
+    printf("\n\n");
+
+ReturnPoint:
+    return;
 }
 
 /******************************************************************************\
