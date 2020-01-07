@@ -41,8 +41,13 @@ set_target_properties(VNK_LibNotify PROPERTIES SOVERSION 1)
 set_target_properties(VNK_LibNotify PROPERTIES PUBLIC_HEADER
             include/vnk_lib_notify.h)
 
+# Add includes for SHARED #
 target_include_directories(VNK_LibNotify PRIVATE include)
 target_include_directories(VNK_LibNotify PRIVATE src)
+
+# Add include for STATIC #
+target_include_directories(VNK_LibNotify_static PRIVATE include)
+target_include_directories(VNK_LibNotify_static PRIVATE src)
 
 # Install rule for lib:
 # Install library directory: CMAKE_INSTALL_LIBDIR
