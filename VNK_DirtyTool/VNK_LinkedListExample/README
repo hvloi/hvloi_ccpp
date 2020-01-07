@@ -1,0 +1,57 @@
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                  [ V N K - V I N A  K N O W L E D G E ]                    **
+**                                                                            **
+**                   SITE  : https://www.vinaknowledge.com                    **
+**                   EMAIL : hvloi@vinaknowledge.com                          **
+**                                                                            **
+**                       TAN BINH DST, HCMC, VIET NAM                         **
+**                                                                            **
+**                      Copyright © 2019 Vina Knowledge                       **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
+
+V N K  -  L I N U X  L I N K E D  L I S T  E X A M P L E  M O D U L E
+
+--------------------------------------------------------------------------------
+
+A U T H O R:
+
+Loi Huynh
+
+DESCRIPTION:
+
+This is an example about Linux C Linked List.
+
+BINARY NAME:
+
+[vnklili]
+
+--------------------------------------------------------------------------------
+
+USING:
+
+#>:$ cd VNK_LinkedListExample/build
+#>:$ VNK_MBuild.bash -g         # To generate Makefile via CMAKE
+#>:$ VNK_MBuild.bash -m         # To call "make"
+#>:$ VNK_MBuild.bash -h         # To show build help
+#>:$ ./vnklili <arguments>      # To run built binary
+
+TIPS:
+
+- Call "VNK_MBuild.bash -g -m" to generate Makefile and doing "make" in a time.
+  Or you can simply call "VNK_MBuild.bash -gm".
+
+NOTICE:
+
+- You can need to build libs firstly.
+- Example: to build libVNK_LibNotify_static.a, navigate to
+  VNK_Library/VNK_LibNotify/build and call "VNK_MBuild.bash -g -m".
+
+OTHERS:
+
+- Build script name: VNK_MBuild.bash.
+
+--------------------------------------------------------------------------------
