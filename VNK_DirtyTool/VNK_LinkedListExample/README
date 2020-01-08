@@ -24,6 +24,14 @@ Loi Huynh
 DESCRIPTION:
 
 This is an example about Linux C Linked List.
+There are three main types of linked list:
+- Singly Linked List
+- Doubly Linked List
+- Circular Linked List
+In this example, I present the first type of linked list - Singly Linked List.
+|------|------|           |------|------|
+| DATA | NEXT |---------->| DATA | NEXT |--------> XXXX
+|------|------|           |------|------|
 
 BINARY NAME:
 
@@ -53,5 +61,12 @@ NOTICE:
 OTHERS:
 
 - Build script name: VNK_MBuild.bash.
+
+REFERENCES:
+
+- https://www.learn-c.org/en/Linked_lists
+- https://www.programiz.com/dsa/linked-list-types
+- https://www.tutorialspoint.com/data_structures_algorithms/linked_list_\
+  algorithms.htm
 
 --------------------------------------------------------------------------------
