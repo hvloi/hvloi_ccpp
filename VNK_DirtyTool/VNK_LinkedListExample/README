@@ -62,6 +62,14 @@ OTHERS:
 
 - Build script name: VNK_MBuild.bash.
 
+LINKED LIST OPERATION:
+
+- Insertion − Adds an element at the beginning of the list (pushing).
+- Deletion  − Deletes an element at the beginning of the list (poping).
+- Display   − Displays the complete list.
+- Search    − Searches an element using the given key.
+- Delete    − Deletes an element using the given key.
+
 REFERENCES:
 
 - https://www.learn-c.org/en/Linked_lists
