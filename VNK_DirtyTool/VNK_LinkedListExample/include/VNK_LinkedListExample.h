@@ -134,6 +134,48 @@ int lili_pop(lili_node_t **head);
  **/
 void lili_list(lili_node_t *head);
 
+/**
+ * FUNCTION    :
+ * lili_PushEnd
+ *
+ * SCOPE       :
+ * Global
+ *
+ * DESCRIPTION :
+ * Add new node at the end of list.
+ *
+ * INPUT       :
+ *
+ * OUTPUT      :
+ *
+ * NOTE        :
+ * To add new node at the end of list:
+ * 1. Create new temp node
+ * 2. Go to the end of list
+ * 3. Next pointer of the last node points to new temp node
+ * 4. Next pointer of new node points to NULL
+ **/
+int lili_PushEnd(lili_node_t *head, int c_val);
+
+/**
+ * FUNCTION    :
+ * lili_NodeNum
+ *
+ * SCOPE       :
+ * Global
+ *
+ * DESCRIPTION :
+ * Return number of nodes of a list.
+ *
+ * INPUT       :
+ *
+ * OUTPUT      :
+ *
+ * NOTE        :
+ *
+ **/
+int lili_NodeNum(lili_node_t *head);
+
 /******************************************************************************\
 ************************************E*N*D***************************************
 \******************************************************************************/

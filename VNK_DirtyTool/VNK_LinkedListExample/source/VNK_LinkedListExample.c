@@ -105,6 +105,25 @@ int main(int argc, char *argv[])
     // Show value of list nodes                 //
     lili_list(head_node);
 
+    // Add a new node at the end of list        //
+    vnk_info_notify("add a new node at the end of list,...");
+    int l_val = 102;
+    lili_PushEnd(head_node, l_val);
+    // We just add a new node                   //
+    NodeNum++;
+
+    // Show value of list nodes                 //
+    lili_list(head_node);
+
+    // Current number of nodes                  //
+    int l_node_num;
+    l_node_num = lili_NodeNum(head_node);
+    vnk_info_notify("current number of nodes is %d nodes", l_node_num);
+
+    // Testing cleaning up in case of error     //
+    // ExitCode = EXIT_FAILURE;
+    // goto EndPoint;
+
     // Remove nodes from list                   //
     vnk_info_notify("poping nodes from list:");
     for(index = 1; index <= NodeNum; index++)
@@ -132,6 +151,34 @@ int main(int argc, char *argv[])
  * Is Malloc-ed memory freed automatically after exit process ?
  **/
 EndPoint:
+    /* Clean up if needed */
+    if(ExitCode != EXIT_SUCCESS)
+    {
+        int count, l_node_num;
+        vnk_debug_notify("cleaning up after failure");
+        l_node_num = lili_NodeNum(head_node);
+        if(l_node_num != 0)
+        {
+            /* Keep the head by poping l_node_num - 1 nodes */
+            for(count = 0; count < l_node_num - 1; count++)
+            {
+                if(lili_pop(&head_node) != RETURN_SUCCESS)
+                {
+                    vnk_error_notify(NO_ERRNO, "count not pop node");
+                    ExitCode = EXIT_FAILURE;
+                    goto EndPoint;
+                }
+            }
+            if(head_node != NULL)
+            {
+                /* Free the head manually, need a function to do this */
+                free(head_node);
+                head_node = NULL;
+            }
+        }
+        l_node_num = lili_NodeNum(head_node);
+        vnk_debug_notify("num of nodes after cleaning is %d nodes", l_node_num);
+    }
     exit(ExitCode);
 }
 

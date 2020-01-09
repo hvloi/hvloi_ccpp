@@ -202,6 +202,122 @@ ReturnPoint:
     return;
 }
 
+/**
+ * FUNCTION    :
+ * lili_PushEnd
+ *
+ * SCOPE       :
+ * Global
+ *
+ * DESCRIPTION :
+ * Add new node at the end of list.
+ *
+ * INPUT       :
+ *
+ * OUTPUT      :
+ *
+ * NOTE        :
+ * To add new node at the end of list:
+ * 1. Create new temp node
+ * 2. Go to the end of list
+ * 3. Next pointer of the last node points to new temp node
+ * 4. Next pointer of new node points to NULL
+ **/
+int lili_PushEnd(lili_node_t *head, int c_val)
+{
+    int RetCode;
+    lili_node_t *new_node;
+    lili_node_t *current;
+
+    RetCode = RETURN_SUCCESS;
+
+    if(head == NULL)
+    {
+        vnk_error_notify(NO_ERRNO, "ahhh you give me a null head, inside %s",
+                    __FUNCTION__);
+        RetCode = RETURN_FAILURE;
+        goto EndPoint;
+    }
+
+    /**
+     * Question:
+     * Should initialize pointer to NULL ?
+     **/
+    new_node = NULL;
+    current = head;
+
+    /* Allocating space for new node */
+    new_node = (lili_node_t*) malloc(sizeof(lili_node_t));
+    if(new_node == NULL)
+    {
+        vnk_error_notify(NO_ERRNO, "cound not allocate new node, inside %s",
+                    __FUNCTION__);
+        RetCode = RETURN_FAILURE;
+        goto EndPoint;
+    }
+
+    /* Set value of new node */
+    new_node->val = c_val;
+
+    /* Set new node as a "tail" (new_node->next = NULL) */
+    new_node->next = NULL;
+
+    /* Now find the current "tail" of the list and make a new tail */
+    while(current->next != NULL)
+    {
+        current = current->next;
+    }
+
+    /* New "tail" */
+    current->next = new_node;
+
+EndPoint:
+    return RetCode;
+}
+
+/**
+ * FUNCTION    :
+ * lili_NodeNum
+ *
+ * SCOPE       :
+ * Global
+ *
+ * DESCRIPTION :
+ * Return number of nodes of a list.
+ *
+ * INPUT       :
+ *
+ * OUTPUT      :
+ *
+ * NOTE        :
+ *
+ **/
+int lili_NodeNum(lili_node_t *head)
+{
+    int NodeNum;
+    lili_node_t *current;
+
+    NodeNum = 0;
+    current = head;
+
+    if(current == NULL)
+    {
+        goto EndPoint;
+    }
+
+    while(current->next != NULL)
+    {
+        NodeNum = NodeNum + 1;
+        current = current->next;
+    }
+
+    /* Including head node */
+    NodeNum = NodeNum + 1;
+
+EndPoint:
+    return NodeNum;
+}
+
 /******************************************************************************\
 ************************************E*N*D***************************************
 \******************************************************************************/
