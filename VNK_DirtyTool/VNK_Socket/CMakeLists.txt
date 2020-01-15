@@ -67,12 +67,12 @@ VNK_NotifyInfo("Generating config...")
 ##
 # Set Headers:
 ##
-set(HEADER_FILES )
+set(HEADER_FILES source/VNK_VNKSOC_Utilities.h)
 
 ##
 # Add Sources:
 ##
-set(SOURCES source/VNK_LinuxSocketExample.c)
+set(SOURCES source/VNK_VNKSOC_Utilities.c source/VNK_LinuxSocketExample.c)
 
 ##
 # Add Excutable Target:
