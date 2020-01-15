@@ -1,0 +1,49 @@
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                  [ V N K - V I N A  K N O W L E D G E ]                    **
+**                                                                            **
+**                   SITE  : https://www.vinaknowledge.com                    **
+**                   EMAIL : hvloi@vinaknowledge.com                          **
+**                                                                            **
+**                       TAN BINH DST, HCMC, VIET NAM                         **
+**                                                                            **
+**                      Copyright © 2019 Vina Knowledge                       **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
+
+/**
+ * V N K  1 0 0 1  Q U E S T I O N S
+ **/
+
+WHY THERE IS A HEADER FILE IN A SOURCE DIRECTORY (*.C) ? ? ?
+
+There are some reasons to do this, but I want to show you a main one.
+
+1. Usual Headers - A Dirty Introduction About Normal Header Files.
+
+- Header files are usually placed in "header" or "include" directory.
+These header files usually contain definitions of functions that are used widely
+in souce code, in many different souce files.
+- These header files can also be the API interface of a library, user just
+follow the definition of funtions and use them and do not know about their
+implementations.
+
+2. Back To Our Question.
+
+- The main reason to put a header file(s) in souce (*.C) directory is, sometime,
+we want to seperate our code to functions and classify these functions to
+approriate categories. BUT, we ONLY want these functions are visible locally
+inside a directory.
+- An applicable way to reach the expectation is separating the classified
+functions to source files (*.C) and provide the definitions of these functions
+in header files, usually these header files should place in the same directory
+with souce files (*.C), then we can "include" these header files in source files
+in the same directory. By this way we can hide the definitions of functions that
+we do not want them to be visible to other place.
+=> That's all.
+
+/******************************************************************************\
+************************************E*N*D***************************************
+\******************************************************************************/
