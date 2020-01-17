@@ -23,7 +23,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 
 # Project Description #
-project(VNK_Socket VERSION 1.0.0
+project(VNK_Getopt VERSION 1.0.0
             DESCRIPTION "VINA KNOWLEDGE GNU GETOPT EXAMPLE MODULE")
 
 ##------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ MESSAGE("-- [DEBG]: VNK_LIB_NOTIFY_INCLUDE= "
 MESSAGE("-- [DEBG]: VNK_LIB_NOTIFY_PATH= "
             ${VNK_LIB_NOTIFY_PATH})
 
-# BINARY #
+# Specifying Binary #
 set(BIN vnkcgo)
 
 ##------------------------------------------------------------------------------
@@ -70,12 +70,12 @@ VNK_NotifyInfo("Generating config...")
 ##
 # Set Headers:
 ##
-set(HEADER_FILES source/VNK_VnkCgoUtils.h)
+set(HEADER_FILES source/VNK_CGO_Utils.h)
 
 ##
 # Add Sources:
 ##
-set(SOURCES source/VNK_CGetoptExample.c source/VNK_VnkCgoUtils.c)
+set(SOURCES source/VNK_CGetoptExample.c source/VNK_CGO_Utils.c)
 
 ##
 # Add Excutable Target:
@@ -93,13 +93,6 @@ target_include_directories(${BIN} PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
 # Link Notify Lib:
 ##
 target_link_libraries(${BIN} ${VNK_LIB_NOTIFY_PATH})
-
-##
-# Link Library To Target
-# Find more at: https://cmake.org/cmake/help/latest/command/
-# target_link_libraries.html#command:target_link_libraries
-##
-# target_link_libraries(${BIN} rt)
 
 ##
 # E N D

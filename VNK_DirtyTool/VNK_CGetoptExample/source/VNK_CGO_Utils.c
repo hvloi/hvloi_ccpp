@@ -13,37 +13,25 @@
 ********************************************************************************
 \******************************************************************************/
 
-#ifndef VNK_GNU_GETOPT_EXAMPLE_H
-#define VNK_GNU_GETOPT_EXAMPLE_H
-
 /******************************************************************************\
 *******************************I*N*C*L*U*D*E*S**********************************
 \******************************************************************************/
 
 /**
- * Global Includes
+ * Global includes
  **/
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
 
 /**
- * VNK Includes
+ * VNK includes
  **/
+#include "VNK_CGO_Utils.h"
 
 /******************************************************************************\
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
 \******************************************************************************/
-
-/**
- * These following definitions should be moved to a library
- **/
-
-#define EXIT_FAILURE   1
-#define EXIT_SUCCESS   0
-
-#define RETURN_FAILURE 1
-#define RETURN_SUCCESS 0
-
-#define YES  true
-#define NO   false
 
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
@@ -57,8 +45,74 @@
 *******************************M*A*I*N*C*O*D*E**********************************
 \******************************************************************************/
 
+/**
+ * FUNCTION    :
+ * VNK_GetOptions
+ *
+ * SCOPE       :
+ * Global
+ *
+ * DESCRIPTION :
+ *
+ * INPUT       :
+ *
+ * OUTPUT      :
+ *
+ * NOTE        :
+ *
+ **/
+int VNK_GetOptions(int argc, char *argv[])
+{
+    int RetCode, tmp_code;
+    int option_index, this_option_optind, digit_optind;
+
+    RetCode = RETURN_SUCCESS;
+    digit_optind = 0;
+
+    vnk_debug_notify("Debug %s()", __FUNCTION__);
+
+    while(RUN)
+    {
+        this_option_optind = optind ? optind : 1;
+        option_index = 0;
+
+        static struct option VNK_LongOptions[] = {
+            {"add",     required_argument, 0,  0 },
+            {"append",  no_argument,       0,  0 },
+            {"delete",  required_argument, 0,  0 },
+            {"verbose", no_argument,       0,  0 },
+            {"create",  required_argument, 0, 'c'},
+            {"file",    required_argument, 0,  0 },
+            {0,         0,                 0,  0 }
+        };
+
+        tmp_code = getopt_long(argc, argv, "abc:d:012", VNK_LongOptions,
+                    &option_index);
+        if(tmp_code == -1)
+        {
+            break;
+        }
+
+        switch(tmp_code)
+        {
+            /* Why we have case 0 ? This is a featue :D */
+            case 0:
+                vnk_info_notify("Option %s", 
+                            VNK_LongOptions[option_index].name);
+                if (optarg)
+                {
+                    vnk_info_notify("with arg %s", optarg);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+EndPoint:
+    return RetCode;
+}
+
 /******************************************************************************\
 ************************************E*N*D***************************************
 \******************************************************************************/
-
-#endif // VNK_GNU_GETOPT_EXAMPLE_H //

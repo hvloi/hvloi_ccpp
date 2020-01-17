@@ -27,6 +27,7 @@
  * VNK includes
  **/
 #include "VNK_CGetoptExample.h"
+#include "VNK_CGO_Utils.h"
 
 /******************************************************************************\
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
@@ -47,6 +48,8 @@
 int main(int argc, char *argv[])
 {
     vnk_info_notify("VNK GETOPT Example Hello World!");
+
+    VNK_GetOptions(argc, argv);
 
     exit(EXIT_SUCCESS);
 }
