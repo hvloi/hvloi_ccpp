@@ -1,41 +1,47 @@
 ################################################################################
+################################################################################
 ##                                                                            ##
-##                          VNK - VINA KNOWLEDGE                              ##
+##                  [ V N K - V I N A  K N O W L E D G E ]                    ##
 ##                                                                            ##
-##                  Site : https://www.vinaknowledge.com                      ##
-##                  Email: hvloi@vinaknowledge.com                            ##
+##                   SITE  : https://www.vinaknowledge.com                    ##
+##                   EMAIL : hvloi@vinaknowledge.com                          ##
 ##                                                                            ##
-##                     Copyright © 2019 Vina Knowledge                        ##
+##                       TAN BINH DST, HCMC, VIET NAM                         ##
+##                                                                            ##
+##                      Copyright © 2019 Vina Knowledge                       ##
 ##                                                                            ##
 ################################################################################
+################################################################################
 
+##
 # C M A K E  D E F I N I T I O N  F I L E
+##
 
-# Required version
+# Required version #
 cmake_minimum_required(VERSION 3.10.2)
 
-# Project description
+# Project description #
 project(VNK_LibNotify VERSION 1.0.0 DESCRIPTION "VNK Lib Notification")
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------#
 
-# Include
+# Include #
 include(GNUInstallDirs)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------#
 
 add_library(VNK_LibNotify SHARED
-    src/vnk_lib_notify.c
+    Source/vnk_lib_notify.c
 )
 
 add_library(VNK_LibNotify_static STATIC
-    src/vnk_lib_notify.c
+    Source/vnk_lib_notify.c
 )
 
-# Set version property for the lib
+# Set version property for the lib #
 set_target_properties(VNK_LibNotify PROPERTIES VERSION ${PROJECT_VERSION})
 
-# Set SOVERSION
+# Set SOVERSION #
 set_target_properties(VNK_LibNotify PROPERTIES SOVERSION 1)
 
 set_target_properties(VNK_LibNotify PROPERTIES PUBLIC_HEADER
@@ -43,15 +49,17 @@ set_target_properties(VNK_LibNotify PROPERTIES PUBLIC_HEADER
 
 # Add includes for SHARED #
 target_include_directories(VNK_LibNotify PRIVATE include)
-target_include_directories(VNK_LibNotify PRIVATE src)
+target_include_directories(VNK_LibNotify PRIVATE Source)
 
 # Add include for STATIC #
 target_include_directories(VNK_LibNotify_static PRIVATE include)
-target_include_directories(VNK_LibNotify_static PRIVATE src)
+target_include_directories(VNK_LibNotify_static PRIVATE Source)
 
+##
 # Install rule for lib:
 # Install library directory: CMAKE_INSTALL_LIBDIR
 # Install include directory: CMAKE_INSTALL_INCLUDEDIR
+##
 install(TARGETS VNK_LibNotify
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -59,7 +67,10 @@ install(TARGETS VNK_LibNotify
 
 configure_file(VNK_LibNotify.pc.in VNK_LibNotify.pc @ONLY)
 
-# Install package configuration:
+# Install package configuration: #
 install(FILES ${CMAKE_BINARY_DIR}/VNK_LibNotify.pc
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
 
+##
+# E N D
+##------------------------------------------------------------------------------

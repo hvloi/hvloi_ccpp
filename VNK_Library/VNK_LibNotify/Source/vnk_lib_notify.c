@@ -17,13 +17,17 @@
 ******************************I*N*C*L*U*D*E*S***********************************
 \******************************************************************************/
 
+/**
+ * Global Headers
+ **/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
 
-/*
- * VNK Headers
- */
+/**
+ * VNK - Headers
+ **/
 #include "vnk_lib_notify.h"
 
 /******************************************************************************\
@@ -38,12 +42,12 @@
 ********************************G*L*O*B*A*L*S***********************************
 \******************************************************************************/
 
-/*
+/**
  * Name  : VNK_GlobalTraceIsEnabled
  * Scope : Global
  * Type  : bool
  * Using : Enable / Disable VNK Notifying Trace
- */
+ **/
 bool VNK_GlobalTraceIsEnabled = NO;
 
 /******************************************************************************\
@@ -54,9 +58,9 @@ bool VNK_GlobalTraceIsEnabled = NO;
 *******************************M*A*I*N*C*O*D*E**********************************
 \******************************************************************************/
 
-/*
+/**
  * Show ERRO notification
- */
+ **/
 int vnk_error_notify(int errnum, const char *message, ...)
 {
     bool hasErr = NO;
@@ -85,9 +89,9 @@ int vnk_error_notify(int errnum, const char *message, ...)
     {
         strncpy(notify_str, vsbuff, MAX_NOTIFIY_LEN);
     }
-    fprintf(ERR, "\n");
-    fprintf(ERR, "[ERRO]: %s\n\n", notify_str);
-    fprintf(ERR, "\n\n");
+
+    /* Show ERROR message to */
+    fprintf(ERR, "[ERRO]: %s\n", notify_str);
 
 quick:
     if(hasErr)
@@ -98,9 +102,9 @@ quick:
     return RETURN_SUCCESS;
 }
 
-/*
+/**
  * Show INFO notification
- */
+ **/
 int vnk_info_notify(const char *message, ...)
 {
     bool hasErr = NO;
@@ -118,9 +122,9 @@ int vnk_info_notify(const char *message, ...)
         hasErr = YES;
         goto quick;
     }
-    fprintf(OUT, "\n");
-    fprintf(OUT, "[INFO]: %s", vsbuff);
-    fprintf(OUT, "\n\n");
+
+    /* Show INFO message */
+    fprintf(OUT, "[INFO]: %s\n", vsbuff);
 
 quick:
     if(hasErr)
@@ -131,9 +135,9 @@ quick:
     return RETURN_SUCCESS;
 }
 
-/*
+/**
  * Show TRAC notification
- */
+ **/
 int vnk_trace_notify(const char *message, ...)
 {
     bool hasErr = NO;
@@ -151,9 +155,9 @@ int vnk_trace_notify(const char *message, ...)
         hasErr = YES;
         goto quick;
     }
-    fprintf(OUT, "\n");
-    fprintf(OUT, "[TRAC]: %s", vsbuff);
-    fprintf(OUT, "\n\n");
+
+    /* Show TRAC message to STDOUT */
+    fprintf(OUT, "[TRAC]: %s\n", vsbuff);
 
 quick:
     if(hasErr)
@@ -164,9 +168,9 @@ quick:
     return RETURN_SUCCESS;
 }
 
-/*
+/**
  * Show TRAC notification
- */
+ **/
 int vnk_debug_notify(const char *message, ...)
 {
     bool hasErr = NO;
@@ -184,9 +188,9 @@ int vnk_debug_notify(const char *message, ...)
         hasErr = YES;
         goto quick;
     }
-    fprintf(OUT, "\n");
-    fprintf(OUT, "[DBUG]: %s", vsbuff);
-    fprintf(OUT, "\n\n");
+
+    /* Show DBUG message to STDOUT */
+    fprintf(OUT, "[DBUG]: %s\n", vsbuff);
 
 quick:
     if(hasErr)
@@ -196,3 +200,7 @@ quick:
 
     return RETURN_SUCCESS;
 }
+
+/******************************************************************************\
+************************************E*N*D***************************************
+\******************************************************************************/
