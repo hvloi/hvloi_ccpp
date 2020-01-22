@@ -1,14 +1,14 @@
 /******************************************************************************\
 ********************************************************************************
 **                                                                            **
-**                  [ V N K - V I N A  K N O W L E D G E ]                    **
+**                  [ V N K  -  V I N A  K N O W L E D G E ]                  **
 **                                                                            **
 **                   SITE  : https://www.vinaknowledge.com                    **
 **                   EMAIL : hvloi@vinaknowledge.com                          **
 **                                                                            **
-**                       TAN BINH DST, HCMC, VIET NAM                         **
+**                        TAN BINH DST, HCMC, VIET NAM                        **
 **                                                                            **
-**                      Copyright © 2019 Vina Knowledge                       **
+**                 Copyright © 2019-2020 VNK - Vina Knowledge                 **
 **                                                                            **
 ********************************************************************************
 \******************************************************************************/
@@ -38,7 +38,7 @@
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
 \******************************************************************************/
 
-#define WC          "V N K  -  T E M P L A T E  M O D U L E"
+#define WC "V N K  -  T E M P L A T E  M O D U L E"
 
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
     vnk_info_notify("%s", WC);
 
     /* Some Code There */
+    vnk_info_notify("%s Done, exiting...", argv[0]);
 
-    vnk_info_notify("%s done, exiting...", argv[0]);
     return RETURN_SUCCESS;
 }
 
