@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <unistd.h>
 
 /**
  * VNK includes
@@ -77,25 +78,35 @@ int VNK_GetOptions(int argc, char *argv[])
         option_index = 0;
 
         static struct option VNK_LongOptions[] = {
-            {"add",     required_argument, 0,  0 },
-            {"append",  no_argument,       0,  0 },
-            {"delete",  required_argument, 0,  0 },
-            {"verbose", no_argument,       0,  0 },
-            {"create",  required_argument, 0, 'c'},
-            {"file",    required_argument, 0,  0 },
-            {0,         0,                 0,  0 }
+            {"add"    , optional_argument, NULL,  'a'},
+            {"append" , no_argument,       NULL,  'p'},
+            {"delete" , optional_argument, NULL,  'd'},
+            {"verbose", no_argument,       NULL,  'v'},
+            {"create" , optional_argument, NULL,  'c'},
+            {"file"   , optional_argument, NULL,  'f'},
+            {NULL,      0,                 NULL,   0}
         };
 
-        tmp_code = getopt_long(argc, argv, "abc:d:012", VNK_LongOptions,
+        tmp_code = getopt_long(argc, argv, "a::pd::vc::f::012", VNK_LongOptions,
                     &option_index);
         if(tmp_code == -1)
         {
             break;
         }
 
+        /* Some debug information */
+        vnk_debug_notify("option_index = %d", option_index);
+        vnk_debug_notify("optind = %d", optind);
+        vnk_debug_notify("argc = %d", argc);
+
         switch(tmp_code)
         {
-            /* Why we have case 0 ? This is a featue :D */
+            /**
+             * Why we have case 0 ? This is a featue :D
+             * In this use case, case 0 never happen
+             * If we type short option, do not expect option_index point to
+             * element in VNK_LongOptions.
+             **/
             case 0:
                 vnk_info_notify("Option %s", 
                             VNK_LongOptions[option_index].name);
@@ -104,7 +115,54 @@ int VNK_GetOptions(int argc, char *argv[])
                     vnk_info_notify("with arg %s", optarg);
                 }
                 break;
-            default:
+            case 'a':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case 'p':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case 'c':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case 'd':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case 'f':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case 'v':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case '0':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case '1':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case '2':
+                vnk_info_notify("take option \"%c\"", tmp_code);
+                vnk_info_notify("long option name \"%s\" <= may be wrong!",
+                            VNK_LongOptions[option_index].name);
+                break;
+            case '?':
+            default :
+                vnk_error_notify(NO_ERRNO, "unexpected option %c", tmp_code);
                 break;
         }
     }

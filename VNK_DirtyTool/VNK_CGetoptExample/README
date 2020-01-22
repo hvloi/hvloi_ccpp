@@ -51,6 +51,10 @@ NOTICE:
 - Example: to build libVNK_LibNotify_static.a, navigate to
   VNK_Library/VNK_LibNotify/build and call "VNK_MBuild.bash -g -m".
 
+REFERENCES:
+
+- https://linux.die.net/man/3/getopt_long
+
 OTHERS:
 
 - Build script name: VNK_MBuild.bash.
