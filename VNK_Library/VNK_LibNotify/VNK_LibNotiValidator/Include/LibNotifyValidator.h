@@ -49,9 +49,43 @@
 
 /******************************************************************************/
 
+#define S_L "###########################################"
+
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
 \******************************************************************************/
+
+extern bool VNK_GlobalTraceIsEnabled;
+
+/**
+ * Validate vnk_info_notify()
+ * XxXxX
+ **/
+void VALI_vnk_info_notify();
+
+/**
+ * Validate vnk_error_notify()
+ * XxXxX
+ **/
+void VALI_vnk_error_notify();
+
+/**
+ * Validate vnk_trace_notify()
+ * XxXxX
+ **/
+void VALI_vnk_trace_notify();
+
+/**
+ * Validate VNK_TRACE_NOTIFY()
+ * XxXxX
+ **/
+void VALI_VNK_TRACE_NOTIFY();
+
+/**
+ * Validate vnk_debug_notify()
+ * XxXxX
+ **/
+void VALI_vnk_debug_notify();
 
 /******************************************************************************\
 ********************************P*R*I*V*A*T*E***********************************
