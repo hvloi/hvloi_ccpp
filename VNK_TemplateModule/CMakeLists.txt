@@ -1,23 +1,23 @@
 ################################################################################
 ################################################################################
 ##                                                                            ##
-##                  [ V N K - V I N A  K N O W L E D G E ]                    ##
+##                  [ V N K  -  V I N A  K N O W L E D G E ]                  ##
 ##                                                                            ##
 ##                   SITE  : https://www.vinaknowledge.com                    ##
 ##                   EMAIL : hvloi@vinaknowledge.com                          ##
 ##                                                                            ##
-##                       TAN BINH DST, HCMC, VIET NAM                         ##
+##                        TAN BINH DST, HCMC, VIET NAM                        ##
 ##                                                                            ##
-##                      Copyright © 2019 Vina Knowledge                       ##
+##                 Copyright © 2019-2020 VNK - Vina Knowledge                 ##
 ##                                                                            ##
 ################################################################################
 ################################################################################
 
-##
-# C M A K E - D E F I N I T I O N - F I L E
-# VINA KNOWLEDGE TEMPLATE MODULE
-# AUTHOR: Loi Huynh
-##
+##----------------------------------------------------------------------------##
+# C M A K E - D E F I N I T I O N - F I L E                                    #
+# VINA KNOWLEDGE TEMPLATE MODULE                                               #
+# AUTHOR: Loi Huynh                                                            #
+##----------------------------------------------------------------------------##
 
 # Required CMAKE Version #
 cmake_minimum_required(VERSION 3.10.2)
@@ -29,6 +29,9 @@ project(VNK_TemplateModule VERSION 1.0.0
 ##------------------------------------------------------------------------------
 # D E F I N E S
 ##
+
+# Defining Binary #
+set(BIN vnktmpl)
 
 # ROOTFATHER get from command line arguments #
 set(ROOTFATHER ${ROOTFATHER})
@@ -67,36 +70,36 @@ VNK_NotifyInfo("Generating config...")
 ##
 # Set Headers:
 ##
-set(HEADER_FILES source/VNK_TemplateModule_Local.h)
+set(HEADER_FILES Source/VNK_TemplateModule_Local.h)
 
 ##
 # Add Sources:
 ##
-set(SOURCES source/VNK_TemplateModule.c)
+set(SOURCES Source/VNK_TemplateModule.c)
 
 ##
 # Add Excutable Target:
 ##
-add_executable(vnktmpl ${SOURCES} ${HEADER_FILES})
+add_executable(${BIN} ${SOURCES} ${HEADER_FILES})
 
 ##
 # Includes
 # This should be below add_executable()
 ##
-target_include_directories(vnktmpl PRIVATE include)
-target_include_directories(vnktmpl PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
+target_include_directories(${BIN} PRIVATE Include)
+target_include_directories(${BIN} PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
 
 ##
 # Link Notify Lib:
 ##
-target_link_libraries(vnktmpl ${VNK_LIB_NOTIFY_PATH})
+target_link_libraries(${BIN} ${VNK_LIB_NOTIFY_PATH})
 
 ##
 # Link Library To Target
 # Find more at: https://cmake.org/cmake/help/latest/command/
 # target_link_libraries.html#command:target_link_libraries
 ##
-# target_link_libraries(vnktmpl rt)
+# target_link_libraries(${BIN} rt)
 
 ##
 # E N D
