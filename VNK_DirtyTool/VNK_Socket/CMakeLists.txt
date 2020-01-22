@@ -67,12 +67,12 @@ VNK_NotifyInfo("Generating config...")
 ##
 # Set Headers:
 ##
-set(HEADER_FILES source/VNK_VNKSOC_Utilities.h)
+set(HEADER_FILES Source/VNK_VNKSOC_Utilities.h)
 
 ##
 # Add Sources:
 ##
-set(SOURCES source/VNK_VNKSOC_Utilities.c source/VNK_LinuxSocketExample.c)
+set(SOURCES Source/VNK_VNKSOC_Utilities.c Source/VNK_LinuxSocketExample.c)
 
 ##
 # Add Excutable Target:
@@ -83,7 +83,7 @@ add_executable(vnksoc ${SOURCES} ${HEADER_FILES})
 # Includes
 # This should be below add_executable()
 ##
-target_include_directories(vnksoc PRIVATE include)
+target_include_directories(vnksoc PRIVATE Include)
 target_include_directories(vnksoc PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
 
 ##
