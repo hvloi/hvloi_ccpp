@@ -1,14 +1,14 @@
 ################################################################################
 ################################################################################
 ##                                                                            ##
-##                  [ V N K - V I N A  K N O W L E D G E ]                    ##
+##                  [ V N K  -  V I N A  K N O W L E D G E ]                  ##
 ##                                                                            ##
 ##                   SITE  : https://www.vinaknowledge.com                    ##
 ##                   EMAIL : hvloi@vinaknowledge.com                          ##
 ##                                                                            ##
-##                       TAN BINH DST, HCMC, VIET NAM                         ##
+##                        TAN BINH DST, HCMC, VIET NAM                        ##
 ##                                                                            ##
-##                      Copyright © 2019 Vina Knowledge                       ##
+##                 Copyright © 2019-2020 VNK - Vina Knowledge                 ##
 ##                                                                            ##
 ################################################################################
 ################################################################################
@@ -29,6 +29,9 @@ project(VNK_Socket VERSION 1.0.0
 ##------------------------------------------------------------------------------
 # D E F I N E S
 ##
+
+# Difining Binary #
+set(BIN vnksoc)
 
 # ROOTFATHER get from command line arguments #
 set(ROOTFATHER ${ROOTFATHER})
@@ -77,26 +80,26 @@ set(SOURCES Source/VNK_VNKSOC_Utilities.c Source/VNK_LinuxSocketExample.c)
 ##
 # Add Excutable Target:
 ##
-add_executable(vnksoc ${SOURCES} ${HEADER_FILES})
+add_executable(${BIN} ${SOURCES} ${HEADER_FILES})
 
 ##
 # Includes
 # This should be below add_executable()
 ##
-target_include_directories(vnksoc PRIVATE Include)
-target_include_directories(vnksoc PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
+target_include_directories(${BIN} PRIVATE Include)
+target_include_directories(${BIN} PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
 
 ##
 # Link Notify Lib:
 ##
-target_link_libraries(vnksoc ${VNK_LIB_NOTIFY_PATH})
+target_link_libraries(${BIN} ${VNK_LIB_NOTIFY_PATH})
 
 ##
 # Link Library To Target
 # Find more at: https://cmake.org/cmake/help/latest/command/
 # target_link_libraries.html#command:target_link_libraries
 ##
-# target_link_libraries(vnksoc rt)
+# target_link_libraries(${BIN} rt)
 
 ##
 # E N D

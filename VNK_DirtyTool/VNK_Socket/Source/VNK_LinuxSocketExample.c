@@ -1,14 +1,14 @@
 /******************************************************************************\
 ********************************************************************************
 **                                                                            **
-**                  [ V N K - V I N A  K N O W L E D G E ]                    **
+**                  [ V N K  -  V I N A  K N O W L E D G E ]                  **
 **                                                                            **
 **                   SITE  : https://www.vinaknowledge.com                    **
 **                   EMAIL : hvloi@vinaknowledge.com                          **
 **                                                                            **
-**                       TAN BINH DST, HCMC, VIET NAM                         **
+**                        TAN BINH DST, HCMC, VIET NAM                        **
 **                                                                            **
-**                      Copyright © 2019 Vina Knowledge                       **
+**                 Copyright © 2019-2020 VNK - Vina Knowledge                 **
 **                                                                            **
 ********************************************************************************
 \******************************************************************************/
@@ -18,13 +18,13 @@
 \******************************************************************************/
 
 /**
- * Global includes
+ * Global Includes
  **/
 #include <stdio.h>
 #include <stdlib.h>
 
 /**
- * VNK includes
+ * V N K - Includes
  **/
 #include "VNK_LinuxSocketExample.h"
 
@@ -44,6 +44,9 @@
 *******************************M*A*I*N*C*O*D*E**********************************
 \******************************************************************************/
 
+/**
+ * Start Point
+ **/
 int main(int argc, char *argv[])
 {
     vnk_info_notify("VNK Socket Exmple Hello World!");
