@@ -64,6 +64,7 @@ void VALI_vnk_info_notify()
     /* Print out some infor message */
     vnk_info_notify("This is an info message");
     vnk_info_notify("This is the second message");
+    vnk_info_notify("Infor message with some \\n\n\n");
 
     printf("This is some other out put...\n");
 
@@ -89,6 +90,8 @@ void VALI_vnk_error_notify()
                 "This is an error message");
     vnk_error_notify(NO_ERRNO,
                 "This is the second error message");
+    vnk_error_notify(NO_ERRNO,
+                "Error message with some \\n\n\n");
 
     /* Set a errno */
     vnk_errno = ENOEXAMPLE;

@@ -1,27 +1,34 @@
-/******************************************************************************\
-********************************************************************************
-**                                                                            **
-**                          VNK - VINA KNOWLEDGE                              **
-**                                                                            **
-**                   Site : https://www.vinaknowledge.com                     **
-**                   Email: hvloi@vinaknowledge.com                           **
-**                                                                            **
-**                     Copyright © 2019 Vina Knowledge                        **
-**                                                                            **
-********************************************************************************
-\******************************************************************************/
+################################################################################
+################################################################################
+##                                                                            ##
+##                  [ V N K - V I N A  K N O W L E D G E ]                    ##
+##                                                                            ##
+##                   SITE  : https://www.vinaknowledge.com                    ##
+##                   EMAIL : hvloi@vinaknowledge.com                          ##
+##                                                                            ##
+##                       TAN BINH DST, HCMC, VIET NAM                         ##
+##                                                                            ##
+##                      Copyright © 2019 Vina Knowledge                       ##
+##                                                                            ##
+################################################################################
+################################################################################
 
 V N K  L I B  N O T I F I C A T I O N
 
 THIS LIB COMTAINS NOTIFICATION FUNCTION
 
-Description:
+DESCRIPTION:
 
 - Project name : VNK_LibNotify
 - Version      : 1.0.0
 
+Binary Name:
+[ libVNK_LibNotify.so       ]
+[ libVNK_LibNotify_static.a ]
+
 --------------------------------------------------------------------------------
-Main Functions:
+
+FUNCTIONS:
 
 - Error Notification
 - Infor Notification
@@ -29,7 +36,7 @@ Main Functions:
 
 --------------------------------------------------------------------------------
 
-References:
+REFERENCES:
 
 - Make library with cmake:
 https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-
@@ -37,6 +44,6 @@ with-cmake
 
 --------------------------------------------------------------------------------
 
-Best Practice:
+BEST PRACTICE:
 
 - Private header file (.h) should be placed with source files.
