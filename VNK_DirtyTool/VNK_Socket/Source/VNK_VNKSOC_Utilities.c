@@ -1,14 +1,14 @@
 /******************************************************************************\
 ********************************************************************************
 **                                                                            **
-**                  [ V N K - V I N A  K N O W L E D G E ]                    **
+**                  [ V N K  -  V I N A  K N O W L E D G E ]                  **
 **                                                                            **
 **                   SITE  : https://www.vinaknowledge.com                    **
 **                   EMAIL : hvloi@vinaknowledge.com                          **
 **                                                                            **
-**                       TAN BINH DST, HCMC, VIET NAM                         **
+**                        TAN BINH DST, HCMC, VIET NAM                        **
 **                                                                            **
-**                      Copyright © 2019 Vina Knowledge                       **
+**                 Copyright © 2019-2020 VNK - Vina Knowledge                 **
 **                                                                            **
 ********************************************************************************
 \******************************************************************************/
@@ -22,7 +22,7 @@
  **/
 
 /**
- * VNK includes
+ * V N K - includes
  **/
 #include "VNK_VNKSOC_Utilities.h"
 

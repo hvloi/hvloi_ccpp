@@ -1,14 +1,14 @@
 ################################################################################
 ################################################################################
 ##                                                                            ##
-##                  [ V N K - V I N A  K N O W L E D G E ]                    ##
+##                  [ V N K  -  V I N A  K N O W L E D G E ]                  ##
 ##                                                                            ##
 ##                   SITE  : https://www.vinaknowledge.com                    ##
 ##                   EMAIL : hvloi@vinaknowledge.com                          ##
 ##                                                                            ##
-##                       TAN BINH DST, HCMC, VIET NAM                         ##
+##                        TAN BINH DST, HCMC, VIET NAM                        ##
 ##                                                                            ##
-##                      Copyright © 2019 Vina Knowledge                       ##
+##                 Copyright © 2019-2020 VNK - Vina Knowledge                 ##
 ##                                                                            ##
 ################################################################################
 ################################################################################
@@ -107,7 +107,7 @@ then
     echo "[ERRO]: DIRNAME is not found, exit!"
     exit $EXIT_KO
 fi
-echo "" # Make a blank line $
+echo "" # Make a blank line #
 
 # C M A K E #
 echo -e "[INFO]: checking CMAKE..."
@@ -153,6 +153,7 @@ help()
     echo -e "\n"
 }
 
+# CMAKE #
 c_make()
 {
     echo -e "\n"
@@ -165,6 +166,7 @@ c_make()
     echo -e ">> Done!\n"
 }
 
+# MAKE #
 m_make()
 {
     echo -e "\n"
@@ -184,6 +186,7 @@ m_make()
     echo -e ">> Done!\n"
 }
 
+# Clean up CMake result #
 c_clean()
 {
     echo -e "\n"
@@ -197,6 +200,7 @@ c_clean()
     echo -e ">> Done!\n"
 }
 
+# Clean up Make result #
 m_clean()
 {
     echo -e "\n"
@@ -209,6 +213,7 @@ m_clean()
     echo -e ">> Done!\n"
 }
 
+# Wipe all build result #
 w_wipe()
 {
     echo -e "\n"
