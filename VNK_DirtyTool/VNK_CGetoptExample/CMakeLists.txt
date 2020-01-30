@@ -1,14 +1,14 @@
 ################################################################################
 ################################################################################
 ##                                                                            ##
-##                  [ V N K - V I N A  K N O W L E D G E ]                    ##
+##                  [ V N K  -  V I N A  K N O W L E D G E ]                  ##
 ##                                                                            ##
 ##                   SITE  : https://www.vinaknowledge.com                    ##
 ##                   EMAIL : hvloi@vinaknowledge.com                          ##
 ##                                                                            ##
-##                       TAN BINH DST, HCMC, VIET NAM                         ##
+##                        TAN BINH DST, HCMC, VIET NAM                        ##
 ##                                                                            ##
-##                      Copyright © 2019 Vina Knowledge                       ##
+##                 Copyright © 2019-2020 VNK - Vina Knowledge                 ##
 ##                                                                            ##
 ################################################################################
 ################################################################################
@@ -70,12 +70,12 @@ VNK_NotifyInfo("Generating config...")
 ##
 # Set Headers:
 ##
-set(HEADER_FILES source/VNK_CGO_Utils.h)
+set(HEADER_FILES Source/VNK_CGO_Utils.h)
 
 ##
 # Add Sources:
 ##
-set(SOURCES source/VNK_CGetoptExample.c source/VNK_CGO_Utils.c)
+set(SOURCES Source/VNK_CGetoptExample.c Source/VNK_CGO_Utils.c)
 
 ##
 # Add Excutable Target:
@@ -86,7 +86,7 @@ add_executable(${BIN} ${SOURCES} ${HEADER_FILES})
 # Includes
 # This should be below add_executable()
 ##
-target_include_directories(${BIN} PRIVATE include)
+target_include_directories(${BIN} PRIVATE Include)
 target_include_directories(${BIN} PRIVATE ${VNK_LIB_NOTIFY_INCLUDE})
 
 ##
