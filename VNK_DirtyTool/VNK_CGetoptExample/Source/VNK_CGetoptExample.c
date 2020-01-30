@@ -47,7 +47,7 @@
 
 int main(int argc, char *argv[])
 {
-    vnk_info_notify("VNK GETOPT Example Hello World!");
+    vnk_info_notify("VNK GETOPT Example Hello World!\n");
 
     VNK_GetOptions(argc, argv);
 
