@@ -22,11 +22,13 @@
  **/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * V N K - Includes
  **/
 #include "VNK_LinuxSocketExample.h"
+#include "VNK_VNKSOC_Utilities.h"
 
 /******************************************************************************\
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
@@ -49,8 +51,23 @@
  **/
 int main(int argc, char *argv[])
 {
-    vnk_info_notify("VNK Socket Exmple Hello World!");
+    /* vnksoc configurations */
+    vnksoc_config Config;
 
+    /* Socket */
+    // int SockFD;
+
+    vnk_info_notify("VNK Socket Exmple Hello World!\n");
+
+    memset(&Config, 0, sizeof(vnksoc_config));
+
+    /* Parsing Options */
+    OptsParsing(argc, argv, &Config);
+
+    /* Preparing Socket */
+    // PrepareSocket(&SockFD, );
+
+    vnk_info_notify("All Done! Bye!");
     exit(EXIT_SUCCESS);
 }
 
