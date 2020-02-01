@@ -55,19 +55,31 @@ int main(int argc, char *argv[])
     vnksoc_config Config;
 
     /* Socket */
-    // int SockFD;
+    int SockFD;
+    struct sockaddr_un SocAddr;
+
+    int RetCode;
 
     vnk_info_notify("VNK Socket Exmple Hello World!\n");
 
     memset(&Config, 0, sizeof(vnksoc_config));
 
     /* Parsing Options */
-    OptsParsing(argc, argv, &Config);
+    RetCode = OptsParsing(argc, argv, &Config);
+    if(RetCode != RETURN_SUCCESS)
+    {
+        goto EndPoint;
+    }
 
     /* Preparing Socket */
-    // PrepareSocket(&SockFD, );
+    PrepareSocket(&SockFD, &SocAddr);
+
+EndPoint:
+
+    /* Clean up code */
 
     vnk_info_notify("All Done! Bye!");
+
     exit(EXIT_SUCCESS);
 }
 

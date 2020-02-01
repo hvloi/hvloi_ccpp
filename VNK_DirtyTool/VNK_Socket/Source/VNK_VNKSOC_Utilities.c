@@ -18,7 +18,7 @@
 \******************************************************************************/
 
 /**
- * Global includes
+ * Global Includes
  **/
 
 #include <stdio.h>
@@ -26,7 +26,7 @@
 #include <getopt.h>
 
 /**
- * V N K - includes
+ * V N K - Includes
  **/
 
 #include "VNK_LinuxSocketExample.h"
@@ -86,7 +86,7 @@ int OptsParsing(int argc, char *argv[], vnksoc_config *config)
         {
             {"role",    required_argument,    NULL,    'r'},
             {"help",    no_argument,          NULL,    'h'},
-            {NULL,      0,                    NULL,     0}
+            {NULL,      0,                    NULL,     0 }
         };
 
         c = getopt_long(argc, argv, "r:h", long_options, &option_index);
@@ -111,7 +111,7 @@ int OptsParsing(int argc, char *argv[], vnksoc_config *config)
                 }
                 else
                 {
-                    vnk_error_notify(NO_ERRNO, "unknown role \"%s\"", optarg);
+                    vnk_error_notify(NO_ERRNO, "Unknown role \"%s\"!", optarg);
                     RetCode = RETURN_FAILURE;
                     goto EndPoint;
                 }
@@ -145,7 +145,19 @@ EndPoint:
  **/
 static void ShowHelp()
 {
-    vnk_info_notify("Ookay, I am help!");
+    printf("VNK - UNIX Domain Socket Example\n");
+    printf("-----------------------------------------\n\n");
+
+    printf("Usage:\n\n");
+
+    printf("    --role,-r <role>\n");
+    printf("    Role, \"server\" or \"client\".\n\n");
+
+    printf("    --help,-h\n");
+    printf("    Help, show this help.\n\n");
+
+    printf("-----------------------------------------\n");
+
     return;
 }
 
