@@ -68,11 +68,48 @@ int main(int argc, char *argv[])
     RetCode = OptsParsing(argc, argv, &Config);
     if(RetCode != RETURN_SUCCESS)
     {
+        vnk_error_notify(NO_ERRNO, "OptsParsing() returned failed code");
         goto EndPoint;
     }
 
     /* Preparing Socket */
-    PrepareSocket(&SockFD, &SocAddr);
+    RetCode = PrepareSocket(&SockFD, &SocAddr);
+    if(RetCode != RETURN_SUCCESS)
+    {
+        vnk_error_notify(NO_ERRNO, "PrepareSocket() returned failed code");
+        goto EndPoint;
+    }
+
+    /* Seperation of Server and Client */
+    if(Config.IsServer)
+    {
+        bool SocIsExisted;
+
+        /* Server side */
+        vnk_info_notify("Server is setting up,...");
+
+        SocIsExisted = SockPathIsExisted(SOC_PATH);
+        if(SocIsExisted && !Config.CleanSocPath)
+        {
+            vnk_info_notify("%s existed! Exiting,...", SOC_PATH);
+            RetCode = RETURN_SUCCESS;
+            goto EndPoint;
+        }
+
+        /* Clean up existed socket path */
+        vnk_info_notify("Cleaning up %s,...", SOC_PATH);
+        if(remove(SOC_PATH) == -1 && errno != ENOENT)
+        {
+            vnk_error_notify(errno, "remove()");
+            RetCode = RETURN_FAILURE;
+            goto EndPoint;
+        }
+    }
+    else
+    {
+        /* Client side */
+        vnk_info_notify("Client is setting up...");
+    }
 
 EndPoint:
 

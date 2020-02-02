@@ -61,6 +61,18 @@ int OptsParsing(int argc, char *argv[], vnksoc_config *config);
  **/
 int PrepareSocket(int *r_soc_fd, struct sockaddr_un *r_addr);
 
+/**
+ * Validating UNIX Domain Socket Path
+ *
+ * Function Name:
+ * SockPathIsExisted()
+ *
+ * Description:
+ * Validate if the unix domain socket is existed.
+ *
+ **/
+bool SockPathIsExisted(const char *soc_path);
+
 /******************************************************************************\
 ************************************E*N*D***************************************
 \******************************************************************************/

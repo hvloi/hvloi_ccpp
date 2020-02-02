@@ -49,6 +49,7 @@
 typedef struct vnksoc_config
 {
     bool IsServer;
+    bool CleanSocPath;
 } vnksoc_config;
 
 /******************************************************************************\

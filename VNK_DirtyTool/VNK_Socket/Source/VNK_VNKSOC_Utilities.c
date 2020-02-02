@@ -71,6 +71,8 @@ int OptsParsing(int argc, char *argv[], vnksoc_config *config)
     char server[] = "server";
     char client[] = "client";
 
+    RetCode = RETURN_SUCCESS;
+
     if(argc <= 1)
     {
         vnk_info_notify("Oop! No error, but argument is needed!");
@@ -84,12 +86,13 @@ int OptsParsing(int argc, char *argv[], vnksoc_config *config)
 
         static struct option long_options[] =
         {
-            {"role",    required_argument,    NULL,    'r'},
-            {"help",    no_argument,          NULL,    'h'},
-            {NULL,      0,                    NULL,     0 }
+            {"role",     required_argument,    NULL,    'r'},
+            {"help",     no_argument,          NULL,    'h'},
+            {"clean",    no_argument,          NULL,    'c'},
+            {NULL,       0,                    NULL,     0 }
         };
 
-        c = getopt_long(argc, argv, "r:h", long_options, &option_index);
+        c = getopt_long(argc, argv, "r:hc", long_options, &option_index);
 
         /* Check if there is nothing to parse */
         if (c == -1)
@@ -115,6 +118,10 @@ int OptsParsing(int argc, char *argv[], vnksoc_config *config)
                     RetCode = RETURN_FAILURE;
                     goto EndPoint;
                 }
+                break;
+
+            case 'c':
+                config->CleanSocPath = true;
                 break;
 
             case 'h':
@@ -192,6 +199,8 @@ int PrepareSocket(int *r_soc_fd, struct sockaddr_un *r_addr)
     /* Return code */
     int RetCode;
 
+    RetCode = RETURN_SUCCESS;
+
     /* Open UNIX domain socket */
     *r_soc_fd = socket(AF_UNIX, SOCK_STREAM, 0);
     if(*r_soc_fd == -1)
@@ -209,6 +218,35 @@ int PrepareSocket(int *r_soc_fd, struct sockaddr_un *r_addr)
     strncpy(r_addr->sun_path, SOC_PATH, sizeof(r_addr->sun_path) - 1);
 
 EndPoint:
+
+    return RetCode;
+}
+
+/**
+ * Validating UNIX Domain Socket Path
+ *
+ * Function Name:
+ * SockPathIsExisted()
+ *
+ * Description:
+ * Validate if the unix domain socket is existed.
+ *
+ **/
+bool SockPathIsExisted(const char *soc_path)
+{
+    bool RetCode;
+    FILE *fd;
+
+    fd = fopen(soc_path, "r");
+    if(fd)
+    {
+        RetCode = true;
+    }
+    else
+    {
+        RetCode = false;
+    }
+
 
     return RetCode;
 }
