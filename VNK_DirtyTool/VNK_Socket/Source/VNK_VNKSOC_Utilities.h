@@ -52,7 +52,7 @@
 /**
  * Parsing Command Line Arguments
  **/
-int OptsParsing(int argc, char *argv[], vnksoc_config *config);
+int OptsParsing(int argc, char *argv[], vnksoc_config_t *config);
 
 /**
  * Preparing Utilities For Socket

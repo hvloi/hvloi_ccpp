@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
+#include <errno.h>
 
 /**
  * V N K - Includes
@@ -65,7 +66,7 @@ static void CheckNonOptionArgs(int c_argc, int c_optind, char* argv[]);
 /**
  * Parsing Command Line Arguments
  **/
-int OptsParsing(int argc, char *argv[], vnksoc_config *config)
+int OptsParsing(int argc, char *argv[], vnksoc_config_t *config)
 {
     int RetCode, c;
     char server[] = "server";
@@ -105,12 +106,12 @@ int OptsParsing(int argc, char *argv[], vnksoc_config *config)
             case 'r':
                 if(strncmp(server, optarg, sizeof(server)) == 0)
                 {
-                    config->IsServer = true;
+                    config->vnk_soc_role = SERVER;
                 }
                 else
                 if (strncmp(client, optarg, sizeof(client)) == 0)
                 {
-                    config->IsServer = false;
+                    config->vnk_soc_role = CLIENT;
                 }
                 else
                 {
@@ -121,10 +122,11 @@ int OptsParsing(int argc, char *argv[], vnksoc_config *config)
                 break;
 
             case 'c':
-                config->CleanSocPath = true;
+                config->vnk_soc_role = true;
                 break;
 
             case 'h':
+                config->vnk_soc_role = NOROLE;
                 ShowHelp();
                 break;
 

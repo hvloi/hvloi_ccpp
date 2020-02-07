@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 /**
  * V N K - Includes
@@ -52,7 +53,7 @@
 int main(int argc, char *argv[])
 {
     /* vnksoc configurations */
-    vnksoc_config Config;
+    vnksoc_config_t Config;
 
     /* Socket */
     int SockFD;
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
 
     vnk_info_notify("VNK Socket Exmple Hello World!\n");
 
-    memset(&Config, 0, sizeof(vnksoc_config));
+    memset(&Config, 0, sizeof(vnksoc_config_t));
 
     /* Parsing Options */
     RetCode = OptsParsing(argc, argv, &Config);
@@ -81,7 +82,7 @@ int main(int argc, char *argv[])
     }
 
     /* Seperation of Server and Client */
-    if(Config.IsServer)
+    if(Config.vnk_soc_role == SERVER)
     {
         bool SocIsExisted;
 
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
         vnk_info_notify("Server is setting up,...");
 
         SocIsExisted = SockPathIsExisted(SOC_PATH);
-        if(SocIsExisted && !Config.CleanSocPath)
+        if(SocIsExisted && !Config.clean_soc_path)
         {
             vnk_info_notify("%s existed! Exiting,...", SOC_PATH);
             RetCode = RETURN_SUCCESS;
@@ -106,6 +107,7 @@ int main(int argc, char *argv[])
         }
     }
     else
+    if(Config.vnk_soc_role == CLIENT)
     {
         /* Client side */
         vnk_info_notify("Client is setting up...");
