@@ -46,6 +46,31 @@
 ********************************G*L*O*B*A*L*S***********************************
 \******************************************************************************/
 
+/**
+ * A running instance can be:
+ * 1. Nothing
+ * 2. Server
+ * 3. Client
+ **/
+typedef enum role
+{
+    NOROLE = 0,
+    SERVER = 1,
+    CLIENT = 2
+} role_t;
+
+typedef struct vnksoc_config
+{
+    /**
+     * If running instance is NOT Server, then it is Client?
+     * => NO, in case of it it nothing, just show help and exit.
+     **/
+    role_t vnk_soc_role;
+
+    bool clean_soc_path;
+
+} vnksoc_config_t;
+
 /******************************************************************************\
 ********************************P*R*I*V*A*T*E***********************************
 \******************************************************************************/
