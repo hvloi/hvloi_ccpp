@@ -25,6 +25,7 @@
 #include <string.h>
 #include <getopt.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 /**
  * V N K - Includes
@@ -122,7 +123,7 @@ int OptsParsing(int argc, char *argv[], vnksoc_config_t *config)
                 break;
 
             case 'c':
-                config->vnk_soc_role = true;
+                config->clean_soc_path = true;
                 break;
 
             case 'h':
@@ -131,6 +132,8 @@ int OptsParsing(int argc, char *argv[], vnksoc_config_t *config)
                 break;
 
             case '?':
+                /* Just return a failure code, let getopt_long() show error */
+                RetCode = RETURN_FAILURE;
                 break;
 
             default:
@@ -161,6 +164,9 @@ static void ShowHelp()
 
     printf("    --role,-r <role>\n");
     printf("    Role, \"server\" or \"client\".\n\n");
+
+    printf("    --clean,-c\n");
+    printf("    Clean, clear existed Unix socket domain.\n\n");
 
     printf("    --help,-h\n");
     printf("    Help, show this help.\n\n");
@@ -228,13 +234,13 @@ EndPoint:
  * Validating UNIX Domain Socket Path
  *
  * Function Name:
- * SockPathIsExisted()
+ * SockPathIsExisted_Fopen()
  *
  * Description:
  * Validate if the unix domain socket is existed.
  *
  **/
-bool SockPathIsExisted(const char *soc_path)
+bool SockPathIsExisted_Fopen(const char *soc_path)
 {
     bool RetCode;
     FILE *fd;
@@ -247,10 +253,47 @@ bool SockPathIsExisted(const char *soc_path)
     else
     {
         RetCode = false;
+
+        /* Only getting debuging message with errno */
+        // vnk_error_notify(errno, "debug fopen()");
     }
 
 
     return RetCode;
+}
+
+/**
+ * Validating UNIX Domain Socket Path
+ *
+ * Function Name:
+ * SockPathIsExisted_Stat()
+ *
+ * Description:
+ * Validate if the unix domain socket is existed.
+ *
+ **/
+bool SockPathIsExisted_Stat(const char *soc_path)
+{
+    bool Boo_RetCode;
+    int  Int_Retcode;
+
+    /* Stat structure */
+    struct stat statxxx;
+
+    Int_Retcode = stat(soc_path, &statxxx);
+    if(Int_Retcode == -1 && errno == ENOENT)
+    {
+        /* Just a debug with errno */
+        vnk_error_notify(errno, "stat()");
+
+        Boo_RetCode = false;
+    }
+    else
+    {
+        Boo_RetCode = true;
+    }
+
+    return Boo_RetCode;
 }
 
 /******************************************************************************\

@@ -34,8 +34,13 @@
 /* UNIX Domain Socket Path */
 #define SOC_PATH "/tmp/vnksoc_socket"
 
-/* Be used for forEVER loop */
+/* Be used for forEVER loop, only while() */
 #define EVER 1
+
+/* Be used for forEVER loop, only for() */
+#define EVEREVER ;;
+
+#define BUF_SIZE 128
 
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
@@ -65,13 +70,25 @@ int PrepareSocket(int *r_soc_fd, struct sockaddr_un *r_addr);
  * Validating UNIX Domain Socket Path
  *
  * Function Name:
- * SockPathIsExisted()
+ * SockPathIsExisted_Fopen()
  *
  * Description:
  * Validate if the unix domain socket is existed.
  *
  **/
-bool SockPathIsExisted(const char *soc_path);
+bool SockPathIsExisted_Fopen(const char *soc_path);
+
+/**
+ * Validating UNIX Domain Socket Path
+ *
+ * Function Name:
+ * SockPathIsExisted_Stat()
+ *
+ * Description:
+ * Validate if the unix domain socket is existed.
+ *
+ **/
+bool SockPathIsExisted_Stat(const char *soc_path);
 
 /******************************************************************************\
 ************************************E*N*D***************************************
