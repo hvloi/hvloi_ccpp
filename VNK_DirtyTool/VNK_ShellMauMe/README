@@ -1,0 +1,50 @@
+/******************************************************************************\
+********************************************************************************
+**                                                                            **
+**                  [ V N K  -  V I N A  K N O W L E D G E ]                  **
+**                                                                            **
+**                   SITE  : https://www.vinaknowledge.com                    **
+**                   EMAIL : hvloi@vinaknowledge.com                          **
+**                                                                            **
+**                        TAN BINH DST, HCMC, VIET NAM                        **
+**                                                                            **
+**                 Copyright © 2019-2020 VNK - Vina Knowledge                 **
+**                                                                            **
+********************************************************************************
+\******************************************************************************/
+
+V N K - S H E L L  M A U  M E
+
+Vietnamese meaning: Ma`u Me` NOT Ma'u Me
+
+--------------------------------------------------------------------------------
+
+A U T H O R:
+
+Loi Huynh
+
+DESCRIPTION:
+
+This is a funny script-app which start altogether with shell.
+
+BINARY NAME:
+
+This is a script.
+
+[.vnksmm.bash]
+
+--------------------------------------------------------------------------------
+
+USING:
+
+* Place the script under /home/<user>/
+* Calling the script at the end of /home/<user>/.bashrc
+* Calling command "source .bashrc"
+
+TIPS:
+
+NOTICE:
+
+OTHERS:
+
+--------------------------------------------------------------------------------
