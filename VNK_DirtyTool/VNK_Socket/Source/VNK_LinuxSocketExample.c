@@ -156,6 +156,7 @@ int main(int argc, char *argv[])
                 }
             }
 
+            /* Read issue */
             if(numRead == -1)
             {
                 vnk_error_notify(NO_ERRNO, "socket read buffer from socket!");
@@ -163,13 +164,46 @@ int main(int argc, char *argv[])
                 goto EndPoint;
             }
 
+            /* Close socket after reading data */
+            if(close(C_SockFD) == -1)
+            {
+                vnk_error_notify(errno, "close()");
+                RetCode = RETURN_FAILURE;
+                goto EndPoint;
+            }
         }
     }
     else
     if(Config.vnk_soc_role == CLIENT)
     {
         /* Client side */
-        vnk_info_notify("Client is setting up...");
+        vnk_info_notify("Client is setting up...\n");
+
+        /* Connect to server */
+        if(connect(SockFD, (struct sockaddr *) &SocAddr,
+                    sizeof(struct sockaddr_un)) == -1)
+        {
+            vnk_error_notify(errno, "connect()");
+            RetCode = RETURN_FAILURE;
+            goto EndPoint;
+        }
+
+        while ((numRead = read(STDIN_FILENO, buffer, BUF_SIZE)) > 0)
+        {
+            if(write(SockFD, buffer, numRead) != numRead)
+            {
+                vnk_error_notify(NO_ERRNO, "write()");
+                RetCode = RETURN_FAILURE;
+                goto EndPoint;
+            }
+        }
+
+        if(numRead == -1)
+        {
+            vnk_error_notify(NO_ERRNO, "read()");
+            RetCode = RETURN_FAILURE;
+            goto EndPoint;
+        }
     }
 
 EndPoint:
