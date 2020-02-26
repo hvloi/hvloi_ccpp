@@ -284,7 +284,7 @@ bool SockPathIsExisted_Stat(const char *soc_path)
     if(Int_Retcode == -1 && errno == ENOENT)
     {
         /* Just a debug with errno */
-        vnk_error_notify(errno, "stat()");
+        // vnk_error_notify(errno, "stat()");
 
         Boo_RetCode = false;
     }
