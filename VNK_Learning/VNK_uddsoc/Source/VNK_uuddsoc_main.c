@@ -26,6 +26,10 @@
 #include <unistd.h>
 #include <string.h>
 
+#include <sys/un.h>
+#include <sys/socket.h>
+#include <ctype.h>
+
 /**
  * VNK including.
  **/
@@ -34,6 +38,12 @@
 /******************************************************************************\
 ****************************D*E*F*I*N*I*T*I*O*N*S*******************************
 \******************************************************************************/
+
+/* Buffer Size */
+#define BUF_SIZE 10
+
+/* Server Socket Path */
+#define SVR_SOCK_PATH "/tmp/vnk_uudsoc_svr"
 
 /******************************************************************************\
 ********************************G*L*O*B*A*L*S***********************************
@@ -73,8 +83,14 @@ int main(int argc, char *argv[])
     int op, exitCode;
     uuddsock_conf_t conf;
 
+    /* Return / Exit Code */
+    int R_Code, E_Code;
+
     /* Welcome Message */
     vnk_welcome_msg();
+
+    R_Code = RETURN_OK;
+    E_Code = EXIT_OK;
 
     if(argc <= 1)
     {
@@ -142,12 +158,122 @@ int main(int argc, char *argv[])
         }
     }
 
+    /* Running as Server */
+    if(conf.role == RSERV)
+    {
+        struct sockaddr_un svr_addr, cli_addr;
+        int s_fd, j;
+        ssize_t numBytes;
+        socklen_t len;
+        char buf[BUF_SIZE];
+
+        s_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
+        if(s_fd == -1)
+        {
+            vnk_error_notify(errno, "socket(), LINE %d", __LINE__);
+            R_Code = errno;
+            goto EndPoint;
+        }
+
+        /* Construct well-known address and bind server socket to it */
+        R_Code = remove(SVR_SOCK_PATH);
+        if(R_Code == -1 && errno != ENOENT)
+        {
+            vnk_error_notify(errno, "remove(), LINE %d", __LINE__);
+            R_Code = errno;
+            goto EndPoint;
+        }
+        else
+        {
+            R_Code = RETURN_OK;
+        }
+
+        /* Wiping up the sock addr */
+        memset(&svr_addr, 0, sizeof(struct sockaddr_un));
+        svr_addr.sun_family = AF_UNIX;
+
+        /**
+         * The use of the memset() call in Listing 57-1 ensures that all of the
+         * structure fields have the value 0. (The subsequent strncpy() call
+         * takes advantage of this by specifying its final argument as one less
+         * than the size of the sun_path field, to ensure that this field always
+         * has a terminating null byte.)
+         **/
+        strncpy(svr_addr.sun_path, SVR_SOCK_PATH, sizeof(svr_addr.sun_path)-1);
+
+        /* Binding socket */
+        R_Code = bind(s_fd, (struct sockaddr*) &svr_addr,
+                    sizeof(struct sockaddr_un));
+        if(R_Code == -1)
+        {
+            vnk_error_notify(errno, "bind(), LINE %d", __LINE__);
+            goto EndPoint;
+        }
+        else
+        {
+            R_Code = RETURN_OK;
+        }
+
+        /**
+         * LOOP
+         * Receiving message, convert to upper case, send response to the client
+         **/
+        for(;;)
+        {
+            len = sizeof(struct sockaddr_un);
+            numBytes = recvfrom(s_fd, buf, BUF_SIZE, 0,
+                        (struct sockaddr*) &cli_addr, &len);
+            if(numBytes == -1)
+            {
+                vnk_error_notify(errno, "recvfrom(), LINE %d", __LINE__);
+                R_Code = RETURN_KO;
+                goto EndPoint;
+            }
+
+            vnk_info_notify("Server received %ld bytes from %s",
+                        (long) numBytes, cli_addr.sun_path);
+
+            /* Convert to upper case */
+            for(j = 0; j < numBytes; j++)
+            {
+                buf[j] = toupper((unsigned char) buf[j]);
+            }
+
+            R_Code = sendto(s_fd, buf, numBytes, 0,
+                        (struct sockaddr *) &cli_addr, len);
+            if(R_Code != numBytes)
+            {
+                vnk_error_notify(errno, "sendto(), LINE %d", __LINE__);
+                goto EndPoint;
+            }
+            else
+            {
+                R_Code = RETURN_OK;
+            }
+        }
+    } // Else below
+
+    /* Running as Client */
+    else
+    if(conf.role == RCLIE)
+    {
+        /* Client Code */
+    }
 
 EndPoint:
 
+    if(R_Code == RETURN_OK)
+    {
+        E_Code = EXIT_OK;
+    }
+    else
+    {
+        E_Code = EXIT_KO;
+    }
+
     vnk_info_notify("All Done! Exiting! Bye!\n");
 
-    exit(EXIT_OK);
+    exit(E_Code);
 }
 
 /**
