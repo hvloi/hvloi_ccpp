@@ -30,6 +30,8 @@
 #include <sys/socket.h>
 #include <ctype.h>
 
+#include <signal.h>
+
 /**
  * VNK including.
  **/
@@ -68,6 +70,11 @@ static void vnk_welcome_msg();
  **/
 static void vnk_help();
 
+/**
+ * Catch ctrl + C
+ **/
+static void CatchCtrlC();
+
 /******************************************************************************\
 *******************************M*A*I*N*C*O*D*E**********************************
 \******************************************************************************/
@@ -85,6 +92,9 @@ int main(int argc, char *argv[])
 
     /* Return / Exit Code */
     int R_Code, E_Code;
+
+    /* Ctrl+C handler */
+    signal(SIGINT, CatchCtrlC);
 
     /* Welcome Message */
     vnk_welcome_msg();
@@ -166,6 +176,8 @@ int main(int argc, char *argv[])
         ssize_t numBytes;
         socklen_t len;
         char buf[BUF_SIZE];
+
+        vnk_info_notify("ROLE: Server,...\n");
 
         s_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
         if(s_fd == -1)
@@ -258,6 +270,81 @@ int main(int argc, char *argv[])
     if(conf.role == RCLIE)
     {
         /* Client Code */
+
+        struct sockaddr_un s_addr, c_addr;
+        int s_fd, j;
+        size_t msglen;
+        ssize_t numBytes;
+        char resp[BUF_SIZE];
+
+        vnk_info_notify("ROLE: Client,...\n");
+
+        /* Create client socket; bind to unique pathname (based on PID) */
+        s_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
+        if(s_fd == -1)
+        {
+            vnk_error_notify(errno, "socket(), LINE %d", __LINE__);
+            R_Code = errno;
+            goto EndPoint;
+        }
+
+        /* Contruct address of client */
+        memset(&c_addr, 0, sizeof(struct sockaddr_un));
+
+        c_addr.sun_family = AF_UNIX;
+
+        snprintf(c_addr.sun_path, sizeof(c_addr.sun_path), "/tmp/ud_case_cl.%ld",
+                    (long) getpid());
+
+        R_Code = bind(s_fd, (struct sockaddr *) &c_addr,
+                    sizeof(struct sockaddr_un));
+        if(R_Code == -1)
+        {
+            vnk_error_notify(errno, "bind(), LINE %d", __LINE__);
+            goto EndPoint;
+        }
+        else
+        {
+            R_Code = RETURN_OK;
+        }
+
+        /*Construct address of the server */
+        memset(&s_addr, 0, sizeof(struct sockaddr_un));
+        s_addr.sun_family = AF_UNIX;
+        strncpy(s_addr.sun_path, SVR_SOCK_PATH, sizeof(s_addr.sun_path) - 1);
+
+        /* Send message to server, redirect response to stdout */
+        for(j = 1; j < argc; j++)
+        {
+            msglen = strlen(argv[j]);
+            R_Code = sendto(s_fd, argv[j], msglen, 0,
+                    (struct sockaddr *) &s_addr, sizeof(struct sockaddr_un));
+            if(R_Code == -1)
+            {
+                vnk_error_notify(errno, "sendto(), LINE %d", __LINE__);
+                /* NOTICE: client path still exist */
+                goto EndPoint;
+            }
+            else
+            {
+                R_Code = RETURN_OK;
+            }
+
+            numBytes = recvfrom(s_fd, resp, BUF_SIZE, 0, NULL, NULL);
+            if(numBytes == -1)
+            {
+                vnk_error_notify(errno, "recvfrom(), LINE %d", __LINE__);
+                R_Code = RETURN_KO;
+                goto EndPoint;
+            }
+
+            printf("$> %d: %.*s\n", j, (int) numBytes, resp);
+        }
+        /* Taking new line */
+        printf("\n");
+
+        /* Cleaning Up */
+        remove(c_addr.sun_path);
     }
 
 EndPoint:
@@ -293,7 +380,20 @@ static void vnk_welcome_msg()
  **/
 static void vnk_help()
 {
+    vnk_info_notify("Calling help,...");
     return;
+}
+
+/**
+ * Catch ctrl + C
+ **/
+static void CatchCtrlC()
+{
+    printf("\n");
+    vnk_info_notify("Catch Ctrl+C, exiting,...\n");
+    sleep(1);
+
+    exit(EXIT_OK);
 }
 
 /******************************************************************************\
